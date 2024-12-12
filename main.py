@@ -12,6 +12,7 @@ class Game:
         self.SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))
         pygame.display.set_caption("School-Game-Project(11. Grade)")
         self.clock = pygame.time.Clock()                            # creating a clock
+        self.player = Player()
         
     def run(self):
         while True:
@@ -20,15 +21,14 @@ class Game:
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     exit()
-
-            player = Player()
             
             self.SCREEN.fill((255, 255, 255))                       # fill SCREEN with white color, also refresh it
-            #userInput = pygame.key.get_pressed()                    # get user inputs ( such as Keyboard Inputs/events )
+           
+            userInput = pygame.key.get_pressed()                # Gets user Inputs ( such as Keyboard Inputs/events)
            
             # DRAW OBJECTS:
-            player.draw(self.SCREEN)                                 # Draw a Player on the Screen
-            #player.movement()     
+            self.player.draw(self.SCREEN)                                 # Draw a Player on the Screen
+            self.player.movement(userInput)     
             
             self.clock.tick(60)                      # locking game-frames to 60fps
             pygame.display.update()         
