@@ -1,7 +1,9 @@
 ######### IMPORT ##############
 
 from settings import *
+from pytmx.util_pygame import load_pygame
 from player import *
+from sprites import Sprite
 
 
 ######### CLASSes #############
@@ -14,6 +16,19 @@ class Game:
         self.clock = pygame.time.Clock()                            # creating a clock
         self.player = Player()
         
+        # groups
+        self.all_sprites = pygame.sprite.Group()
+        
+        self.import_assets()
+        self.setup(self.tmx_maps['world'], 'spawn')
+        
+    def import_assets(self):
+        self.tmx_maps = {'world': load_pygame(os.path.join('..', 'data', 'maps', 'world.tmx'))}
+        
+    def setup(self, tmx_map, player_start_pos):
+        for x,y, surf in tmx_map.get_layer_by_name('Terrain').tiles():
+            Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)
+        
     def run(self):
         while True:
             dt = self.clock.tick() / 1000 # tick every second  # dt = difference between previous and next frame
@@ -25,6 +40,9 @@ class Game:
             self.SCREEN.fill((255, 255, 255))                       # fill SCREEN with white color, also refresh it
            
             userInput = pygame.key.get_pressed()                # Gets user Inputs ( such as Keyboard Inputs/events)
+            
+            # DRAW MAP (tmx)
+            self.all_sprites.draw(self.SCREEN)                  
            
             # DRAW OBJECTS:
             self.player.draw(self.SCREEN)                                 # Draw a Player on the Screen

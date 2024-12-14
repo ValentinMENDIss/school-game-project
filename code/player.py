@@ -2,7 +2,7 @@
 from settings import *
 
 
-IDLE = pygame.image.load(os.path.join("graphics", "player_idle.png"))   # Sprite of Dinosaur (in action: jumping)
+IDLE = pygame.image.load(os.path.join('..', 'graphics', 'player_idle.png'))   # Sprite of Dinosaur (in action: jumping)
 
 class Player:
     X_POS = 0                           # X-Coordinates of the player (at initialization)         
@@ -18,15 +18,16 @@ class Player:
         self.player_rect.y = self.Y_POS        
         
     def movement(self, userInput):
-        if userInput [pygame.K_UP]:
-            self.player_rect.y -= 5
-        elif userInput [pygame.K_DOWN]:
-            self.player_rect.y += 5
-        if userInput [pygame.K_LEFT]:
-            self.player_rect.x -= 5
-        elif userInput [pygame.K_RIGHT]:
-            self.player_rect.x += 5
-            
+            # linear movement
+            if userInput [pygame.K_UP]:
+                self.player_rect.y -= 5
+            elif userInput [pygame.K_DOWN]:
+                self.player_rect.y += 5
+            elif userInput [pygame.K_LEFT]:
+                self.player_rect.x -= 5
+            elif userInput [pygame.K_RIGHT]:
+                self.player_rect.x += 5
+
             
     def draw(self, SCREEN):                                     # draw function (def)
         SCREEN.blit(self.image, (self.player_rect.x, self.player_rect.y))
