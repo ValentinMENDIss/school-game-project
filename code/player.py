@@ -1,8 +1,12 @@
-# Player Code
+######### IMPORT ##############
+
 from settings import *
 
+######### Sprites #############
 
 IDLE = pygame.image.load(os.path.join('..', 'graphics', 'player_idle.png'))   # Sprite of Dinosaur (in action: jumping)
+
+######### CLASSes ############
 
 class Player:
     X_POS = 0                           # X-Coordinates of the player (at initialization)         
