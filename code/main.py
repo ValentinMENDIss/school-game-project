@@ -10,6 +10,7 @@ from sprites import Sprite
 
 class Game:
     def __init__(self):
+
         pygame.init()                                                                               # initialize pygame framework
         self.SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))                        # create screen with (x,y) (tuple)
         pygame.display.set_caption("School-Game-Project(11. Grade)")                                # set/change title (caption) of the window
@@ -42,8 +43,9 @@ class Game:
             userInput = pygame.key.get_pressed()                                                    # get user Input ( such as Keyboard Inputs/events)
             
             # DRAW MAP (tmx)
-            self.all_sprites.draw(self.SCREEN)                                                      # draw sprites to the screen
-           
+            for sprite in self.all_sprites:
+                self.SCREEN.blit(sprite.image, (sprite.rect.x - self.player.camera_x, sprite.rect.y - self.player.camera_y)) 
+
             # DRAW OBJECTS:
             self.player.draw(self.SCREEN)                                                           # draw a Player on the Screen
             self.player.movement(userInput)                                                         # update player's position based on user input
