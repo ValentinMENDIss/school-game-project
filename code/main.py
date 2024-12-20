@@ -17,18 +17,18 @@ class Game:
         self.clock = pygame.time.Clock()                                                            # create a clock
         self.player = Player()                                                                      # create a player using Player() class
         
-        # groups
-        self.all_sprites = pygame.sprite.Group()                                                    # create a sprite group
+        # GROUPS
+        self.all_sprites = pygame.sprite.Group()                                                    # create a sprite group # assigns to AllSprites() Class
         
         self.import_assets()                                                                        # import tilesets (assets)
-        self.setup(self.tmx_maps['world'], 'spawn')                                                 # import this specific one tileset (mapset/asset)
+        self.setup(self.tmx_maps['world'], 'spawn')                                   # import this specific one tileset (mapset/asset)
         
     def import_assets(self):
         self.tmx_maps = {'world': load_pygame(os.path.join('..', 'data', 'maps', 'world.tmx'))}     # load world.tmx file (with given location of it)
         
     def setup(self, tmx_map, player_start_pos):
         for x,y, surf in tmx_map.get_layer_by_name('Terrain').tiles():                              # get only 'Terrain' layer from world.tmx
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)                          # parse information of sprite to Sprite() class
+            Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)                     # parse information of sprite to Sprite() class
         
     def run(self):
         while True:
@@ -39,8 +39,7 @@ class Game:
                     exit()
             
             self.SCREEN.fill((255, 255, 255))                                                       # fill SCREEN with white color and also refresh it
-           
-            userInput = pygame.key.get_pressed()                                                    # get user Input ( such as Keyboard Inputs/events)
+            userinput = pygame.key.get_pressed()                                                    # get user Input ( such as Keyboard Inputs/events)
             
             # DRAW MAP (tmx)
             for sprite in self.all_sprites:
@@ -48,8 +47,9 @@ class Game:
 
             # DRAW OBJECTS:
             self.player.draw(self.SCREEN)                                                           # draw a Player on the Screen
-            self.player.movement(userInput)                                                         # update player's position based on user input
-            
+            self.player.movement(userinput)                                                         # update player's position based on user input
+
+            # UPDATING THE SCREEN
             self.clock.tick(60)                                                                     # locking game-frames to 60fps
             pygame.display.update()                                                                 # update/refresh the screen
 
