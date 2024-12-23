@@ -15,8 +15,7 @@ class Game:
         self.SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))                        # create screen with (x,y) (tuple)
         pygame.display.set_caption("School-Game-Project(11. Grade)")                                # set/change title (caption) of the window
         self.clock = pygame.time.Clock()                                                            # create a clock
-        self.player = Player()                                                                      # create a player using Player() class
-        
+
         # GROUPS
         self.all_sprites = pygame.sprite.Group()                                                    # create a sprite group # assigns to AllSprites() Class
         
@@ -29,7 +28,11 @@ class Game:
     def setup(self, tmx_map, player_start_pos):
         for x,y, surf in tmx_map.get_layer_by_name('Terrain').tiles():                              # get only 'Terrain' layer from world.tmx
             Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)                     # parse information of sprite to Sprite() class
-        
+
+        for obj in tmx_map.get_layer_by_name('Entities'):
+            if obj.name == 'Player' and obj.properties['pos'] == player_start_pos:
+                self.player = Player(obj.x, obj.y)
+
     def run(self):
         while True:
             dt = self.clock.tick() / 1000                                                           # tick every second  # dt = difference between previous and next frame

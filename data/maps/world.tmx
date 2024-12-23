@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="2" nextobjectid="1">
- <tileset firstgid="1" source="../../data/tilesets/world.tsx"/>
- <tileset firstgid="211" source="../tilesets/world.tsx"/>
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="32" tileheight="32" infinite="0" nextlayerid="4" nextobjectid="3">
+ <tileset firstgid="1" source="../tilesets/world.tsx"/>
  <layer id="1" name="Terrain" width="30" height="20">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-211,0,2,0,2,0,2,0,3,0,72,0,72,0,72,0,72,0,15,0,15,0,15,0,15,0,1,0,82,0,
+1,0,2,0,2,0,2,0,3,0,72,0,72,0,72,0,72,0,15,0,15,0,15,0,15,0,1,0,82,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 11,0,12,0,12,0,12,0,13,0,72,0,4,0,5,0,6,0,72,0,15,0,15,0,15,0,21,0,63,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -26,4 +25,15 @@
 32,0,33,0,72,0,72,0,72,0,21,0,22,0,22,0,22,0,22,0,22,0,22,0,22,0,22,0,23,0
 </data>
  </layer>
+ <objectgroup id="3" name="Entities">
+  <object id="1" name="Player" x="100" y="89">
+   <properties>
+    <property name="pos" value="spawn"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="2" name="Character" x="817.333" y="560">
+   <point/>
+  </object>
+ </objectgroup>
 </map>

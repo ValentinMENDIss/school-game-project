@@ -10,9 +10,7 @@ IDLE = pygame.image.load(os.path.join('..', 'graphics', 'player_idle.png'))   # 
 ######### CLASSes ############
 
 class Player(Game):
-    X_POS = 0                           # X-Coordinates of the player (at initialization)         
-    Y_POS = 0                           # Y-Coordinates of the player (at initialization)
-    def __init__(self):
+    def __init__(self, x_pos=0.0, y_pos=0.0):
         self.camera_x = CAMERA_X
         self.camera_y = CAMERA_Y
 
@@ -22,8 +20,8 @@ class Player(Game):
         
         self.player_idle = True
         self.player_rect = self.image.get_rect()          # Convert image to rectangle (needed for collision (in the future...))
-        self.player_rect.x = self.X_POS   
-        self.player_rect.y = self.Y_POS        
+        self.player_rect.x = x_pos
+        self.player_rect.y = y_pos
         
     def movement(self, userinput):
         # linear movement
