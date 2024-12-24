@@ -1,5 +1,4 @@
 ######### IMPORT ##############
-
 from settings import *
 from pytmx.util_pygame import load_pygame
 from entities import *
@@ -12,6 +11,7 @@ class Game:
     def __init__(self):
 
         pygame.init()                                                                               # initialize pygame framework
+        pygame.font.init()
         self.SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))                        # create screen with (x,y) (tuple)
         pygame.display.set_caption("School-Game-Project(11. Grade)")                                # set/change title (caption) of the window
         self.clock = pygame.time.Clock()                                                            # create a clock
@@ -46,6 +46,20 @@ class Game:
             self.all_sprites.update(dt)                                                                                 # update screen (all sprites) by FPS
             self.SCREEN.fill('white')                                                                                   # fill screen with white color, so it's fully updated
             self.all_sprites.draw(self.player.rect.center)                                                              # draw all sprites to the center of the rectangle of the player (camera)
+
+
+
+
+            smallText = pygame.font.Font(os.path.join('..','font', 'Pixeltype.ttf'), 20)                                                                          # Set Font and Size for the Small Text
+
+            # SMALL TEXT
+
+            smallText = smallText.render("Made as a school project, Have fun :) (TEST FRAMEWORK: TEXT)", True,
+                                         (0, 0, 0)).convert_alpha()  # Render a Small Text
+            smallTextRect = smallText.get_rect()  # Get a Rectangle of the small Text ( needed, to be able to place the Text precisely )
+            smallTextRect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT - 30)  # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+            self.SCREEN.blit(smallText, smallTextRect)  # Draw a Text on the Screen
+
             pygame.display.update()                                                                                     # refresh(update) the screen
 
 ####### MAIN CODE ############
