@@ -26,6 +26,9 @@
 </data>
  </layer>
  <objectgroup id="3" name="Entities">
+  <properties>
+   <property name="pos" value="spawn"/>
+  </properties>
   <object id="1" name="Player" x="100" y="89">
    <properties>
     <property name="pos" value="spawn"/>
@@ -33,6 +36,9 @@
    <point/>
   </object>
   <object id="2" name="Character" x="817.333" y="560">
+   <properties>
+    <property name="pos" value="bottom-right"/>
+   </properties>
    <point/>
   </object>
  </objectgroup>

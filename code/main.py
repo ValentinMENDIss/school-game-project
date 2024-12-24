@@ -2,9 +2,9 @@
 
 from settings import *
 from pytmx.util_pygame import load_pygame
-from player import *
+from entities import *
 from sprites import Sprite
-
+from groups import *
 
 ######### CLASSes #############
 
@@ -17,7 +17,7 @@ class Game:
         self.clock = pygame.time.Clock()                                                            # create a clock
 
         # GROUPS
-        self.all_sprites = pygame.sprite.Group()                                                    # create a sprite group # assigns to AllSprites() Class
+        self.all_sprites = AllSprites()                                                    # create a sprite group # assigns to AllSprites() Class
         
         self.import_assets()                                                                        # import tilesets (assets)
         self.setup(self.tmx_maps['world'], 'spawn')                                   # import this specific one tileset (mapset/asset)
@@ -31,7 +31,9 @@ class Game:
 
         for obj in tmx_map.get_layer_by_name('Entities'):
             if obj.name == 'Player' and obj.properties['pos'] == player_start_pos:
-                self.player = Player(obj.x, obj.y)
+                self.player = Player((obj.x, obj.y), self.all_sprites)
+            #if obj.name == 'Character' and obj.properties['pos'] == 'bottom-right':
+                #self.npc = NPC(obj.x, obj.y)
 
     def run(self):
         while True:
@@ -39,25 +41,12 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     pygame.quit()
-                    exit()
-            
-            self.SCREEN.fill((255, 255, 255))                                                       # fill SCREEN with white color and also refresh it
-            userinput = pygame.key.get_pressed()                                                    # get user Input ( such as Keyboard Inputs/events)
-            
-            # DRAW MAP (tmx)
-            for sprite in self.all_sprites:
-                self.SCREEN.blit(sprite.image, (sprite.rect.x - self.player.camera_x, sprite.rect.y - self.player.camera_y)) 
 
-            # DRAW OBJECTS:
-            self.player.draw(self.SCREEN)                                                           # draw a Player on the Screen
-            self.player.movement(userinput)                                                         # update player's position based on user input
-
-            # UPDATING THE SCREEN
-            self.clock.tick(60)                                                                     # locking game-frames to 60fps
-            pygame.display.update()                                                                 # update/refresh the screen
-
-
-
+            # pygame logic
+            self.all_sprites.update(dt)                                                                                 # update screen (all sprites) by FPS
+            self.SCREEN.fill('white')                                                                                   # fill screen with white color, so it's fully updated
+            self.all_sprites.draw(self.player.rect.center)                                                              # draw all sprites to the center of the rectangle of the player (camera)
+            pygame.display.update()                                                                                     # refresh(update) the screen
 
 ####### MAIN CODE ############
 
