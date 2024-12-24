@@ -22,6 +22,7 @@ class Player(pygame.sprite.Sprite):
     def input(self):
         keys = pygame.key.get_pressed()                                                                                 # get input of the user
         input_vector = vector()                                                                                         # by default (0,0) x and y
+        # movement
         if keys[pygame.K_UP]:
             input_vector.y -= 1
         if keys[pygame.K_DOWN]:
@@ -46,3 +47,6 @@ class NPC(pygame.sprite.Sprite):
         self.new_size_image = (self.image.get_width() * 4, self.image.get_height() * 4)                                 # declare new variable that has 4 times bigger scale than the player's image
         self.image = (pygame.transform.scale(self.image, self.new_size_image))
         self.rect = self.image.get_frect(center=pos)                                                                    # convert image to rectangle (needed for collision in the future), center is position that was provided during construction (__init__())
+
+    def interact(self):
+        print("INTERACTING...")

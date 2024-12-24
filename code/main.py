@@ -5,7 +5,7 @@ from entities import *
 from sprites import Sprite
 from groups import *
 
-######### CLASSes #############
+######### CLASSES #############
 
 class Game:
     def __init__(self):
@@ -35,6 +35,13 @@ class Game:
             if obj.name == 'Character' and obj.properties['pos'] == 'bottom-right':
                 self.npc = NPC((obj.x, obj.y), self.all_sprites)
 
+    # dialog system
+    def input(self):
+        keys = pygame.key.get_just_pressed()
+        if keys[pygame.K_e]:
+            print("Hello, World!")
+
+
     def run(self):
         while True:
             dt = self.clock.tick() / 1000                                                           # tick every second  # dt = difference between previous and next frame
@@ -47,9 +54,6 @@ class Game:
             self.SCREEN.fill('white')                                                                                   # fill screen with white color, so it's fully updated
             self.all_sprites.draw(self.player.rect.center)                                                              # draw all sprites to the center of the rectangle of the player (camera)
 
-
-
-
             smallText = pygame.font.Font(os.path.join('..','font', 'Pixeltype.ttf'), 20)                                                                          # Set Font and Size for the Small Text
 
             # SMALL TEXT
@@ -60,6 +64,7 @@ class Game:
             smallTextRect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT - 30)  # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
             self.SCREEN.blit(smallText, smallTextRect)  # Draw a Text on the Screen
 
+            self.input()
             pygame.display.update()                                                                                     # refresh(update) the screen
 
 ####### MAIN CODE ############
