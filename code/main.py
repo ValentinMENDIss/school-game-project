@@ -32,8 +32,8 @@ class Game:
         for obj in tmx_map.get_layer_by_name('Entities'):
             if obj.name == 'Player' and obj.properties['pos'] == player_start_pos:
                 self.player = Player((obj.x, obj.y), self.all_sprites)
-            #if obj.name == 'Character' and obj.properties['pos'] == 'bottom-right':
-                #self.npc = NPC(obj.x, obj.y)
+            if obj.name == 'Character' and obj.properties['pos'] == 'bottom-right':
+                self.npc = NPC((obj.x, obj.y), self.all_sprites)
 
     def run(self):
         while True:
