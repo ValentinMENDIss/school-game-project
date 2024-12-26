@@ -16,7 +16,6 @@ class Game:
 
         # INITIALIZE VARIABLES
         self.interact = False                                                                                           # declare/initialize self.interact variable that has a default value: False
-        self.dialog = None                                                                                              # declare self.dialog variable that has no value in it (needed because else Dialog() will not be set up properly for some reason)
 
         # CONFIGURING PYGAME
         self.SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))                                            # create screen with (x,y) (tuple)
@@ -69,12 +68,8 @@ class Game:
             self.all_sprites.draw(self.player.rect.center)                                                              # draw all sprites to the center of the rectangle of the player (camera)
             self.input()                                                                                                # take user's input
 
-            # CHECK-CONDITIONS
-            if self.dialog == None:                                                                                     # check whether self.dialog variable is assigned to nothing
-                self.dialog = Dialog()                                                                                  # assign self.dialog variable to Dialog() class
-
             if self.interact == True:
-                self.dialog.interact("Made as a school project, Have fun :) (TEST FRAMEWORK: TEXT)")                                                                     # interact with npc, text in speech bubble
+                self.npc.interact("OMG, I CAN SPEAK!!! Thank you developers :3", self.player.rect)                                                                     # interact with npc, text in speech bubble
                 if self.interact_start_time == 0:                                                                       # if interact start time equals to 0, do following:
                     self.interact_start_time = pygame.time.get_ticks()                                                  # assign ticks to interact start time variable
                 elif pygame.time.get_ticks() - self.interact_start_time >= self.interact_duration:                      # else if more or equal time than interact duration has been gone do following:

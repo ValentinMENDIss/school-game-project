@@ -1,6 +1,7 @@
 ######### IMPORT ##############
 
 from settings import *
+from dialog import *
 
 ######### Sprites #############
 
@@ -47,6 +48,8 @@ class NPC(pygame.sprite.Sprite):
         self.new_size_image = (self.image.get_width() * 4, self.image.get_height() * 4)                                 # declare new variable that has 4 times bigger scale than the player's image
         self.image = (pygame.transform.scale(self.image, self.new_size_image))
         self.rect = self.image.get_frect(center=pos)                                                                    # convert image to rectangle (needed for collision in the future), center is position that was provided during construction (__init__())
-
-    def interact(self):
-        print("INTERACTING...")
+        self.pos = pos
+    def interact(self, text, player_center):
+        self.player_center = player_center
+        dialog = Dialog(self.pos)
+        dialog.interact(text, self.player_center)
