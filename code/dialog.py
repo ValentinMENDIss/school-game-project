@@ -15,5 +15,3 @@ class Dialog:
         smalltextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT - 30)  # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
 
         self.SCREEN.blit(smalltext, smalltextrect)  # Draw a Text on the Screen
-
-        print(text)

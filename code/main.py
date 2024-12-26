@@ -1,6 +1,4 @@
 ######### IMPORT ##############
-from pygame.examples.scrap_clipboard import clock
-
 from settings import *
 from pytmx.util_pygame import load_pygame
 from entities import *
@@ -25,6 +23,10 @@ class Game:
         pygame.display.set_caption("School-Game-Project(11. Grade)")                                                    # set/change title (caption) of the window
         self.clock = pygame.time.Clock()                                                                                # create a clock
         self.ticks = pygame.time.get_ticks()                                                                            # get ticks (needed in order to count how much time is gone)
+
+        # INTERACTION SETTINGS
+        self.interact_start_time = 0                                                                                    # interaction start time variable
+        self.interact_duration = 5000                                                                                   # duration of interaction with NPC variable
 
 
         # GROUPS
@@ -70,15 +72,18 @@ class Game:
             # CHECK-CONDITIONS
             if self.dialog == None:                                                                                     # check whether self.dialog variable is assigned to nothing
                 self.dialog = Dialog()                                                                                  # assign self.dialog variable to Dialog() class
-            if self.interact == True:
-                self.dialog.interact("Hello World")                                                                     # interact with npc, text in speech bubble
 
-            #self.dialog.interact("YIPPEEE :3")
+            if self.interact == True:
+                self.dialog.interact("Made as a school project, Have fun :) (TEST FRAMEWORK: TEXT)")                                                                     # interact with npc, text in speech bubble
+                if self.interact_start_time == 0:                                                                       # if interact start time equals to 0, do following:
+                    self.interact_start_time = pygame.time.get_ticks()                                                  # assign ticks to interact start time variable
+                elif pygame.time.get_ticks() - self.interact_start_time >= self.interact_duration:                      # else if more or equal time than interact duration has been gone do following:
+                    self.interact = False                                                                               # turn interaction off
+                    self.interact_start_time = 0                                                                        # reset interact start time counter
+            else:                                                                                                       # else (interact isn't true)
+                self.interact_start_time = 0                                                                            # reset interact start time
 
             pygame.display.update()                                                                                     # refresh(update) the screen
-
-            #print((pygame.time.get_ticks() - dt) / 1000)                                                               # calculate how many seconds have passed
-
 
 
 ####### MAIN CODE ############
