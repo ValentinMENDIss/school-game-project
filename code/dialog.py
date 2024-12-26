@@ -4,8 +4,8 @@ from entities import *
 
 ######### CLASSES ##############
 
-class dialog():
+class Dialog():
     def __init__(self):
         pass
-    def interact(self):
-        pass
+    def interact(self,text):
+        print(text)
