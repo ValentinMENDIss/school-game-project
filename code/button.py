@@ -4,8 +4,8 @@ from settings import *
 loop = True 
 
 
-start_img = pygame.image.load('').convert_alpha()		#Load images bild können wir selbst machen oder aus interent runterladen
-exit_img = pygame.image.load('').convert_alpha()		#Load images
+start_img = pygame.image.load('start_btn.png').convert_alpha()		#Load images bild können wir selbst machen oder aus interent runterladen
+exit_img = pygame.image.load('exit_btn.png').convert_alpha()		#Load images
 
 
 class Button():
