@@ -5,6 +5,7 @@ from entities import *
 from sprites import Sprite
 from groups import *
 from dialog import *
+from button import *
 
 ######### CLASSES #############
 
@@ -79,8 +80,13 @@ class Game:
             else:                                                                                                       # else (interact isn't true)
                 self.interact_start_time = 0                                                                            # reset interact start time
 
-            pygame.display.update()                                                                                     # refresh(update) the screen
 
+
+            ### TESTING ###
+            self.start_button = Button(100,200,START_IMG, 0.8)		#create button instance
+            self.start_button.draw(self.SCREEN)
+
+            pygame.display.update()                                                                                     # refresh(update) the screen
 
 ####### MAIN CODE ############
 

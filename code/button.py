@@ -4,12 +4,13 @@ from settings import *
 loop = True 
 
 
-start_img = pygame.image.load('').convert_alpha()		#Load images bild können wir selbst machen oder aus interent runterladen
-exit_img = pygame.image.load('').convert_alpha()		#Load images
+START_IMG = pygame.image.load(os.path.join('..', 'graphics', 'button.png'))		                                        # Load images bild können wir selbst machen oder aus interent runterladen
+EXIT_IMG = pygame.image.load(os.path.join('..', 'graphics', 'button.png'))		                                        # Load images
 
 
 class Button():
     def __init__(self,x,y,image,scale):
+        self.SCREEN = pygame.display.get_surface()                                                                      # initializing screen (SCREEN)
         width = image.get_width()
         height = image.get_height()
         self.image = pygame.transform.scale(image, (int(width* scale),int(height* scale)))
@@ -30,9 +31,10 @@ class Button():
         if pygame.mouse.get_pressed()[0] == 0:
             self.clicked = False
         #draw button on screen
-        screen.blit(self.image,(self.rect.x, self.rect.y))
+        self.SCREEN.blit(self.image,(self.rect.x, self.rect.y))
         
-        return action
+        #return action
+        print(action)
         
-start_button = Button(100,200,start_img, 0.8)		#create button instance
-exit_button = Button(100,500,exit_img, 0.8)			#create button instance
+#start_button = Button(100,200,START_IMG, 0.8)		#create button instance
+#exit_button = Button(100,500,EXIT_IMG, 0.8)			#create button instance
