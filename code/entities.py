@@ -50,6 +50,6 @@ class NPC(pygame.sprite.Sprite):
         self.rect = self.image.get_frect(center=pos)                                                                    # convert image to rectangle (needed for collision in the future), center is position that was provided during construction (__init__())
         self.pos = pos
     def interact(self, text, player_center):
-        self.player_center = player_center
-        dialog = Dialog(self.pos)
-        dialog.interact(text, self.player_center)
+            self.player_center = player_center
+            dialog = Dialog(self.pos)
+            dialog.interact(text, self.player_center)

@@ -51,7 +51,8 @@ class Game:
     def input(self):
         keys = pygame.key.get_just_pressed()                                                                            # initialize new varable(keys) that will get user's input, but the buttons can be detected as pressed and not as hold too.
         if keys[pygame.K_e]:                                                                                            # if just pressed key is e do following:
-            self.interact = True                                                                                        # assign following value to self.interact variable: True
+            if abs(self.npc.rect[0] - self.player.rect[0]) <= 200 and abs(self.npc.rect[1] - self.player.rect[1]) <= 200: # check npc's and player's position. If the differences between each x and y coordinates are smaller in value than 200 do following:
+                self.interact = True                                                                                    # assign following value to self.interact variable: True
 
 
     def run(self):
@@ -68,8 +69,8 @@ class Game:
             self.all_sprites.draw(self.player.rect.center)                                                              # draw all sprites to the center of the rectangle of the player (camera)
             self.input()                                                                                                # take user's input
 
-            if self.interact == True:
-                self.npc.interact("OMG, I CAN SPEAK!!! Thank you developers :3", self.player.rect)                                                                     # interact with npc, text in speech bubble
+            if self.interact == True:                                                                                   # check whether interact condition is true or not (bool check)
+                self.npc.interact("OMG, I CAN SPEAK!!! Thank you developers :3", self.player.rect)                 # interact with npc, text in speech bubble
                 if self.interact_start_time == 0:                                                                       # if interact start time equals to 0, do following:
                     self.interact_start_time = pygame.time.get_ticks()                                                  # assign ticks to interact start time variable
                 elif pygame.time.get_ticks() - self.interact_start_time >= self.interact_duration:                      # else if more or equal time than interact duration has been gone do following:
