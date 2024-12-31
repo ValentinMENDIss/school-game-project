@@ -1,10 +1,13 @@
 ######### IMPORT ##############
+import pygame
+
 from settings import *
 from pytmx.util_pygame import load_pygame
 from entities import *
 from sprites import Sprite
 from groups import *
 from dialog import *
+from menu import Menu
 
 ######### CLASSES #############
 
@@ -16,6 +19,7 @@ class Game:
 
         # INITIALIZE VARIABLES
         self.interact = False                                                                                           # declare/initialize self.interact variable that has a default value: False
+        self.menu = Menu()
 
         # CONFIGURING PYGAME
         self.SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))                                            # create screen with (x,y) (tuple)
@@ -53,11 +57,18 @@ class Game:
         if keys[pygame.K_e]:                                                                                            # if just pressed key is e do following:
             if abs(self.npc.rect[0] - self.player.rect[0]) <= 200 and abs(self.npc.rect[1] - self.player.rect[1]) <= 200: # check npc's and player's position. If the differences between each x and y coordinates are smaller in value than 200 do following:
                 self.interact = True                                                                                    # assign following value to self.interact variable: True
+        if keys[pygame.K_ESCAPE]:
+            self.menu_logic()
 
+
+    def menu_logic(self):
+        self.menu.show(self.SCREEN)
 
     def run(self):
         # VARIABLES
         self.run = True                                                                                                 # initializing variable for main loop
+
+        self.menu_logic()
 
         # PYGAME EVENTS
         while self.run == True:
