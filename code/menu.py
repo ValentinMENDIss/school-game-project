@@ -20,7 +20,7 @@ class Menu:
 
 
         # DRAWING TO SURFACE
-        surface.fill((255, 255, 255))  # Draw a White coloured Screen
+        surface.fill((187, 180, 207))  # Draw a White coloured Screen
         surface.blit(self.headingtext, self.headingtextrect)
 
         self.start_button = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, START_IMG, 0.8)  # create button instance
@@ -30,13 +30,16 @@ class Menu:
 
     def show(self, surface):
         self.running = True
+
         while self.running:
             self.draw(surface)
             if self.start_button.action:
+                pygame.mixer.Sound.play(MENU_SOUND)
+                pygame.mixer.music.stop()                  
                 self.running = False
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
                 elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:
+                    if event.key == pygame.K_ESCAPE:                       
                         self.running = False
