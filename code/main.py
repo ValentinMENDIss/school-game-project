@@ -8,6 +8,8 @@ from sprites import Sprite
 from groups import *
 from dialog import *
 from menu import Menu
+from inventory import *
+from items import *
 
 ######### CLASSES #############
 
@@ -45,12 +47,20 @@ class Game:
     def setup(self, tmx_map, player_start_pos):
         for x,y, surf in tmx_map.get_layer_by_name('Terrain').tiles():                                                  # get only 'Terrain' layer from world.tmx
             Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)                                              # parse information of sprite to Sprite() class
-
+        # GET ENTITIES' POSITION
         for obj in tmx_map.get_layer_by_name('Entities'):
             if obj.name == 'Player' and obj.properties['pos'] == player_start_pos:                                      # check whether the object's name is Player and its properties for pos(position). Check also whether it is the same as player_start_pos
                 self.player = Player((obj.x, obj.y), self.all_sprites)                                                  # create player() instance with object's x and y coordinates that we got from tilemap(tmx). And assign player() instance to AllSprites() group/class
             if obj.name == 'Character' and obj.properties['pos'] == 'bottom-right':
                 self.npc = NPC((obj.x, obj.y), self.all_sprites)
+        # GET ITEMS' POSITION
+        for obj in tmx_map.get_layer_by_name('Items'):
+            if obj.name == 'Item' and obj.properties['item-name'] == 'item-test':
+                self.items = Items((obj.x, obj.y), obj.properties['item-name'], self.all_sprites)
+            if obj.name == 'Item' and obj.properties['item-name'] == 'item-test2':
+                self.items2 = Items((obj.x, obj.y), obj.properties['item-name'], self.all_sprites)
+
+
 
     # DIALOG SYSTEM
     def input(self):

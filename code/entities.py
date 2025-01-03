@@ -3,7 +3,7 @@
 from settings import *
 from dialog import *
 
-######### Sprites #############
+######### SPRITEs #############
 
 PLAYER_IDLE = pygame.image.load(os.path.join('..', 'graphics', 'player_idle.png'))                                      # load sprite of the Player (in action: idle)
 NPC_IDLE = pygame.image.load(os.path.join('..', 'graphics', 'player_idle.png'))                                         # load sprite of the NPC (in action: idle) # for now it's the same image, but in the future there will be a separate one.
