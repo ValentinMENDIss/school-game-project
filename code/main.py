@@ -32,7 +32,7 @@ class Game:
 
         # GROUPS
         self.all_sprites = AllSprites()                                                                                 # create a sprite group # assigns to AllSprites() Class
-        
+
         self.import_assets()                                                                                            # import tilesets (assets)
         self.setup(self.tmx_maps['world'], 'spawn')                                                                     # import this one specific tileset (mapset/asset)
         
@@ -48,11 +48,29 @@ class Game:
                 self.player = Player((obj.x, obj.y), self.all_sprites)                                                  # create player() instance with object's x and y coordinates that we got from tilemap(tmx). And assign player() instance to AllSprites() group/class
             if obj.name == 'Character' and obj.properties['pos'] == 'bottom-right':
                 self.npc = NPC((obj.x, obj.y), self.all_sprites)
+<<<<<<< HEAD
+=======
+        # GET ITEMS' POSITION
+        for obj in tmx_map.get_layer_by_name('Items'):
+            if obj.name == 'Item' and obj.properties['item-name'] == 'item-test':
+                self.items = Items((obj.x, obj.y), obj.properties['item-name'], self.all_sprites)                       # obj.properties['item-name'] gets the name of item's name and puts it into Items() Class
+            if obj.name == 'Item' and obj.properties['item-name'] == 'item-test2':
+                self.items = Items((obj.x, obj.y), obj.properties['item-name'], self.all_sprites)                       # obj.properties['item-name'] gets the name of item's name and puts it into Items() Class
+
+    #def item_pickup_logic(self, name, pos):
+
+>>>>>>> fa1053c (added not fully implemented yet Item pickup logic)
 
     # DIALOG SYSTEM
     def input(self):
-        keys = pygame.key.get_just_pressed()                                                                            # initialize new varable(keys) that will get user's input, but the buttons can be detected as pressed and not as hold too.
+        keys = pygame.key.get_just_pressed()                                                                            # initialize new variable(keys) that will get user's input, but the buttons can be detected as pressed and not as hold too.
         if keys[pygame.K_e]:                                                                                            # if just pressed key is e do following:
+
+            ### TESTING ####
+            self.items.get_position()
+
+            ################
+
             if abs(self.npc.rect[0] - self.player.rect[0]) <= 200 and abs(self.npc.rect[1] - self.player.rect[1]) <= 200: # check npc's and player's position. If the differences between each x and y coordinates are smaller in value than 200 do following:
 <<<<<<< HEAD
 =======
@@ -60,6 +78,15 @@ class Game:
                 pygame.mixer.music.stop()
 >>>>>>> a6084fb (Added Exit Button to the Main Menu)
                 self.interact = True                                                                                    # assign following value to self.interact variable: True
+<<<<<<< HEAD
+=======
+            #elif abs(self.items. - self.player.rect[0]) <= 50 and abs(self.items.pos[1] - self.player.rect[1]) <= 50:                                                                                 # ; [0] = x; [1] = y;
+                  # here I will need to so that the self.item will delete the item that is near the player and paste into user's inventory
+                     # but for that I will need to rework items completely. I will need to create a dictionary where I will save an x and y position for the item, as well as a name of the item itself.
+
+        if keys[pygame.K_ESCAPE]:
+            self.menu_logic()
+>>>>>>> fa1053c (added not fully implemented yet Item pickup logic)
 
 
 <<<<<<< HEAD
