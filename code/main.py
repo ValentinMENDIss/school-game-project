@@ -45,6 +45,7 @@ class Game:
         self.tmx_maps = {'world': load_pygame(os.path.join('..', 'data', 'maps', 'world.tmx'))}                         # load world.tmx file (with given location of it)
         
     def setup(self, tmx_map, player_start_pos):
+        self.items = Items()
         for x,y, surf in tmx_map.get_layer_by_name('Terrain').tiles():                                                  # get only 'Terrain' layer from world.tmx
             Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)                                              # parse information of sprite to Sprite() class
         # GET ENTITIES' POSITION
@@ -56,9 +57,11 @@ class Game:
         # GET ITEMS' POSITION
         for obj in tmx_map.get_layer_by_name('Items'):
             if obj.name == 'Item' and obj.properties['item-name'] == 'item-test':
-                self.items = Items((obj.x, obj.y), obj.properties['item-name'], self.all_sprites)                       # obj.properties['item-name'] gets the name of item's name and puts it into Items() Class
+                #self.items = Items((obj.x, obj.y), obj.properties['item-name'], self.all_sprites)                       # obj.properties['item-name'] gets the name of item's name and puts it into Items() Class
+                self.items.add((obj.x, obj.y), obj.properties['item-name'])
             if obj.name == 'Item' and obj.properties['item-name'] == 'item-test2':
-                self.items = Items((obj.x, obj.y), obj.properties['item-name'], self.all_sprites)                       # obj.properties['item-name'] gets the name of item's name and puts it into Items() Class
+                #self.items = Items((obj.x, obj.y), obj.properties['item-name'], self.all_sprites)                       # obj.properties['item-name'] gets the name of item's name and puts it into Items() Class
+                self.items.add((obj.x, obj.y), obj.properties['item-name'])
 
     #def item_pickup_logic(self, name, pos):
 
@@ -77,9 +80,6 @@ class Game:
                 pygame.mixer.Sound.play(YIPPEE_SOUND)
                 pygame.mixer.music.stop()
                 self.interact = True                                                                                    # assign following value to self.interact variable: True
-            #elif abs(self.items. - self.player.rect[0]) <= 50 and abs(self.items.pos[1] - self.player.rect[1]) <= 50:                                                                                 # ; [0] = x; [1] = y;
-                  # here I will need to so that the self.item will delete the item that is near the player and paste into user's inventory
-                     # but for that I will need to rework items completely. I will need to create a dictionary where I will save an x and y position for the item, as well as a name of the item itself.
 
         if keys[pygame.K_ESCAPE]:
             self.menu_logic()
@@ -108,10 +108,12 @@ class Game:
             self.SCREEN.fill('white')                                                                                   # fill screen with white color, so it's fully updated
             self.all_sprites.draw(self.player.rect.center)                                                              # draw all sprites to the center of the rectangle of the player (camera)
             self.input()                                                                                                # take user's input
+            self.items.draw(self.SCREEN, self.player.rect.center)
 
             # INTERACTION HANDLING
             if self.interact == True:                                                                                   # check whether interact condition is true or not (bool check)
-                self.npc.interact("OMG, I CAN SPEAK!!! Thank you developers :3", self.player.rect)                      # interact with npc, text in speech bubble
+                self.npc.interact("OMG, I CAN SPEAK!!! Thank you developers :3"
+                                  "\nOh... also try to get near these Items and to press E. See what happens :3", self.player.rect)                      # interact with npc, text in speech bubble
                 if self.interact_start_time == 0:                                                                       # if interact start time equals to 0, do following:
                     self.interact_start_time = pygame.time.get_ticks()                                                  # assign ticks to interact start time variable
                 elif pygame.time.get_ticks() - self.interact_start_time >= self.interact_duration:                      # else if more or equal time than interact duration has been gone do following:
