@@ -9,40 +9,42 @@ ITEM_TEST2 = pygame.image.load(os.path.join('..', 'graphics', 'item-test2.png'))
 
 ######### CLASSes ##############
 
-class Items(pygame.sprite.Sprite):
-    def __init__(self, pos, name, groups):
-        super().__init__(groups)                                                                                        # this subclass sets up the basic properties and methods that it inherits from its parent class (group)
+class Items:
+    def __init__(self):
+        self.DATA = {}                                                                                                  # creating/initializing Dictionary and assigning it to the variable
+
+    def add(self, pos, name):
         self.pos = pos
         self.name = name
-
-        self.DATA = {}                                                                                                  # creating/initializing Dictionary and assigning it to the variable
 
         self.DATA[name] = {}
         self.DATA[name][self.pos] = {}
         self.DATA[name][self.pos]["x"] = pos[0]
         self.DATA[name][pos]["y"] = pos[1]
 
-
-        for item in self.DATA:
-            if item == "item-test":
-                self.image = ITEM_TEST.convert_alpha()
-                #self.pos = self.DATA[name][pos]
-            elif item == "item-test2":
-                self.image = ITEM_TEST2.convert_alpha()
-
-
-        #if name == "test-image":
-        #    self.image = ITEM_TEST.convert_alpha()
-        #elif name == "test-image2":
-        #    self.image = ITEM_TEST2.convert_alpha()
-        #else:                                                                                                           # if something is wrong, say image name isn't detected, it will take the default image and not crash the whole game
-        #    self.image = ITEM_TEST
-
-        self.rect = self.image.get_frect(center=self.pos)                                                               # convert image to rectangle (needed for collision in the future), center is position that was provided during construction (__init__())
+    def draw(self, surface):
 
         print(self.DATA)
 
+        for item in self.DATA:
+            print(item)
+            #if item == "item-test":
+            for key, value in  self.DATA.items():
+                for coord, coord_data in value.items():
+                        #print(f"Key/Name: {key}, Coordinates: {coord}, x: {coord_data['x']}, y: {coord_data['y']}")    # diagnosing code/printing out values inside of self.DATA dictionary
+                    self.item_pos_x = coord_data['x']
+                    self.item_pos_y = coord_data['y']
+
+                    if key == "item-test":
+                        self.image = ITEM_TEST.convert_alpha()
+                    elif key == "item-test2":
+                        self.image = ITEM_TEST2.convert_alpha()
+
+                    self.rect = self.image.get_frect(center=(self.item_pos_x, self.item_pos_y))
+                    print(self.item_pos_x, self.item_pos_y)
+                    surface.blit(self.image, (self.rect.x, self.rect.y))
+
     def get_position(self):
-        print("UwU 1 ", self.DATA[self.name][self.pos]['x'])
+        print("\nUwU 1 ", self.DATA[self.name][self.pos]['x'])
         print("UwU 2 ", self.DATA[self.name][self.pos]['x'])
         print(self.DATA)

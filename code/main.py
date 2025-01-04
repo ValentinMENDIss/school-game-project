@@ -40,6 +40,7 @@ class Game:
         self.tmx_maps = {'world': load_pygame(os.path.join('..', 'data', 'maps', 'world.tmx'))}                         # load world.tmx file (with given location of it)
         
     def setup(self, tmx_map, player_start_pos):
+        self.items = Items()
         for x,y, surf in tmx_map.get_layer_by_name('Terrain').tiles():                                                  # get only 'Terrain' layer from world.tmx
             Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)                                              # parse information of sprite to Sprite() class
 
@@ -53,9 +54,11 @@ class Game:
         # GET ITEMS' POSITION
         for obj in tmx_map.get_layer_by_name('Items'):
             if obj.name == 'Item' and obj.properties['item-name'] == 'item-test':
-                self.items = Items((obj.x, obj.y), obj.properties['item-name'], self.all_sprites)                       # obj.properties['item-name'] gets the name of item's name and puts it into Items() Class
+                #self.items = Items((obj.x, obj.y), obj.properties['item-name'], self.all_sprites)                       # obj.properties['item-name'] gets the name of item's name and puts it into Items() Class
+                self.items.add((obj.x, obj.y), obj.properties['item-name'])
             if obj.name == 'Item' and obj.properties['item-name'] == 'item-test2':
-                self.items = Items((obj.x, obj.y), obj.properties['item-name'], self.all_sprites)                       # obj.properties['item-name'] gets the name of item's name and puts it into Items() Class
+                #self.items = Items((obj.x, obj.y), obj.properties['item-name'], self.all_sprites)                       # obj.properties['item-name'] gets the name of item's name and puts it into Items() Class
+                self.items.add((obj.x, obj.y), obj.properties['item-name'])
 
     #def item_pickup_logic(self, name, pos):
 
@@ -118,6 +121,7 @@ class Game:
             self.SCREEN.fill('white')                                                                                   # fill screen with white color, so it's fully updated
             self.all_sprites.draw(self.player.rect.center)                                                              # draw all sprites to the center of the rectangle of the player (camera)
             self.input()                                                                                                # take user's input
+            self.items.draw(self.SCREEN)
 
             # INTERACTION HANDLING
             if self.interact == True:                                                                                   # check whether interact condition is true or not (bool check)
