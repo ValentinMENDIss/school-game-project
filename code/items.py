@@ -50,22 +50,24 @@ class Items:
                 surface.blit(self.image, self.rect.center + self.offset)
 
     def get_position(self):
-            for key, value in self.DATA.items():
+            self.data_copy = self.DATA.copy()
+            for key, value in self.data_copy.items():
                 for coord, coord_data in value.items():
-                    self.pickup_logic(coord, self.player_center)
+                    self.pickup_logic(key, coord, self.player_center)
 
                     #print(f"name: {key}, coord: {coord}")
                     #print(coord[0])
                     #print(coord[1])
             #print(self.DATA)
 
-    def pickup_logic(self, coord, player_center):
+    def pickup_logic(self, key, coord, player_center):
         #print(coord)
-        s = 1
         keys = pygame.key.get_just_pressed()                                                                            # initialize new variable(keys) that will get user's input, but the buttons can be detected as pressed and not as hold too.
         if keys[pygame.K_e]:                                                                                            # if just pressed key is e do following:
             if abs(coord[0] - player_center[0]) <= 100 and abs(coord[1] - player_center[1]) <= 100:                                                                                 # ; [0] = x; [1] = y;
                 if not self.print_message_flag:
+                    self.remove(key)
+
                     print("hello world, we are back :3. YIPPEE!!!!!!!!!!!!!!!!!!")
                     print(abs(coord[0] - player_center[0]))
                     print(abs(coord[1] - player_center[1]))
