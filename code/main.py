@@ -80,9 +80,6 @@ class Game:
                 pygame.mixer.Sound.play(YIPPEE_SOUND)
                 pygame.mixer.music.stop()
                 self.interact = True                                                                                    # assign following value to self.interact variable: True
-            #elif abs(self.items. - self.player.rect[0]) <= 50 and abs(self.items.pos[1] - self.player.rect[1]) <= 50:                                                                                 # ; [0] = x; [1] = y;
-                  # here I will need to so that the self.item will delete the item that is near the player and paste into user's inventory
-                     # but for that I will need to rework items completely. I will need to create a dictionary where I will save an x and y position for the item, as well as a name of the item itself.
 
         if keys[pygame.K_ESCAPE]:
             self.menu_logic()
@@ -115,7 +112,8 @@ class Game:
 
             # INTERACTION HANDLING
             if self.interact == True:                                                                                   # check whether interact condition is true or not (bool check)
-                self.npc.interact("OMG, I CAN SPEAK!!! Thank you developers :3", self.player.rect)                      # interact with npc, text in speech bubble
+                self.npc.interact("OMG, I CAN SPEAK!!! Thank you developers :3"
+                                  "\nOh... also try to get near these Items and to press E. See what happens :3", self.player.rect)                      # interact with npc, text in speech bubble
                 if self.interact_start_time == 0:                                                                       # if interact start time equals to 0, do following:
                     self.interact_start_time = pygame.time.get_ticks()                                                  # assign ticks to interact start time variable
                 elif pygame.time.get_ticks() - self.interact_start_time >= self.interact_duration:                      # else if more or equal time than interact duration has been gone do following:

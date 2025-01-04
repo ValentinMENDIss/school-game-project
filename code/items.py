@@ -32,7 +32,6 @@ class Items:
         for item in self.DATA:
             for key, value in  self.DATA.items():
                 for coord, coord_data in value.items():
-                    #print(f"Key/Name: {key}, Coordinates: {coord}, x: {coord_data['x']}, y: {coord_data['y']}")    # diagnosing code/printing out values inside of self.DATA dictionary
                     self.item_pos_x = coord_data['x']
                     self.item_pos_y = coord_data['y']
 
@@ -55,22 +54,12 @@ class Items:
                 for coord, coord_data in value.items():
                     self.pickup_logic(key, coord, self.player_center)
 
-                    #print(f"name: {key}, coord: {coord}")
-                    #print(coord[0])
-                    #print(coord[1])
-            #print(self.DATA)
-
     def pickup_logic(self, key, coord, player_center):
-        #print(coord)
         keys = pygame.key.get_just_pressed()                                                                            # initialize new variable(keys) that will get user's input, but the buttons can be detected as pressed and not as hold too.
         if keys[pygame.K_e]:                                                                                            # if just pressed key is e do following:
             if abs(coord[0] - player_center[0]) <= 100 and abs(coord[1] - player_center[1]) <= 100:                                                                                 # ; [0] = x; [1] = y;
                 if not self.print_message_flag:
                     self.remove(key)
-
-                    print("hello world, we are back :3. YIPPEE!!!!!!!!!!!!!!!!!!")
-                    print(abs(coord[0] - player_center[0]))
-                    print(abs(coord[1] - player_center[1]))
-                self.print_message_flag = True                                                                          # self.print_message_flag is needed, so that if we want, let's say, to print the text out, it will print it out the text only one time and not five, or even more times.
+                    self.print_message_flag = True                                                                          # self.print_message_flag is needed, so that if we want, let's say, to print the text out, it will print it out the text only one time and not five, or even more times.
         else:
             self.print_message_flag = False
