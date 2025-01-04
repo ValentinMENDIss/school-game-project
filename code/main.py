@@ -16,6 +16,7 @@ class Game:
         pygame.font.init()                                                                                              # initialize pygame text/font framework
 
         # INITIALIZE VARIABLES
+        self.running = True
         self.interact = False                                                                                           # declare/initialize self.interact variable that has a default value: False
 
         # CONFIGURING PYGAME
@@ -53,18 +54,36 @@ class Game:
         keys = pygame.key.get_just_pressed()                                                                            # initialize new varable(keys) that will get user's input, but the buttons can be detected as pressed and not as hold too.
         if keys[pygame.K_e]:                                                                                            # if just pressed key is e do following:
             if abs(self.npc.rect[0] - self.player.rect[0]) <= 200 and abs(self.npc.rect[1] - self.player.rect[1]) <= 200: # check npc's and player's position. If the differences between each x and y coordinates are smaller in value than 200 do following:
+<<<<<<< HEAD
+=======
+                pygame.mixer.Sound.play(YIPPEE_SOUND)
+                pygame.mixer.music.stop()
+>>>>>>> a6084fb (Added Exit Button to the Main Menu)
                 self.interact = True                                                                                    # assign following value to self.interact variable: True
 
 
+<<<<<<< HEAD
+=======
+    def menu_logic(self):
+        self.menu.show(self.SCREEN)
+        if self.menu.exit_action:
+            self.running = False
+
+>>>>>>> a6084fb (Added Exit Button to the Main Menu)
     def run(self):
         # VARIABLES
-        self.run = True                                                                                                 # initializing variable for main loop
+        self.running = True                                                                                                 # initializing variable for main loop
 
+<<<<<<< HEAD
+=======
+        self.menu_logic()                                                                                               # calling menu logic
+
+>>>>>>> a6084fb (Added Exit Button to the Main Menu)
         # PYGAME EVENTS
-        while self.run == True:
+        while self.running == True:
             for event in pygame.event.get():                                                                            # for every single event that is available in pygame do following:
                 if event.type == pygame.QUIT:                                                                           # if event type is 'QUIT' do following:
-                    self.run = False                                                                                    # quit/exit by assigning boolean 'False' to self.run variable
+                    self.running = False                                                                                    # quit/exit by assigning boolean 'False' to self.run variable
 
             # PYGAME LOGIC
             dt = self.clock.tick() / 1000                                                                               # tick every second  # dt = difference between previous and next frame

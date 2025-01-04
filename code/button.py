@@ -3,9 +3,15 @@ from settings import *
 #Loop Variable
 loop = True 
 
+<<<<<<< HEAD
 
 START_IMG = pygame.image.load(os.path.join('..', 'graphics', 'button.png'))		                                        # Load images bild können wir selbst machen oder aus interent runterladen
 EXIT_IMG = pygame.image.load(os.path.join('..', 'graphics', 'button.png'))		                                        # Load images
+=======
+# Loading Images
+START_IMG = pygame.image.load(os.path.join('..', 'graphics', 'start-button.png'))		                                # Load images bild können wir selbst machen oder aus interent runterladen
+EXIT_IMG = pygame.image.load(os.path.join('..', 'graphics', 'exit-button.png'))		                                    # Load images
+>>>>>>> a6084fb (Added Exit Button to the Main Menu)
 
 
 class Button():
