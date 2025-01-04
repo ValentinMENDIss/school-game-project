@@ -111,7 +111,7 @@ class Game:
             self.SCREEN.fill('white')                                                                                   # fill screen with white color, so it's fully updated
             self.all_sprites.draw(self.player.rect.center)                                                              # draw all sprites to the center of the rectangle of the player (camera)
             self.input()                                                                                                # take user's input
-            self.items.draw(self.SCREEN)
+            self.items.draw(self.SCREEN, self.player.rect.center)
 
             # INTERACTION HANDLING
             if self.interact == True:                                                                                   # check whether interact condition is true or not (bool check)

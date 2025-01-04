@@ -16,13 +16,14 @@ class Items:
     def add(self, pos, name):
         self.pos = pos
         self.name = name
+        self.offset = vector()
 
         self.DATA[name] = {}
         self.DATA[name][self.pos] = {}
         self.DATA[name][self.pos]["x"] = pos[0]
         self.DATA[name][pos]["y"] = pos[1]
 
-    def draw(self, surface):
+    def draw(self, surface, player_center):
 
         print(self.DATA)
 
@@ -42,9 +43,13 @@ class Items:
 
                     self.rect = self.image.get_frect(center=(self.item_pos_x, self.item_pos_y))
                     print(self.item_pos_x, self.item_pos_y)
-                    surface.blit(self.image, (self.rect.x, self.rect.y))
+
+                    self.offset.x = -(player_center[0] - WINDOW_WIDTH / 2)
+                    self.offset.y = -(player_center[1] - WINDOW_HEIGHT / 2)
+
+                surface.blit(self.image, self.rect.topleft + self.offset)
 
     def get_position(self):
         print("\nUwU 1 ", self.DATA[self.name][self.pos]['x'])
-        print("UwU 2 ", self.DATA[self.name][self.pos]['x'])
+        print(" 2 ", self.DATA[self.name][self.pos]['x'])
         print(self.DATA)
