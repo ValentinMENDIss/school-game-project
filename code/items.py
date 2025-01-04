@@ -21,18 +21,18 @@ class Items:
         self.DATA[name] = {}
         self.DATA[name][self.pos] = {}
         self.DATA[name][self.pos]["x"] = pos[0]
-        self.DATA[name][pos]["y"] = pos[1]
+        self.DATA[name][self.pos]["y"] = pos[1]
+
+    def remove(self, name):
+        del self.DATA[name]
 
     def draw(self, surface, player_center):
-
-        print(self.DATA)
+        self.player_center = player_center
 
         for item in self.DATA:
-            print(item)
-            #if item == "item-test":
             for key, value in  self.DATA.items():
                 for coord, coord_data in value.items():
-                        #print(f"Key/Name: {key}, Coordinates: {coord}, x: {coord_data['x']}, y: {coord_data['y']}")    # diagnosing code/printing out values inside of self.DATA dictionary
+                    #print(f"Key/Name: {key}, Coordinates: {coord}, x: {coord_data['x']}, y: {coord_data['y']}")    # diagnosing code/printing out values inside of self.DATA dictionary
                     self.item_pos_x = coord_data['x']
                     self.item_pos_y = coord_data['y']
 
@@ -42,14 +42,33 @@ class Items:
                         self.image = ITEM_TEST2.convert_alpha()
 
                     self.rect = self.image.get_frect(center=(self.item_pos_x, self.item_pos_y))
-                    print(self.item_pos_x, self.item_pos_y)
 
-                    self.offset.x = -(player_center[0] - WINDOW_WIDTH / 2)
-                    self.offset.y = -(player_center[1] - WINDOW_HEIGHT / 2)
+                    self.offset.x = -(self.player_center[0] - WINDOW_WIDTH / 2)
+                    self.offset.y = -(self.player_center[1] - WINDOW_HEIGHT / 2)
 
-                surface.blit(self.image, self.rect.topleft + self.offset)
+                self.get_position()
+                surface.blit(self.image, self.rect.center + self.offset)
 
     def get_position(self):
-        print("\nUwU 1 ", self.DATA[self.name][self.pos]['x'])
-        print(" 2 ", self.DATA[self.name][self.pos]['x'])
-        print(self.DATA)
+            for key, value in self.DATA.items():
+                for coord, coord_data in value.items():
+                    self.pickup_logic(coord, self.player_center)
+
+                    #print(f"name: {key}, coord: {coord}")
+                    #print(coord[0])
+                    #print(coord[1])
+            #print(self.DATA)
+
+    def pickup_logic(self, coord, player_center):
+        #print(coord)
+        s = 1
+        keys = pygame.key.get_just_pressed()                                                                            # initialize new variable(keys) that will get user's input, but the buttons can be detected as pressed and not as hold too.
+        if keys[pygame.K_e]:                                                                                            # if just pressed key is e do following:
+            if abs(coord[0] - player_center[0]) <= 100 and abs(coord[1] - player_center[1]) <= 100:                                                                                 # ; [0] = x; [1] = y;
+                if not self.print_message_flag:
+                    print("hello world, we are back :3. YIPPEE!!!!!!!!!!!!!!!!!!")
+                    print(abs(coord[0] - player_center[0]))
+                    print(abs(coord[1] - player_center[1]))
+                self.print_message_flag = True                                                                          # self.print_message_flag is needed, so that if we want, let's say, to print the text out, it will print it out the text only one time and not five, or even more times.
+        else:
+            self.print_message_flag = False
