@@ -1,11 +1,15 @@
 ######### IMPORT ##############
+import pygame
+
 from settings import *
 from pytmx.util_pygame import load_pygame
 from entities import *
 from sprites import Sprite
 from groups import *
 from dialog import *
-from button import *
+from menu import Menu
+from inventory import *
+from items import *
 
 ######### CLASSES #############
 
@@ -18,6 +22,7 @@ class Game:
         # INITIALIZE VARIABLES
         self.running = True
         self.interact = False                                                                                           # declare/initialize self.interact variable that has a default value: False
+        self.menu = Menu()
 
         # CONFIGURING PYGAME
         self.SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))                                            # create screen with (x,y) (tuple)
@@ -43,14 +48,12 @@ class Game:
         self.items = Items()
         for x,y, surf in tmx_map.get_layer_by_name('Terrain').tiles():                                                  # get only 'Terrain' layer from world.tmx
             Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)                                              # parse information of sprite to Sprite() class
-
+        # GET ENTITIES' POSITION
         for obj in tmx_map.get_layer_by_name('Entities'):
             if obj.name == 'Player' and obj.properties['pos'] == player_start_pos:                                      # check whether the object's name is Player and its properties for pos(position). Check also whether it is the same as player_start_pos
                 self.player = Player((obj.x, obj.y), self.all_sprites)                                                  # create player() instance with object's x and y coordinates that we got from tilemap(tmx). And assign player() instance to AllSprites() group/class
             if obj.name == 'Character' and obj.properties['pos'] == 'bottom-right':
                 self.npc = NPC((obj.x, obj.y), self.all_sprites)
-<<<<<<< HEAD
-=======
         # GET ITEMS' POSITION
         for obj in tmx_map.get_layer_by_name('Items'):
             if obj.name == 'Item' and obj.properties['item-name'] == 'item-test':
@@ -62,7 +65,6 @@ class Game:
 
     #def item_pickup_logic(self, name, pos):
 
->>>>>>> fa1053c (added not fully implemented yet Item pickup logic)
 
     # DIALOG SYSTEM
     def input(self):
@@ -75,40 +77,28 @@ class Game:
             ################
 
             if abs(self.npc.rect[0] - self.player.rect[0]) <= 200 and abs(self.npc.rect[1] - self.player.rect[1]) <= 200: # check npc's and player's position. If the differences between each x and y coordinates are smaller in value than 200 do following:
-<<<<<<< HEAD
-=======
                 pygame.mixer.Sound.play(YIPPEE_SOUND)
                 pygame.mixer.music.stop()
->>>>>>> a6084fb (Added Exit Button to the Main Menu)
                 self.interact = True                                                                                    # assign following value to self.interact variable: True
-<<<<<<< HEAD
-=======
             #elif abs(self.items. - self.player.rect[0]) <= 50 and abs(self.items.pos[1] - self.player.rect[1]) <= 50:                                                                                 # ; [0] = x; [1] = y;
                   # here I will need to so that the self.item will delete the item that is near the player and paste into user's inventory
                      # but for that I will need to rework items completely. I will need to create a dictionary where I will save an x and y position for the item, as well as a name of the item itself.
 
         if keys[pygame.K_ESCAPE]:
             self.menu_logic()
->>>>>>> fa1053c (added not fully implemented yet Item pickup logic)
 
 
-<<<<<<< HEAD
-=======
     def menu_logic(self):
         self.menu.show(self.SCREEN)
         if self.menu.exit_action:
             self.running = False
 
->>>>>>> a6084fb (Added Exit Button to the Main Menu)
     def run(self):
         # VARIABLES
         self.running = True                                                                                                 # initializing variable for main loop
 
-<<<<<<< HEAD
-=======
         self.menu_logic()                                                                                               # calling menu logic
 
->>>>>>> a6084fb (Added Exit Button to the Main Menu)
         # PYGAME EVENTS
         while self.running == True:
             for event in pygame.event.get():                                                                            # for every single event that is available in pygame do following:
@@ -134,13 +124,8 @@ class Game:
             else:                                                                                                       # else (interact isn't true)
                 self.interact_start_time = 0                                                                            # reset interact start time
 
-
-
-            ### TESTING ###
-            self.start_button = Button(100,200,START_IMG, 0.8)		#create button instance
-            self.start_button.draw(self.SCREEN)
-
             pygame.display.update()                                                                                     # refresh(update) the screen
+
 
 ####### MAIN CODE ############
 

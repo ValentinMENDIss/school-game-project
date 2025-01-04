@@ -3,7 +3,7 @@
 from settings import *
 from dialog import *
 
-######### Sprites #############
+######### SPRITEs #############
 
 PLAYER_IDLE = pygame.image.load(os.path.join('..', 'graphics', 'player_idle.png'))                                      # load sprite of the Player (in action: idle)
 NPC_IDLE = pygame.image.load(os.path.join('..', 'graphics', 'player_idle.png'))                                         # load sprite of the NPC (in action: idle) # for now it's the same image, but in the future there will be a separate one.
@@ -11,7 +11,10 @@ NPC_IDLE = pygame.image.load(os.path.join('..', 'graphics', 'player_idle.png')) 
 ######### CLASSes ############
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, groups):
+    def __init__(self, pos, groups, health=10):
+        # ATTRIBUTES
+        self.health = health
+        
         super().__init__(groups)                                                                                        # this subclass sets up the basic properties and methods that it inherits from its parent class (group)
         self.image = PLAYER_IDLE.convert_alpha()                                                                        # assign image to the player # convert_alpha() function used to specify that the image should be rendered with alpha colors (for .png format).
         self.new_size_image = (self.image.get_width() * 4, self.image.get_height() * 4)                                      # declare new variable that has 4 times bigger scale than the player's image

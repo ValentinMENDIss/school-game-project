@@ -1,46 +1,36 @@
 from settings import *
    
 #Loop Variable
-loop = True 
+loop = True
 
-<<<<<<< HEAD
-
-START_IMG = pygame.image.load(os.path.join('..', 'graphics', 'button.png'))		                                        # Load images bild können wir selbst machen oder aus interent runterladen
-EXIT_IMG = pygame.image.load(os.path.join('..', 'graphics', 'button.png'))		                                        # Load images
-=======
 # Loading Images
 START_IMG = pygame.image.load(os.path.join('..', 'graphics', 'start-button.png'))		                                # Load images bild können wir selbst machen oder aus interent runterladen
 EXIT_IMG = pygame.image.load(os.path.join('..', 'graphics', 'exit-button.png'))		                                    # Load images
->>>>>>> a6084fb (Added Exit Button to the Main Menu)
 
 
 class Button():
     def __init__(self,x,y,image,scale):
-        self.SCREEN = pygame.display.get_surface()                                                                      # initializing screen (SCREEN)
         width = image.get_width()
         height = image.get_height()
         self.image = pygame.transform.scale(image, (int(width* scale),int(height* scale)))
         self.rect = self.image.get_rect()
-        self.rect.topleft = (x,y)
+        self.rect.center = (x,y)
         self.clicked = False
         
     def draw(self, surface):
-        action = False 
+        self.action = False
         #get mouse position
         pos = pygame.mouse.get_pos()
         
-        #check if mouse colide
+        #check if mouse collides
         if self.rect.collidepoint(pos):
             if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
                 self.clicked = True 
-                action = True
+                self.action = True
         if pygame.mouse.get_pressed()[0] == 0:
             self.clicked = False
         #draw button on screen
-        self.SCREEN.blit(self.image,(self.rect.x, self.rect.y))
-        
-        #return action
-        print(action)
-        
-#start_button = Button(100,200,START_IMG, 0.8)		#create button instance
-#exit_button = Button(100,500,EXIT_IMG, 0.8)			#create button instance
+        surface.blit(self.image,(self.rect.x, self.rect.y))
+
+    def get_action(self):
+        return self.action
