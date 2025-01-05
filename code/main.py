@@ -101,12 +101,13 @@ class Game:
             self.menu_logic()                                                                                           # run menu logic
 
         # BUTTON STATE/PRESSED CHECKING                                                                                 # checking if the button is still pressed(hold) or not
-        if any(self.button_states) and not self.joystick_button_pressed:                                                # if any button was pressed, and joystick button was just pressed once, do following
-            self.joystick_button_pressed = True                                                                         # set joystick_button_pressed variable to true, as the button has been pressed, and is now being hold
-        elif not any(self.button_states):                                                                               # else if no button was pressed
-            self.joystick_button_pressed = False                                                                        # reset joystick_button_pressed variable to default value
+        if self.num_joysticks > 0:
+            if any(self.button_states) and not self.joystick_button_pressed:                                                # if any button was pressed, and joystick button was just pressed once, do following
+                self.joystick_button_pressed = True                                                                         # set joystick_button_pressed variable to true, as the button has been pressed, and is now being hold
+            elif not any(self.button_states):                                                                               # else if no button was pressed
+                self.joystick_button_pressed = False                                                                        # reset joystick_button_pressed variable to default value
 
-        self.button_states = None                                                                                       # reset button state variable to default value
+            self.button_states = None                                                                                       # reset button state variable to default value
 
 
     # MENU LOGIC

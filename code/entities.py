@@ -34,6 +34,7 @@ class Player(pygame.sprite.Sprite):
     def input(self):
         keys = pygame.key.get_pressed()                                                                                 # get user's input of just pressed keys
         keys_input_vector = vector()                                                                                    # create input vector for movement logic (by default, the value is (0,0), which responds to x and y coordinates)
+        num_joysticks = pygame.joystick.get_count()
 
         # MOVEMENT
         if keys[pygame.K_UP]:
@@ -46,7 +47,7 @@ class Player(pygame.sprite.Sprite):
             keys_input_vector.x += 1
 
         # INPUT HANDLING / CHECKING IF THE KEYBOARD OR JOYSTICK SHOULD BE USED
-        if self.joystick_input_vector == pygame.Vector2(0.0, 0.0) or self.joystick_input_vector == None:                # if connected joystick has no input, or no joysticks have been connected run following:
+        if self.joystick_input_vector == pygame.Vector2(0.0, 0.0) or self.joystick_input_vector == None or num_joysticks == 0:                # if connected joystick has no input, or no joysticks have been connected run following:
             if keys_input_vector != vector(0, 0) or keys_input_vector == vector(0, 0) and self.direction != vector(0, 0):   # if keyboard's key has been clicked and stores movement/position value, or if the key stores no movement position (0, 0), but the direction is still containing value inside, which means that the player is still moving, even though the key has been released, do following
                 self.direction = keys_input_vector                                                                      # use keyboard's input for movement         # the upper if statement is needed, so that the player wouldn't continue running, even when the button/key has been long since released on the keyboard
         else:                                                                                                           # else do nothing
