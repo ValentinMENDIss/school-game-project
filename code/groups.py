@@ -1,6 +1,8 @@
 ######### IMPORT ##############
+
 from settings import *
 
+######### CLASSes ##############
 class AllSprites(pygame.sprite.Group):
     def __init__(self):
         super().__init__()                                                                                              # inherit all the functionality and attributes of the pygame.sprite.Group class

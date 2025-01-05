@@ -53,6 +53,8 @@ class Items:
         self.data_copy = self.DATA.copy()
         for key, value in self.data_copy.items():
             for coord, coord_data in value.items():
-                if abs(coord[0] - self.player_center[0]) <= 100 and abs(coord[1] - self.player_center[1]) <= 100:                                                                                 # ; [0] = x; [1] = y;
-                    self.remove(key)
-                    self.inventory.add_item(key)
+                if abs(coord[0] - self.player_center[0]) <= 100 and abs(coord[1] - self.player_center[1]) <= 100:       # ; [0] = x; [1] = y;
+                    pygame.mixer.Sound.play(PICKUP_SOUND)                                                               # play sound
+                    pygame.mixer.music.stop()                                                                           # stop sound
+                    self.remove(key)                                                                                    # remove item from the floor
+                    self.inventory.add_item(key)                                                                        # add item to the inventory
