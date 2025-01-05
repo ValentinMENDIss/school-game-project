@@ -23,6 +23,7 @@ class Game:
         self.running = True
         self.interact = False                                                                                           # declare/initialize self.interact variable that has a default value: False
         #self.button_value = None                                                                                        # setting button value for gamepad to 0
+        self.joystick_button_pressed = False
         self.menu = Menu()
 
         # CONFIGURING PYGAME
@@ -74,31 +75,29 @@ class Game:
         # JOYSTICK INPUT
         pygame.joystick.init()
 
-
         self.num_joysticks = pygame.joystick.get_count()
         if self.num_joysticks > 0:
             self.my_joystick = pygame.joystick.Joystick(0)
             self.joystick_x_axis = self.my_joystick.get_axis(0)
             self.joystick_y_axis = self.my_joystick.get_axis(1)
             self.joystick_input_vector = (self.joystick_x_axis, self.joystick_y_axis)
-            self.button_value = None
+
+            # Get the button states
+            self.button_value = [self.my_joystick.get_button(i) for i in range(self.my_joystick.get_numbuttons())]
+
+
 
             # Reset the joystick input vector if the joystick is not being moved
             if abs(self.joystick_x_axis) < 0.1 and abs(self.joystick_y_axis) < 0.1:
                 self.joystick_input_vector = pygame.Vector2(0, 0)
 
-            for event in pygame.event.get():
-                if event.type == pygame.JOYBUTTONDOWN:
-                    #print(f"Button {event.button} pressed")
-                    self.player.input_joystick(button_value=event.button)
-                    self.button_value = event.button
-                elif event.type == pygame.JOYAXISMOTION:
-                    #print(f"Axis {event.axis} moved to {event.value}")
-                    self.player.input_joystick(axes_value=(self.joystick_input_vector))
+            self.player.input_joystick(axes_value=(self.joystick_input_vector), button_value=self.button_value)
 
-
-        if keys[pygame.K_e] or (self.num_joysticks > 0 and self.button_value == 0):                                                                                            # if just pressed key is e do following:
+        # INPUT HANDLING/CHECKING
+            #print(self.joystick_button_pressed)
+        if keys[pygame.K_e] or (self.num_joysticks > 0 and self.button_value[0] == 1 and self.joystick_button_pressed == False):                                                                                            # if just pressed key is e do following:
             self.items.pickup_logic()
+            print("helllo")
 
             # DIALOG SYSTEM
             if abs(self.npc.rect[0] - self.player.rect[0]) <= 200 and abs(self.npc.rect[1] - self.player.rect[1]) <= 200: # check npc's and player's position. If the differences between each x and y coordinates are smaller in value than 200 do following:
@@ -109,6 +108,13 @@ class Game:
         if keys[pygame.K_ESCAPE]:
             self.menu_logic()
 
+
+        if any(self.button_value) and not self.joystick_button_pressed:
+            self.joystick_button_pressed = True
+        elif not any(self.button_value):
+            self.joystick_button_pressed = False
+
+        self.button_value = None
 
     def menu_logic(self):
         self.menu.show(self.SCREEN)

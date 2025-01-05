@@ -26,11 +26,8 @@ class Player(pygame.sprite.Sprite):
         self.joystick_input_vector = None
 
     def input_joystick(self, axes_value=pygame.Vector2(0, 0), button_value=0):
-        #print(value)
         self.joystick_input_vector = pygame.Vector2(axes_value)
         self.direction = self.joystick_input_vector
-        #print(self.direction)
-        print(button_value)
 
     def input(self):
         keys = pygame.key.get_pressed()                                                                                 # get input of the user
