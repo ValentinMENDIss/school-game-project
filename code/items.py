@@ -47,22 +47,12 @@ class Items:
                     self.offset.x = -(self.player_center[0] - WINDOW_WIDTH / 2)
                     self.offset.y = -(self.player_center[1] - WINDOW_HEIGHT / 2)
 
-                self.get_position()
                 surface.blit(self.image, self.rect.center + self.offset)
 
-    def get_position(self):
-            self.data_copy = self.DATA.copy()
-            for key, value in self.data_copy.items():
-                for coord, coord_data in value.items():
-                    self.pickup_logic(key, coord, self.player_center)
-
-    def pickup_logic(self, key, coord, player_center):
-        keys = pygame.key.get_just_pressed()                                                                            # initialize new variable(keys) that will get user's input, but the buttons can be detected as pressed and not as hold too.
-        if keys[pygame.K_e]:                                                                                            # if just pressed key is e do following:
-            if abs(coord[0] - player_center[0]) <= 100 and abs(coord[1] - player_center[1]) <= 100:                                                                                 # ; [0] = x; [1] = y;
-                if not self.print_message_flag:
+    def pickup_logic(self,):
+        self.data_copy = self.DATA.copy()
+        for key, value in self.data_copy.items():
+            for coord, coord_data in value.items():
+                if abs(coord[0] - self.player_center[0]) <= 100 and abs(coord[1] - self.player_center[1]) <= 100:                                                                                 # ; [0] = x; [1] = y;
                     self.remove(key)
                     self.inventory.add_item(key)
-                    self.print_message_flag = True                                                                          # self.print_message_flag is needed, so that if we want, let's say, to print the text out, it will print it out the text only one time and not five, or even more times.
-        else:
-            self.print_message_flag = False

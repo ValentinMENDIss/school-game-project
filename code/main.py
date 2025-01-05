@@ -65,17 +65,13 @@ class Game:
 
     #def item_pickup_logic(self, name, pos):
 
-
-    # DIALOG SYSTEM
+    # GET USER INPUT
     def input(self):
         keys = pygame.key.get_just_pressed()                                                                            # initialize new variable(keys) that will get user's input, but the buttons can be detected as pressed and not as hold too.
         if keys[pygame.K_e]:                                                                                            # if just pressed key is e do following:
+            self.items.pickup_logic()
 
-            ### TESTING ####
-            self.items.get_position()
-
-            ################
-
+            # DIALOG SYSTEM
             if abs(self.npc.rect[0] - self.player.rect[0]) <= 200 and abs(self.npc.rect[1] - self.player.rect[1]) <= 200: # check npc's and player's position. If the differences between each x and y coordinates are smaller in value than 200 do following:
                 pygame.mixer.Sound.play(YIPPEE_SOUND)
                 pygame.mixer.music.stop()
