@@ -49,7 +49,7 @@ class Items:
 
                 surface.blit(self.image, self.rect.center + self.offset)
 
-    def pickup_logic(self,):
+    def pickup_logic(self):
         self.data_copy = self.DATA.copy()
         for key, value in self.data_copy.items():
             for coord, coord_data in value.items():

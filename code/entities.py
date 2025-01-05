@@ -1,4 +1,5 @@
 ######### IMPORT ##############
+import pygame
 
 from settings import *
 from dialog import *
@@ -13,29 +14,43 @@ NPC_IDLE = pygame.image.load(os.path.join('..', 'graphics', 'player_idle.png')) 
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, groups, health=10):
         # ATTRIBUTES
-        self.health = health
+        self.health = health                                                                                            # initialize new variable/attribute for the player (health)
         
         super().__init__(groups)                                                                                        # this subclass sets up the basic properties and methods that it inherits from its parent class (group)
         self.image = PLAYER_IDLE.convert_alpha()                                                                        # assign image to the player # convert_alpha() function used to specify that the image should be rendered with alpha colors (for .png format).
-        self.new_size_image = (self.image.get_width() * 4, self.image.get_height() * 4)                                      # declare new variable that has 4 times bigger scale than the player's image
-        self.image = pygame.transform.scale(self.image, self.new_size_image)                                                 # scale the image by 4 times
+        self.new_size_image = (self.image.get_width() * 4, self.image.get_height() * 4)                                 # declare new variable that has 4 times bigger scale than the player's image
+        self.image = pygame.transform.scale(self.image, self.new_size_image)                                            # scale the image by 4 times
         self.rect = self.image.get_frect(center=pos)                                                                    # convert image to rectangle (needed for collision in the future), center is position that was provided during construction (__init__())
 
-        self.direction = vector()                                                                                       # create a table(vector2d) which has direction input as a tuple
+        self.direction = vector()                                                                                       # create a table(vector2d) which has direction input for x and y coordinates. Example: (x, y). It looks similar to the tuple, but it is not immutable and the values in it can be changed
+        self.joystick_input_vector = None                                                                               # initializing joystick input vector variable and giving it a default value
 
+    # INPUT FOR JOYSTICK LOGIC
+    def input_joystick(self, axes_value=pygame.Vector2(0, 0), button_value=0):
+        self.joystick_input_vector = pygame.Vector2(axes_value)                                                         # initialize joystick input vector variable which stores x and y axes/coordinates from sticks on the joystick
+        self.direction = self.joystick_input_vector                                                                     # initialize direction variable, which includes x and y coordinates as a vector, which indicates the position, that player should be heading towards
+
+    # MAIN INPUT LOGIC
     def input(self):
-        keys = pygame.key.get_pressed()                                                                                 # get input of the user
-        input_vector = vector()                                                                                         # by default (0,0) x and y
-        # movement
+        keys = pygame.key.get_pressed()                                                                                 # get user's input of just pressed keys
+        keys_input_vector = vector()                                                                                    # create input vector for movement logic (by default, the value is (0,0), which responds to x and y coordinates)
+
+        # MOVEMENT
         if keys[pygame.K_UP]:
-            input_vector.y -= 1
+            keys_input_vector.y -= 1
         if keys[pygame.K_DOWN]:
-            input_vector.y += 1
+            keys_input_vector.y += 1
         if keys[pygame.K_LEFT]:
-            input_vector.x -= 1
+            keys_input_vector.x -= 1
         if keys[pygame.K_RIGHT]:
-            input_vector.x += 1
-        self.direction = input_vector
+            keys_input_vector.x += 1
+
+        # INPUT HANDLING / CHECKING IF THE KEYBOARD OR JOYSTICK SHOULD BE USED
+        if self.joystick_input_vector == pygame.Vector2(0.0, 0.0) or self.joystick_input_vector == None:                # if connected joystick has no input, or no joysticks have been connected run following:
+            if keys_input_vector != vector(0, 0) or keys_input_vector == vector(0, 0) and self.direction != vector(0, 0):   # if keyboard's key has been clicked and stores movement/position value, or if the key stores no movement position (0, 0), but the direction is still containing value inside, which means that the player is still moving, even though the key has been released, do following
+                self.direction = keys_input_vector                                                                      # use keyboard's input for movement         # the upper if statement is needed, so that the player wouldn't continue running, even when the button/key has been long since released on the keyboard
+        else:                                                                                                           # else do nothing
+            pass                                                                                                        # do nothing
 
     def move(self, dt):
         self.rect.center += self.direction * 250 * dt                                                                   # multiplying by dt = delta time (difference from last and next frame), so that our movement will be frame speed independent. It means it will not get faster or slower if fps changes.
@@ -54,5 +69,5 @@ class NPC(pygame.sprite.Sprite):
         self.pos = pos
     def interact(self, text, player_center):
             self.player_center = player_center
-            dialog = Dialog(self.pos)
-            dialog.interact(text, self.player_center)
+            dialog = Dialog(self.pos)                                                                                   # initializing dialog class
+            dialog.interact(text, self.player_center)                                                                   # run dialogs' interact function, to show some text
