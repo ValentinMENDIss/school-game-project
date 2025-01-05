@@ -1,6 +1,7 @@
 ######### IMPORT ##############
 
 from settings import *
+from inventory import *
 
 ######### SPRITEs ##############
 
@@ -17,6 +18,7 @@ class Items:
         self.pos = pos
         self.name = name
         self.offset = vector()
+        self.inventory = Inventory()
 
         self.DATA[name] = {}
         self.DATA[name][self.pos] = {}
@@ -60,6 +62,7 @@ class Items:
             if abs(coord[0] - player_center[0]) <= 100 and abs(coord[1] - player_center[1]) <= 100:                                                                                 # ; [0] = x; [1] = y;
                 if not self.print_message_flag:
                     self.remove(key)
+                    self.inventory.add_item(key)
                     self.print_message_flag = True                                                                          # self.print_message_flag is needed, so that if we want, let's say, to print the text out, it will print it out the text only one time and not five, or even more times.
         else:
             self.print_message_flag = False
