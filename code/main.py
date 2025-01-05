@@ -10,6 +10,7 @@ from dialog import *
 from menu import Menu
 from inventory import *
 from items import *
+from gamedata import *
 
 ######### CLASSES #############
 
@@ -81,7 +82,6 @@ class Game:
             self.joystick_y_axis = self.my_joystick.get_axis(1)                                                         # get joystick's y-axis
             self.joystick_input_vector = (self.joystick_x_axis, self.joystick_y_axis)                                   # create input vector, that has x and y-axis values in it
             self.button_states = [self.my_joystick.get_button(i) for i in range(self.my_joystick.get_numbuttons())]     # get the button states
-
             if abs(self.joystick_x_axis) < 0.1 and abs(self.joystick_y_axis) < 0.1:                                     # reset the joystick input vector if the joystick isn't being moved anymore
                 self.joystick_input_vector = pygame.Vector2(0, 0)                                                       # reset joystick's input vector to default. AKA (0, 0)
 
@@ -97,7 +97,7 @@ class Game:
                 pygame.mixer.music.stop()                                                                               # stop sound
                 self.interact = True                                                                                    # assign following value to self.interact variable: True
 
-        if keys[pygame.K_ESCAPE]:                                                                                       # if the key that was just pressed on the keyboard is 'ESCAPE', do following:
+        if keys[pygame.K_ESCAPE] or (self.num_joysticks > 0 and self.button_states[7] == 1 and self.joystick_button_pressed == False):  # if the key that was just pressed on the keyboard is 'ESCAPE', do following:
             self.menu_logic()                                                                                           # run menu logic
 
         # BUTTON STATE/PRESSED CHECKING                                                                                 # checking if the button is still pressed(hold) or not
@@ -114,6 +114,10 @@ class Game:
         self.menu.show(self.SCREEN)                                                                                     # show menu
         if self.menu.exit_action:
             self.running = False
+
+    def get_random_interact_text(self):
+        random_number = random.randint(0, len(NPC_INTERACT_DATA) - 1)
+        self.random_interact_text = NPC_INTERACT_DATA[random_number]
 
     # MAIN (RUN) LOGIC
     def run(self):
@@ -139,15 +143,20 @@ class Game:
 
             # INTERACTION HANDLING
             if self.interact == True:                                                                                   # check whether interact condition is true or not (bool check)
-                self.npc.interact("OMG, I CAN SPEAK!!! Thank you developers :3"
-                                  "\nOh... also try to get near these Items and to press E. See what happens :3", self.player.rect)                      # interact with npc, text in speech bubble
                 if self.interact_start_time == 0:                                                                       # if interact start time equals to 0, do following:
                     self.interact_start_time = pygame.time.get_ticks()                                                  # assign ticks to interact start time variable
+                    self.get_random_interact_text()
                 elif pygame.time.get_ticks() - self.interact_start_time >= self.interact_duration:                      # else if more or equal time than interact duration has been gone do following:
                     self.interact = False                                                                               # turn interaction off
                     self.interact_start_time = 0                                                                        # reset interact start time counter
+
+                self.npc.interact(self.random_interact_text, self.player.rect)
+                # "OMG, I CAN SPEAK!!! Thank you developers :3"
+                # "\nOh... also try to get near these Items and to press E. See what happens :3", self.player.rect)                      # interact with npc, text in speech bubble
+
             else:                                                                                                       # else (interact isn't true)
                 self.interact_start_time = 0                                                                            # reset interact start time
+
 
             pygame.display.update()                                                                                     # refresh(update) the screen
 

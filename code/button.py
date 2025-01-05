@@ -1,14 +1,17 @@
+######### IMPORT ##############
+
 from settings import *
-   
-#Loop Variable
-loop = True
 
-# Loading Images
-START_IMG = pygame.image.load(os.path.join('..', 'graphics', 'start-button.png'))		                                # Load images bild können wir selbst machen oder aus interent runterladen
-EXIT_IMG = pygame.image.load(os.path.join('..', 'graphics', 'exit-button.png'))		                                    # Load images
+######### Variables ##############
 
+loop = True                                                                                                             # loop variable
 
-class Button():
+# LOADING IMAGES
+START_IMG = pygame.image.load(os.path.join('..', 'graphics', 'start-button.png'))		                                # load image for start button
+EXIT_IMG = pygame.image.load(os.path.join('..', 'graphics', 'exit-button.png'))		                                    # load image for exit button
+
+######### CLASSes ##############
+class Button:
     def __init__(self,x,y,image,scale):
         width = image.get_width()
         height = image.get_height()
@@ -19,11 +22,10 @@ class Button():
         
     def draw(self, surface):
         self.action = False
-        #get mouse position
-        pos = pygame.mouse.get_pos()
-        
-        #check if mouse collides
-        if self.rect.collidepoint(pos):
+        pos = pygame.mouse.get_pos()                                                                                    # get mouse position
+
+
+        if self.rect.collidepoint(pos):                                                                                 # check if mouse collides with the button
             if pygame.mouse.get_pressed()[0] == 1 and self.clicked == False:
                 self.clicked = True 
                 self.action = True

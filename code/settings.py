@@ -5,7 +5,7 @@ import sys
 import os
 from pygame.math import Vector2 as vector
 import time
-
+import random
 pygame.mixer.init()
 
 ######### CONSTANTS ###########
@@ -20,3 +20,4 @@ HEADINGTEXT = pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'), 65) 
 
 YIPPEE_SOUND = pygame.mixer.Sound(os.path.join('..', 'data', 'sound', 'yippee-tbh.mp3'))
 MENU_SOUND = pygame.mixer.Sound(os.path.join('..', 'data', 'sound', 'menu.wav'))
+PICKUP_SOUND = pygame.mixer.Sound(os.path.join('..', 'data', 'sound', 'pickup.wav'))
