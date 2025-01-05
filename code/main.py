@@ -22,6 +22,7 @@ class Game:
         # INITIALIZE VARIABLES
         self.running = True
         self.interact = False                                                                                           # declare/initialize self.interact variable that has a default value: False
+        #self.button_value = None                                                                                        # setting button value for gamepad to 0
         self.menu = Menu()
 
         # CONFIGURING PYGAME
@@ -67,8 +68,36 @@ class Game:
 
     # GET USER INPUT
     def input(self):
+        # KEYBOARD INPUT
         keys = pygame.key.get_just_pressed()                                                                            # initialize new variable(keys) that will get user's input, but the buttons can be detected as pressed and not as hold too.
-        if keys[pygame.K_e]:                                                                                            # if just pressed key is e do following:
+
+        # JOYSTICK INPUT
+        pygame.joystick.init()
+
+
+        self.num_joysticks = pygame.joystick.get_count()
+        if self.num_joysticks > 0:
+            self.my_joystick = pygame.joystick.Joystick(0)
+            self.joystick_x_axis = self.my_joystick.get_axis(0)
+            self.joystick_y_axis = self.my_joystick.get_axis(1)
+            self.joystick_input_vector = (self.joystick_x_axis, self.joystick_y_axis)
+            self.button_value = None
+
+            # Reset the joystick input vector if the joystick is not being moved
+            if abs(self.joystick_x_axis) < 0.1 and abs(self.joystick_y_axis) < 0.1:
+                self.joystick_input_vector = pygame.Vector2(0, 0)
+
+            for event in pygame.event.get():
+                if event.type == pygame.JOYBUTTONDOWN:
+                    #print(f"Button {event.button} pressed")
+                    self.player.input_joystick(button_value=event.button)
+                    self.button_value = event.button
+                elif event.type == pygame.JOYAXISMOTION:
+                    #print(f"Axis {event.axis} moved to {event.value}")
+                    self.player.input_joystick(axes_value=(self.joystick_input_vector))
+
+
+        if keys[pygame.K_e] or (self.num_joysticks > 0 and self.button_value == 0):                                                                                            # if just pressed key is e do following:
             self.items.pickup_logic()
 
             # DIALOG SYSTEM
@@ -98,13 +127,14 @@ class Game:
                 if event.type == pygame.QUIT:                                                                           # if event type is 'QUIT' do following:
                     self.running = False                                                                                    # quit/exit by assigning boolean 'False' to self.run variable
 
+
             # PYGAME LOGIC
             dt = self.clock.tick() / 1000                                                                               # tick every second  # dt = difference between previous and next frame
             self.all_sprites.update(dt)                                                                                 # update screen (all sprites) by FPS
             self.SCREEN.fill('white')                                                                                   # fill screen with white color, so it's fully updated
             self.all_sprites.draw(self.player.rect.center)                                                              # draw all sprites to the center of the rectangle of the player (camera)
-            self.input()                                                                                                # take user's input
             self.items.draw(self.SCREEN, self.player.rect.center)
+            self.input()
 
             # INTERACTION HANDLING
             if self.interact == True:                                                                                   # check whether interact condition is true or not (bool check)

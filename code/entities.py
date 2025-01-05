@@ -1,4 +1,5 @@
 ######### IMPORT ##############
+import pygame
 
 from settings import *
 from dialog import *
@@ -22,20 +23,34 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_frect(center=pos)                                                                    # convert image to rectangle (needed for collision in the future), center is position that was provided during construction (__init__())
 
         self.direction = vector()                                                                                       # create a table(vector2d) which has direction input as a tuple
+        self.joystick_input_vector = None
+
+    def input_joystick(self, axes_value=pygame.Vector2(0, 0), button_value=0):
+        #print(value)
+        self.joystick_input_vector = pygame.Vector2(axes_value)
+        self.direction = self.joystick_input_vector
+        #print(self.direction)
+        print(button_value)
 
     def input(self):
         keys = pygame.key.get_pressed()                                                                                 # get input of the user
-        input_vector = vector()                                                                                         # by default (0,0) x and y
+        keys_input_vector = vector()                                                                                         # by default (0,0) x and y
+
         # movement
         if keys[pygame.K_UP]:
-            input_vector.y -= 1
+            keys_input_vector.y -= 1
         if keys[pygame.K_DOWN]:
-            input_vector.y += 1
+            keys_input_vector.y += 1
         if keys[pygame.K_LEFT]:
-            input_vector.x -= 1
+            keys_input_vector.x -= 1
         if keys[pygame.K_RIGHT]:
-            input_vector.x += 1
-        self.direction = input_vector
+            keys_input_vector.x += 1
+
+        if self.joystick_input_vector == pygame.Vector2(0.0, 0.0) or self.joystick_input_vector == None:
+            if keys_input_vector != vector(0, 0) or keys_input_vector == vector(0, 0) and self.direction != vector(0, 0):
+                self.direction = keys_input_vector
+        else:
+            pass
 
     def move(self, dt):
         self.rect.center += self.direction * 250 * dt                                                                   # multiplying by dt = delta time (difference from last and next frame), so that our movement will be frame speed independent. It means it will not get faster or slower if fps changes.
