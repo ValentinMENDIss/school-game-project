@@ -1,12 +1,12 @@
 ######### IMPORT ##############
 from settings import *
 from button import *
+from input import *
 
 ######### CLASSES #############
 class Menu:
     def __init__(self):
         self.text = ""
-
 
     def draw(self, surface):
         # SETTING TEXT FOR MENU
@@ -30,15 +30,16 @@ class Menu:
 
         pygame.display.update()                                                                                         # update the screen
 
-    def show(self, surface):
+    def show(self, surface, input):
         self.running = True
         self.exit_action = False
+        self.input = input
 
         while self.running:
             self.draw(surface)
             if self.start_button.action:
                 pygame.mixer.Sound.play(MENU_SOUND)
-                pygame.mixer.music.stop()                  
+                pygame.mixer.music.stop()
                 self.running = False
             if self.exit_button.action:
                 self.exit_action = True
@@ -47,5 +48,8 @@ class Menu:
                 if event.type == pygame.QUIT:
                     self.running = False
                 elif event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_ESCAPE:                       
+                    if event.key == pygame.K_ESCAPE:
                         self.running = False
+            self.input.menu()
+            if self.input.menu_running == False:
+                self.running = False
