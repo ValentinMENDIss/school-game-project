@@ -1,5 +1,6 @@
 ######### IMPORT ##############
 import pygame
+from pygame.midi import Input
 
 from settings import *
 from pytmx.util_pygame import load_pygame
@@ -11,6 +12,7 @@ from menu import Menu
 from inventory import *
 from items import *
 from gamedata import *
+from input import *
 
 ######### CLASSES #############
 
@@ -23,9 +25,8 @@ class Game:
         # INITIALIZE VARIABLES
         self.running = True
         self.interact = False                                                                                           # declare/initialize self.interact variable that has a default value: False
-        #self.button_states = None                                                                                        # setting button value for gamepad to 0
-        self.joystick_button_pressed = False
         self.menu = Menu()
+        self.input = UserInput(self)
 
         # CONFIGURING PYGAME
         self.SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))                                            # create screen with (x,y) (tuple)
@@ -66,50 +67,6 @@ class Game:
                 #self.items = Items((obj.x, obj.y), obj.properties['item-name'], self.all_sprites)                       # obj.properties['item-name'] gets the name of item's name and puts it into Items() Class
                 self.items.add((obj.x, obj.y), obj.properties['item-name'])
 
-    # GET USER INPUT
-    def input(self):
-        # KEYBOARD INPUT
-        keys = pygame.key.get_just_pressed()                                                                            # initialize new variable(keys) that will get user's input, but the buttons can be detected as pressed and not as hold too.
-
-        # JOYSTICK INPUT
-        pygame.joystick.init()
-
-        # GET CONNECTED JOYSTICKS
-        self.num_joysticks = pygame.joystick.get_count()
-        if self.num_joysticks > 0:                                                                                      # if gamepad/joystick has been connected to the pc, do following:
-            self.my_joystick = pygame.joystick.Joystick(0)                                                              # select first connected joystick for input handling
-            self.joystick_x_axis = self.my_joystick.get_axis(0)                                                         # get joystick's x-axis
-            self.joystick_y_axis = self.my_joystick.get_axis(1)                                                         # get joystick's y-axis
-            self.joystick_input_vector = (self.joystick_x_axis, self.joystick_y_axis)                                   # create input vector, that has x and y-axis values in it
-            self.button_states = [self.my_joystick.get_button(i) for i in range(self.my_joystick.get_numbuttons())]     # get the button states
-            if abs(self.joystick_x_axis) < 0.1 and abs(self.joystick_y_axis) < 0.1:                                     # reset the joystick input vector if the joystick isn't being moved anymore
-                self.joystick_input_vector = pygame.Vector2(0, 0)                                                       # reset joystick's input vector to default. AKA (0, 0)
-
-            self.player.input_joystick(axes_value=(self.joystick_input_vector), button_value=self.button_states)        # parse joystick's states to the input handling
-
-        # INPUT HANDLING/CHECKING
-        if keys[pygame.K_e] or (self.num_joysticks > 0 and self.button_states[0] == 1 and self.joystick_button_pressed == False):   # if the key that was just pressed on the keyboard is 'E' or an 'A' Button on the joystick, do following:
-            self.items.pickup_logic()                                                                                   # run items pickup logic
-
-            # DIALOG SYSTEM
-            if abs(self.npc.rect[0] - self.player.rect[0]) <= 200 and abs(self.npc.rect[1] - self.player.rect[1]) <= 200: # check npc's and player's position. If the differences between each x and y coordinates are smaller in value than 200 do following:
-                pygame.mixer.Sound.play(YIPPEE_SOUND)                                                                   # play sound
-                pygame.mixer.music.stop()                                                                               # stop sound
-                self.interact = True                                                                                    # assign following value to self.interact variable: True
-
-        if keys[pygame.K_ESCAPE] or (self.num_joysticks > 0 and self.button_states[7] == 1 and self.joystick_button_pressed == False):  # if the key that was just pressed on the keyboard is 'ESCAPE', do following:
-            self.menu_logic()                                                                                           # run menu logic
-
-        # BUTTON STATE/PRESSED CHECKING                                                                                 # checking if the button is still pressed(hold) or not
-        if self.num_joysticks > 0:
-            if any(self.button_states) and not self.joystick_button_pressed:                                                # if any button was pressed, and joystick button was just pressed once, do following
-                self.joystick_button_pressed = True                                                                         # set joystick_button_pressed variable to true, as the button has been pressed, and is now being hold
-            elif not any(self.button_states):                                                                               # else if no button was pressed
-                self.joystick_button_pressed = False                                                                        # reset joystick_button_pressed variable to default value
-
-            self.button_states = None                                                                                       # reset button state variable to default value
-
-
     # MENU LOGIC
     def menu_logic(self):
         self.menu.show(self.SCREEN)                                                                                     # show menu
@@ -140,7 +97,7 @@ class Game:
             self.SCREEN.fill('white')                                                                                   # fill screen with white color, so it's fully updated
             self.all_sprites.draw(self.player.rect.center)                                                              # draw all sprites to the center of the rectangle of the player (camera)
             self.items.draw(self.SCREEN, self.player.rect.center)
-            self.input()
+            self.input.run()
 
             # INTERACTION HANDLING
             if self.interact == True:                                                                                   # check whether interact condition is true or not (bool check)
@@ -152,8 +109,6 @@ class Game:
                     self.interact_start_time = 0                                                                        # reset interact start time counter
 
                 self.npc.interact(self.random_interact_text, self.player.rect)
-                # "OMG, I CAN SPEAK!!! Thank you developers :3"
-                # "\nOh... also try to get near these Items and to press E. See what happens :3", self.player.rect)                      # interact with npc, text in speech bubble
 
             else:                                                                                                       # else (interact isn't true)
                 self.interact_start_time = 0                                                                            # reset interact start time
