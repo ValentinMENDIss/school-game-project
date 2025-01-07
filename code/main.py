@@ -8,7 +8,7 @@ from entities import *
 from sprites import Sprite
 from groups import *
 from dialog import *
-from menu import Menu
+from menu import *
 from inventory import *
 from items import *
 from gamedata import *
@@ -69,7 +69,7 @@ class Game:
 
     # MENU LOGIC
     def menu_logic(self):
-        self.menu.show(self.SCREEN)                                                                                     # show menu
+        self.menu.show(self.SCREEN, self.input)                                                                                     # show menu
         if self.menu.exit_action:
             self.running = False
 
@@ -81,8 +81,8 @@ class Game:
     def run(self):
         # VARIABLES
         self.running = True                                                                                             # initializing variable for main loop
+        self.menu_startup = True
 
-        self.menu_logic()                                                                                               # calling menu logic
 
         # PYGAME EVENTS
         while self.running == True:
@@ -91,13 +91,19 @@ class Game:
                     self.running = False                                                                                    # quit/exit by assigning boolean 'False' to self.run variable
 
 
+            self.input.run()
+
+            if self.menu_startup == True:
+                self.menu_logic()
+                self.menu_startup = False
+
             # PYGAME LOGIC
             dt = self.clock.tick() / 1000                                                                               # tick every second  # dt = difference between previous and next frame
             self.all_sprites.update(dt)                                                                                 # update screen (all sprites) by FPS
             self.SCREEN.fill('white')                                                                                   # fill screen with white color, so it's fully updated
             self.all_sprites.draw(self.player.rect.center)                                                              # draw all sprites to the center of the rectangle of the player (camera)
             self.items.draw(self.SCREEN, self.player.rect.center)
-            self.input.run()
+
 
             # INTERACTION HANDLING
             if self.interact == True:                                                                                   # check whether interact condition is true or not (bool check)
