@@ -1,24 +1,19 @@
 ######### IMPORT ##############
 
 from settings import *
-from inventory import *
-
-######### SPRITEs ##############
-
-ITEM_TEST = pygame.image.load(os.path.join('..', 'graphics', 'item-test.png'))                                          # load sprite of the ITEM_TEST
-ITEM_TEST2 = pygame.image.load(os.path.join('..', 'graphics', 'item-test2.png'))                                          # load sprite of the ITEM_TEST2
 
 ######### CLASSes ##############
 
 class Items:
-    def __init__(self):
+    def __init__(self, game):
         self.DATA = {}                                                                                                  # creating/initializing Dictionary and assigning it to the variable
+        self.game = game
 
     def add(self, pos, name):
         self.pos = pos
         self.name = name
         self.offset = vector()
-        self.inventory = Inventory()
+        self.inventory = self.game.inventory
 
         self.DATA[name] = {}
         self.DATA[name][self.pos] = {}

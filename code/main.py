@@ -10,6 +10,7 @@ from groups import *
 from dialog import *
 from menu import *
 from inventory import *
+from hud import *
 from items import *
 from gamedata import *
 from input import *
@@ -26,7 +27,11 @@ class Game:
         self.running = True
         self.interact = False                                                                                           # declare/initialize self.interact variable that has a default value: False
         self.menu = Menu()
+        self.items = Items(self)
         self.input = UserInput(self)
+        self.inventory = Inventory(self)
+        self.hud = HUD()
+
 
         # CONFIGURING PYGAME
         self.SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))                                            # create screen with (x,y) (tuple)
@@ -49,7 +54,6 @@ class Game:
         self.tmx_maps = {'world': load_pygame(os.path.join('..', 'data', 'maps', 'world.tmx'))}                         # load world.tmx file (with given location of it)
         
     def setup(self, tmx_map, player_start_pos):
-        self.items = Items()
         for x,y, surf in tmx_map.get_layer_by_name('Terrain').tiles():                                                  # get only 'Terrain' layer from world.tmx
             Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites)                                              # parse information of sprite to Sprite() class
         # GET ENTITIES' POSITION
@@ -83,7 +87,6 @@ class Game:
         self.running = True                                                                                             # initializing variable for main loop
         self.menu_startup = True
 
-
         # PYGAME EVENTS
         while self.running == True:
             for event in pygame.event.get():                                                                            # for every single event that is available in pygame do following:
@@ -103,7 +106,7 @@ class Game:
             self.SCREEN.fill('white')                                                                                   # fill screen with white color, so it's fully updated
             self.all_sprites.draw(self.player.rect.center)                                                              # draw all sprites to the center of the rectangle of the player (camera)
             self.items.draw(self.SCREEN, self.player.rect.center)
-
+            self.hud.draw(self.SCREEN)
 
             # INTERACTION HANDLING
             if self.interact == True:                                                                                   # check whether interact condition is true or not (bool check)

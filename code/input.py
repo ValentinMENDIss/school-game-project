@@ -1,10 +1,8 @@
 ######### IMPORT ##############
 
 from settings import *
-from main import *
 
 ######### CLASSes ############
-
 class UserInput:
     def __init__(self, game):
         # VARIABLES
