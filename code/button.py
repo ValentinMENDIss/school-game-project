@@ -9,6 +9,8 @@ loop = True                                                                     
 # LOADING IMAGES
 START_IMG = pygame.image.load(os.path.join('..', 'graphics', 'start-button.png'))		                                # load image for start button
 EXIT_IMG = pygame.image.load(os.path.join('..', 'graphics', 'exit-button.png'))		                                    # load image for exit button
+RETURN_IMG = pygame.image.load(os.path.join('..', 'graphics', 'return-button.png'))		                                # load image for return button
+SETTINGS_IMG = pygame.image.load(os.path.join('..', 'graphics', 'settings-button.png'))		                                # load image for settings button
 
 ######### CLASSes ##############
 class Button:
@@ -19,6 +21,7 @@ class Button:
         self.rect = self.image.get_rect()
         self.rect.center = (x,y)
         self.clicked = False
+        self.action = False
         
     def draw(self, surface):
         self.action = False
@@ -31,8 +34,8 @@ class Button:
                 self.action = True
         if pygame.mouse.get_pressed()[0] == 0:
             self.clicked = False
-        #draw button on screen
-        surface.blit(self.image,(self.rect.x, self.rect.y))
 
+        #DRAW BUTTON ON THE SCREEN
+        surface.blit(self.image,(self.rect.x, self.rect.y))
     def get_action(self):
         return self.action
