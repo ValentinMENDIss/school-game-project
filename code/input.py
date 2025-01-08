@@ -70,5 +70,4 @@ class UserInput:
             pygame.mixer.Sound.play(MENU_SOUND)
             pygame.mixer.music.stop()
             self.menu_running = False                                                                                   # set value: False(bool) to the menu_running variable. The menu should be quited
-
         self.button_state()

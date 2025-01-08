@@ -26,7 +26,7 @@ class Game:
         # INITIALIZE VARIABLES
         self.running = True
         self.interact = False                                                                                           # declare/initialize self.interact variable that has a default value: False
-        self.menu = Menu()
+        self.menu = Menu(self)
         self.items = Items(self)
         self.input = UserInput(self)
         self.inventory = Inventory(self)
@@ -73,7 +73,7 @@ class Game:
 
     # MENU LOGIC
     def menu_logic(self):
-        self.menu.show(self.SCREEN, self.input)                                                                                     # show menu
+        self.menu.show(self.SCREEN)                                                                                     # show menu
         if self.menu.exit_action:
             self.running = False
 

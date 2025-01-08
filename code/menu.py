@@ -8,34 +8,34 @@ BACKGROUND_IMG = pygame.image.load(os.path.join('..', 'graphics', 'background.pn
 
 ######### CLASSES #############
 class Menu:
-    def __init__(self):
+    def __init__(self, game):
+        self.game = game
         self.text = ""
         self.start_button = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, START_IMG, 0.8)  # create button instance
         self.exit_button = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 125, EXIT_IMG, 0.8)  # create button instance
         self.settings_input_button = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, SETTINGS_IMG, 0.8)
         self.return_button = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, RETURN_IMG, 0.8)
+        self.running = True
 
-
-    def show(self, surface, input):
+    def show(self, surface):
         self.running = True
         self.exit_action = False
-        self.input = input
-
         while self.running:
             self.main_menu(surface)
 
             if self.exit_action:
                 self.running = False
 
-    def events(self):
+    def get_input(self):
+        self.input = self.game.input
+        self.input.menu()
+        if self.input.menu_running == False:
+            self.running = False
 
+    def events(self):
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     self.running = False
-
-            self.input.menu()
-            if self.input.menu_running == False:
-                self.running = False
 
     def main_menu(self, surface):
         running = True
@@ -70,7 +70,11 @@ class Menu:
                 self.settings_input(surface)
                 running = False
 
+            if self.running == False:
+                return self.running
+
             self.events()
+            self.get_input()
 
             pygame.display.update()                                                                                         # update the screen
 
@@ -98,5 +102,6 @@ class Menu:
                 running = False
 
             self.events()
+            self.get_input()
 
             pygame.display.update()  # update the screen
