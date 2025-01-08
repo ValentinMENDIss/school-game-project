@@ -3,6 +3,9 @@ from settings import *
 from button import *
 from input import *
 
+# LOADING IMAGES
+BACKGROUND_IMG = pygame.image.load(os.path.join('..', 'graphics', 'background.png'))		                                # load image and use it as a menu background
+
 ######### CLASSES #############
 class Menu:
     def __init__(self):
@@ -47,7 +50,7 @@ class Menu:
 
 
             # DRAWING TO SURFACE
-            surface.fill((187, 180, 207))                                                                                   # Draw a white coloured Screen
+            surface.blit(BACKGROUND_IMG)
             surface.blit(headingtext, headingtextrect)
 
             self.start_button.draw(surface)
@@ -85,7 +88,7 @@ class Menu:
             headingtextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 250)  # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
 
             # DRAWING TO SURFACE
-            surface.fill((187, 180, 207))  # Draw a white coloured Screen
+            surface.blit(BACKGROUND_IMG)
             surface.blit(headingtext, headingtextrect)
 
             self.return_button.draw(surface)
