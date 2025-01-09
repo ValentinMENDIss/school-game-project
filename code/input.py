@@ -1,4 +1,5 @@
 ######### IMPORT ##############
+import pygame.event
 
 from settings import *
 
@@ -8,6 +9,13 @@ class UserInput:
         # VARIABLES
         self.joystick_button_pressed = False                                                                            # initialize variable that stores information of, if the joystick button has been already pressed and so counts to being hold
         self.game = game                                                                                                # import main game's logic variables and functions, so that they could be runned here
+        self.key_bindings = {
+            "move_left": pygame.K_a,
+            "move_right": pygame.K_d,
+            "move_up": pygame.K_w,
+            "move_down": pygame.K_s,
+            "menu_toggle": pygame.K_ESCAPE
+        }
 
     # GET USER INPUT
     def run(self):
@@ -24,8 +32,7 @@ class UserInput:
                 pygame.mixer.music.stop()                                                                               # stop sound
                 self.game.interact = True                                                                               # assign following value to self.interact variable: True
 
-        #print(self.button_states[7], self.joystick_button_pressed)
-        if self.keys[pygame.K_ESCAPE] or (self.num_joysticks > 0 and self.button_states[7] == 1 and self.joystick_button_pressed == False):  # if the key that was just pressed on the keyboard is 'ESCAPE', do following:
+        if self.keys[self.key_bindings["menu_toggle"]] or (self.num_joysticks > 0 and self.button_states[7] == 1 and self.joystick_button_pressed == False):  # if the key that was just pressed on the keyboard is 'ESCAPE', do following:
             if self.game.menu_startup == False:
                 self.button_state()
                 self.game.menu_logic()                                                                                      # run menu logic
@@ -66,8 +73,17 @@ class UserInput:
         self.menu_running = True                                                                                        # initialize variable that stores bool value and is needed to say if the menu should be running or not (needed for loop inside Menu() class)
         self.get_input()                                                                                                # get user's input
 
-        if self.keys[pygame.K_ESCAPE] or (self.num_joysticks > 0 and self.button_states[7] == 1 and self.joystick_button_pressed == False):  # if the key that was just pressed on the keyboard is 'ESCAPE', or "A" button on the joystick do following:
+        if self.keys[self.key_bindings["menu_toggle"]] or (self.num_joysticks > 0 and self.button_states[7] == 1 and self.joystick_button_pressed == False):  # if the key that was just pressed on the keyboard is 'ESCAPE', or "A" button on the joystick do following:
             pygame.mixer.Sound.play(MENU_SOUND)
             pygame.mixer.music.stop()
             self.menu_running = False                                                                                   # set value: False(bool) to the menu_running variable. The menu should be quited
         self.button_state()
+
+    def menu_input(self, action):
+        # GET USER'S INPUT AND USE IT FOR THE ACTION
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                new_key = event.key
+                self.key_bindings[action] = new_key
+                print(f"'{action}' is now bound to {pygame.key.name(new_key)}")
+                return False
