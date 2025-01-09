@@ -31,6 +31,9 @@ class Game:
         self.input = UserInput(self)
         self.inventory = Inventory(self)
         self.hud = HUD()
+        
+        self.pressed_start_time = 0
+        self.pressed_duration = 5000
 
 
         # CONFIGURING PYGAME
@@ -76,6 +79,14 @@ class Game:
         self.menu.show(self.SCREEN)                                                                                     # show menu
         if self.menu.exit_action:
             self.running = False
+
+    # GET PRESSED KEYS
+    def menu_get_pressed_keys(self, action):
+        if self.input.menu_input(action) == None:
+            self.input.menu_input(action)
+        else:
+            self.menu.get_pressed_keys_action = self.input.menu_input(action)
+
 
     def get_random_interact_text(self):
         random_number = random.randint(0, len(NPC_INTERACT_DATA) - 1)
