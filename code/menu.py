@@ -98,20 +98,34 @@ class Menu:
         while running:
             # SETTING TEXT FOR MENU
             heading_text = "Settings - Input"
+            menu_toggle_text = "Toggle Menu"
+            attention_text = "Joystick Support for changing input isn't supported yet"
 
             # DEFINING TEXT VARIABLES
-            headingtext = HEADINGTEXT.render(heading_text, True, (0, 0, 0)).convert_alpha()  # render a Small Text
-            headingtextrect = headingtext.get_rect()  # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
-            headingtextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 250)  # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+            headingtext = HEADINGTEXT.render(heading_text, True, (0, 0, 0)).convert_alpha()                             # render a Heading Text
+            headingtextrect = headingtext.get_rect()                                                                    # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
+            headingtextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 250)                                      # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+
+            menu_toggletext = SMALLTEXT.render(menu_toggle_text, True, (0, 0, 0)).convert_alpha()
+            menu_toggletextrect = menu_toggletext.get_rect()
+            menu_toggletextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 175)
+
+            attentiontext = SMALLTEXT.render(attention_text, True, (0, 0, 0)).convert_alpha()
+            attentiontextrect = attentiontext.get_rect()
+            attentiontextrect.center = (WINDOW_WIDTH // 2 + 400, WINDOW_HEIGHT - 25)
 
             # DRAWING TO SURFACE
             surface.blit(BACKGROUND_IMG)
             surface.blit(headingtext, headingtextrect)
-            self.return_button.draw(surface)
+            surface.blit(menu_toggletext, menu_toggletextrect)
+            surface.blit(attentiontext, attentiontextrect)
 
-            self.menu_toggle_button = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 180, TEST_IMG, 0.8)
+            ## DRAWING BUTTONS ##
+            self.return_button.draw(surface)
+            self.menu_toggle_button = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 180, TEST_IMG, 0.5)
             self.menu_toggle_button.draw(surface)
 
+            # CHECK CONDITIONS
             if self.return_button.action:
                 self.main_menu(surface)
                 running = False
@@ -119,6 +133,7 @@ class Menu:
             if self.menu_toggle_button.action:
                 self.get_pressed_keys_action = True
                 action = "menu_toggle"
+
 
             self.events()
             self.get_input()
