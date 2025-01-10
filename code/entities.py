@@ -22,7 +22,7 @@ PLAYER_L = [
 PLAYER_B = [
     pygame.image.load(os.path.join('..', 'graphics', 'player', 'walk_animation', 'player_back_still.png')),
     pygame.image.load(os.path.join('..', 'graphics', 'player', 'walk_animation', 'player_back_walk_1.png')),
-    pygame.image.load(os.path.join('..', 'graphics', 'player', 'walk_animation', 'player_back_walk_3.png'))]
+    pygame.image.load(os.path.join('..', 'graphics', 'player', 'walk_animation', 'player_back_walk_2.png'))]
 
 PLAYER_F = [
     pygame.image.load(os.path.join('..', 'graphics', 'player', 'walk_animation', 'player_front_still.png')),
@@ -30,7 +30,7 @@ PLAYER_F = [
     pygame.image.load(os.path.join('..', 'graphics', 'player', 'walk_animation', 'player_front_walk_2.png'))]
 
 ## NPC'S SPRITE/S
-NPC_IDLE = pygame.image.load(os.path.join('..', 'graphics', 'player_idle.png'))                                         # load sprite of the NPC (in action: idle) # for now it's the same image, but in the future there will be a separate one.
+NPC_IDLE = pygame.image.load(os.path.join('..', 'graphics', 'player', 'idle', 'player_idle.png'))                                         # load sprite of the NPC (in action: idle) # for now it's the same image, but in the future there will be a separate one.
 
 
 ######### CLASSes ############
