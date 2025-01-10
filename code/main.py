@@ -31,7 +31,7 @@ class Game:
         self.input = UserInput(self)
         self.inventory = Inventory(self)
         self.hud = HUD()
-        
+        self.time = 0
         self.pressed_start_time = 0
         self.pressed_duration = 5000
 
@@ -132,7 +132,6 @@ class Game:
 
             else:                                                                                                       # else (interact isn't true)
                 self.interact_start_time = 0                                                                            # reset interact start time
-
 
             pygame.display.update()                                                                                     # refresh(update) the screen
 
