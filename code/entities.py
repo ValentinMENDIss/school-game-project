@@ -65,16 +65,16 @@ class Player(pygame.sprite.Sprite):
         num_joysticks = pygame.joystick.get_count()
 
         # MOVEMENT
-        if keys[pygame.K_UP] or self.direction.y < 0 and (self.direction.y - self.direction.x) <= 0:
+        if keys[pygame.K_UP] or num_joysticks > 0 and (self.direction.y < 0 and (self.direction.y - self.direction.x) <= 0):
             keys_input_vector.y -= 1
             self.current_direction = 'up'
-        if keys[pygame.K_DOWN] or self.direction.y > 0 and (self.direction.y - self.direction.x) >= 0:
+        if keys[pygame.K_DOWN] or num_joysticks > 0 and (self.direction.y > 0 and (self.direction.y - self.direction.x) >= 0):
             keys_input_vector.y += 1
             self.current_direction = 'down'
-        if keys[pygame.K_LEFT] or self.direction.x < 0 and (self.direction.x - self.direction.y) <= 0:
+        if keys[pygame.K_LEFT] or num_joysticks > 0 and (self.direction.x < 0 and (self.direction.x - self.direction.y) <= 0):
             keys_input_vector.x -= 1
             self.current_direction = 'left'
-        if keys[pygame.K_RIGHT] or self.direction.x > 0 and (self.direction.x - self.direction.y) >= 0:
+        if keys[pygame.K_RIGHT] or num_joysticks > 0 and (self.direction.x > 0 and (self.direction.x - self.direction.y) >= 0):
             keys_input_vector.x += 1
             self.current_direction = 'right'
 
