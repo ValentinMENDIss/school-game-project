@@ -65,20 +65,21 @@ class Player(pygame.sprite.Sprite):
         num_joysticks = pygame.joystick.get_count()
 
         # MOVEMENT
-        if keys[pygame.K_UP]:
+        if keys[pygame.K_UP] or self.direction.y < 0 and (self.direction.y - self.direction.x) <= 0:
             keys_input_vector.y -= 1
             self.current_direction = 'up'
-        if keys[pygame.K_DOWN]:
+        if keys[pygame.K_DOWN] or self.direction.y > 0 and (self.direction.y - self.direction.x) >= 0:
             keys_input_vector.y += 1
             self.current_direction = 'down'
-        if keys[pygame.K_LEFT]:
+        if keys[pygame.K_LEFT] or self.direction.x < 0 and (self.direction.x - self.direction.y) <= 0:
             keys_input_vector.x -= 1
             self.current_direction = 'left'
-        if keys[pygame.K_RIGHT]:
+        if keys[pygame.K_RIGHT] or self.direction.x > 0 and (self.direction.x - self.direction.y) >= 0:
             keys_input_vector.x += 1
             self.current_direction = 'right'
 
-        self.direction = keys_input_vector
+        print(self.direction)
+
         # INPUT HANDLING / CHECKING IF THE KEYBOARD OR JOYSTICK SHOULD BE USED
         if self.joystick_input_vector == pygame.Vector2(0.0, 0.0) or self.joystick_input_vector == None or num_joysticks == 0:  # if connected joystick has no input, or no joysticks have been connected run following:
             if keys_input_vector != vector(0, 0) or keys_input_vector == vector(0, 0) and self.direction != vector(0, 0):  # if keyboard's key has been clicked and stores movement/position value, or if the key stores no movement position (0, 0), but the direction is still containing value inside, which means that the player is still moving, even though the key has been released, do following
