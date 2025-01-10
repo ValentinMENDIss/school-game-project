@@ -22,11 +22,7 @@ PLAYER_L = [
 PLAYER_B = [
     pygame.image.load(os.path.join('..', 'graphics', 'player', 'walk_animation', 'player_back_still.png')),
     pygame.image.load(os.path.join('..', 'graphics', 'player', 'walk_animation', 'player_back_walk_1.png')),
-<<<<<<< HEAD
     pygame.image.load(os.path.join('..', 'graphics', 'player', 'walk_animation', 'player_back_walk_3.png'))]
-=======
-    pygame.image.load(os.path.join('..', 'graphics', 'player', 'walk_animation', 'player_back_walk_2.png'))]
->>>>>>> ede0edb (Fixed Animation Bug +Updated to the latest version/commit)
 
 PLAYER_F = [
     pygame.image.load(os.path.join('..', 'graphics', 'player', 'walk_animation', 'player_front_still.png')),
@@ -132,8 +128,4 @@ class NPC(pygame.sprite.Sprite):
     def interact(self, text, player_center):
         self.player_center = player_center
         dialog = Dialog(self.pos)                                                                                       # initializing dialog class
-<<<<<<< HEAD
         dialog.interact(text, self.player_center)                                                                       # run dialogs' interact function, to show some tex
-=======
-        dialog.interact(text, self.player_center)                                                                       # run dialogs' interact function, to show some text
->>>>>>> ede0edb (Fixed Animation Bug +Updated to the latest version/commit)
