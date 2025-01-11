@@ -30,11 +30,9 @@ class Game:
         self.items = Items(self)
         self.input = UserInput(self)
         self.inventory = Inventory(self)
-        self.hud = HUD()
         self.time = 0
         self.pressed_start_time = 0
         self.pressed_duration = 5000
-
 
         # CONFIGURING PYGAME
         self.SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))                                            # create screen with (x,y) (tuple)
@@ -52,7 +50,11 @@ class Game:
 
         self.import_assets()                                                                                            # import tilesets (assets)
         self.setup(self.tmx_maps['world'], 'spawn')                                                                     # import this one specific tileset (mapset/asset)
-        
+
+        # OTHER VARIABLES
+        self.hud = HUD(self.player)
+
+
     def import_assets(self):
         self.tmx_maps = {'world': load_pygame(os.path.join('..', 'data', 'maps', 'world.tmx'))}                         # load world.tmx file (with given location of it)
         

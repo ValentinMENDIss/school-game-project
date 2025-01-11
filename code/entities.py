@@ -36,7 +36,7 @@ NPC_IDLE = pygame.image.load(os.path.join('..', 'graphics', 'player', 'idle', 'p
 ######### CLASSes ############
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, input, pos, groups, health=10):
+    def __init__(self, input, pos, groups, health=100):
         # ATTRIBUTES
         self.health = health                                                                                            # initialize new variable/attribute for the player (health)
 
