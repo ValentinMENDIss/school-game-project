@@ -99,6 +99,10 @@ class Menu:
             # SETTING TEXT FOR MENU
             heading_text = "Settings - Input"
             menu_toggle_text = "Toggle Menu"
+            move_up_text = "Move Up"
+            move_down_text = "Move Down"
+            move_right_text = "Move Right"
+            move_left_text = "Move Left"
             attention_text = "Joystick Support for changing input isn't supported yet"
 
             # DEFINING TEXT VARIABLES
@@ -110,20 +114,55 @@ class Menu:
             menu_toggletextrect = menu_toggletext.get_rect()
             menu_toggletextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 175)
 
+            move_uptext = SMALLTEXT.render(move_up_text, True, (0, 0, 0)).convert_alpha()
+            move_uptextrect = move_uptext.get_rect()
+            move_uptextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 95)
+
+            move_downtext = SMALLTEXT.render(move_down_text, True, (0, 0, 0)).convert_alpha()
+            move_downtextrect = move_uptext.get_rect()
+            move_downtextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 15)
+
+            move_righttext = SMALLTEXT.render(move_right_text, True, (0, 0, 0)).convert_alpha()
+            move_righttextrect = move_uptext.get_rect()
+            move_righttextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - -55)
+
+            move_lefttext = SMALLTEXT.render(move_left_text, True, (0, 0, 0)).convert_alpha()
+            move_lefttextrect = move_uptext.get_rect()
+            move_lefttextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - -135)
+
             attentiontext = SMALLTEXT.render(attention_text, True, (0, 0, 0)).convert_alpha()
             attentiontextrect = attentiontext.get_rect()
-            attentiontextrect.center = (WINDOW_WIDTH // 2 + 400, WINDOW_HEIGHT - 25)
+            attentiontextrect.center = (WINDOW_WIDTH // 2 + 400, WINDOW_HEIGHT - -225)
+
 
             # DRAWING TO SURFACE
             surface.blit(BACKGROUND_IMG)
             surface.blit(headingtext, headingtextrect)
             surface.blit(menu_toggletext, menu_toggletextrect)
+            surface.blit(move_uptext, move_uptextrect)
+            surface.blit(move_downtext, move_downtextrect)
+            surface.blit(move_righttext, move_righttextrect)
+            surface.blit(move_lefttext, move_lefttextrect)
+
             surface.blit(attentiontext, attentiontextrect)
 
             ## DRAWING BUTTONS ##
             self.return_button.draw(surface)
             self.menu_toggle_button = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 180, TEST_IMG, 0.5)
             self.menu_toggle_button.draw(surface)
+
+            self.move_up_button = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 100, TEST_IMG, 0.5)
+            self.move_up_button.draw(surface)
+
+            self.move_down_button = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 20, TEST_IMG, 0.5)
+            self.move_down_button.draw(surface)
+
+            self.move_right_button = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - -60, TEST_IMG, 0.5)
+            self.move_right_button.draw(surface)
+
+            self.move_left_button = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - -140, TEST_IMG, 0.5)
+            self.move_left_button.draw(surface)
+
 
             # CHECK CONDITIONS
             if self.return_button.action:
@@ -133,6 +172,22 @@ class Menu:
             if self.menu_toggle_button.action:
                 self.get_pressed_keys_action = True
                 action = "menu_toggle"
+
+            if self.move_up_button.action:
+                self.get_pressed_keys_action = True
+                action = "move_up"
+
+            if self.move_down_button.action:
+                self.get_pressed_keys_action = True
+                action = "move_down"
+
+            if self.move_right_button.action:
+                self.get_pressed_keys_action = True
+                action = "move_right"
+
+            if self.move_left_button.action:
+                self.get_pressed_keys_action = True
+                action = "move_left"
 
 
             self.events()

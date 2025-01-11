@@ -36,7 +36,7 @@ NPC_IDLE = pygame.image.load(os.path.join('..', 'graphics', 'player', 'idle', 'p
 ######### CLASSes ############
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, pos, groups, health=10):
+    def __init__(self, input, pos, groups, health=10):
         # ATTRIBUTES
         self.health = health                                                                                            # initialize new variable/attribute for the player (health)
 
@@ -45,6 +45,7 @@ class Player(pygame.sprite.Sprite):
         self.new_size_image = (self.image.get_width() * 4, self.image.get_height() * 4)                                 # declare new variable that has 4 times bigger scale than the player's image
         self.image = pygame.transform.scale(self.image, self.new_size_image)                                            # scale the image by 4 times
         self.rect = self.image.get_frect(center=pos)                                                                    # convert image to rectangle (needed for collision in the future), center is position that was provided during construction (__init__())
+        self.input = input
 
         self.direction = vector()                                                                                       # create a table(vector2d) which has direction input for x and y coordinates. Example: (x, y). It looks similar to the tuple, but it is not immutable and the values in it can be changed
         self.current_direction = 'down'                                                                                 # initialize new variable that holds information of current direction that player is facing towards
@@ -59,22 +60,22 @@ class Player(pygame.sprite.Sprite):
         self.direction = self.joystick_input_vector                                                                     # initialize direction variable, which includes x and y coordinates as a vector, which indicates the position, that player should be heading towards
 
     # MAIN INPUT LOGIC
-    def input(self):
+    def input_logic(self):
         keys = pygame.key.get_pressed()                                                                                 # get user's input of just pressed keys
         keys_input_vector = vector()                                                                                    # create input vector for movement logic (by default, the value is (0,0), which responds to x and y coordinates)
         num_joysticks = pygame.joystick.get_count()
 
         # MOVEMENT
-        if keys[pygame.K_UP] or num_joysticks > 0 and (self.direction.y < 0 and (self.direction.y - self.direction.x) <= 0):
+        if keys[self.input.key_bindings["move_up"]] or num_joysticks > 0 and (self.direction.y < 0 and (self.direction.y - self.direction.x) <= 0):
             keys_input_vector.y -= 1
             self.current_direction = 'up'
-        if keys[pygame.K_DOWN] or num_joysticks > 0 and (self.direction.y > 0 and (self.direction.y - self.direction.x) >= 0):
+        if keys[self.input.key_bindings["move_down"]] or num_joysticks > 0 and (self.direction.y > 0 and (self.direction.y - self.direction.x) >= 0):
             keys_input_vector.y += 1
             self.current_direction = 'down'
-        if keys[pygame.K_LEFT] or num_joysticks > 0 and (self.direction.x < 0 and (self.direction.x - self.direction.y) <= 0):
+        if keys[self.input.key_bindings["move_left"]] or num_joysticks > 0 and (self.direction.x < 0 and (self.direction.x - self.direction.y) <= 0):
             keys_input_vector.x -= 1
             self.current_direction = 'left'
-        if keys[pygame.K_RIGHT] or num_joysticks > 0 and (self.direction.x > 0 and (self.direction.x - self.direction.y) >= 0):
+        if keys[self.input.key_bindings["move_right"]] or num_joysticks > 0 and (self.direction.x > 0 and (self.direction.x - self.direction.y) >= 0):
             keys_input_vector.x += 1
             self.current_direction = 'right'
 
@@ -110,9 +111,10 @@ class Player(pygame.sprite.Sprite):
         self.rect.center += self.direction * 250 * dt                                                                   # multiplying by dt = delta time (difference from last and next frame), so that our movement will be frame speed independent. It means it will not get faster or slower if fps changes.
 
     def update(self, dt):
-        self.input()
+        self.input_logic()
         self.animation(dt)
         self.move(dt)
+        #print(self.input.key_bindings)
 
 
 class NPC(pygame.sprite.Sprite):

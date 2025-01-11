@@ -62,7 +62,7 @@ class Game:
         # GET ENTITIES' POSITION
         for obj in tmx_map.get_layer_by_name('Entities'):
             if obj.name == 'Player' and obj.properties['pos'] == player_start_pos:                                      # check whether the object's name is Player and its properties for pos(position). Check also whether it is the same as player_start_pos
-                self.player = Player((obj.x, obj.y), self.all_sprites)                                                  # create player() instance with object's x and y coordinates that we got from tilemap(tmx). And assign player() instance to AllSprites() group/class
+                self.player = Player(self.input,(obj.x, obj.y), self.all_sprites)                                                  # create player() instance with object's x and y coordinates that we got from tilemap(tmx). And assign player() instance to AllSprites() group/class
             if obj.name == 'Character' and obj.properties['pos'] == 'bottom-right':
                 self.npc = NPC((obj.x, obj.y), self.all_sprites)
         # GET ITEMS' POSITION
