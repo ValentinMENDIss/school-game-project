@@ -23,7 +23,6 @@ class Button:
         self.rect.center = (x,y)
         self.clicked = False
         self.action = False
-        self.prev_left_button_state = False
 
     def draw(self, surface):
         self.action = False
