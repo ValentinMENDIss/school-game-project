@@ -106,6 +106,7 @@ class Game:
                 if event.type == pygame.QUIT:                                                                           # if event type is 'QUIT' do following:
                     self.running = False                                                                                    # quit/exit by assigning boolean 'False' to self.run variable
 
+            dt = self.clock.tick() / 1000                                                                               # tick every second  # dt = difference between previous and next frame
 
             self.input.run()
 
@@ -114,7 +115,7 @@ class Game:
                 self.menu_startup = False
 
             # PYGAME LOGIC
-            dt = self.clock.tick() / 1000                                                                               # tick every second  # dt = difference between previous and next frame
+
             self.all_sprites.update(dt)                                                                                 # update screen (all sprites) by FPS
             self.SCREEN.fill('white')                                                                                   # fill screen with white color, so it's fully updated
             self.all_sprites.draw(self.player.rect.center)                                                              # draw all sprites to the center of the rectangle of the player (camera)

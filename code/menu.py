@@ -12,19 +12,15 @@ class Menu:
         pygame.init()
         self.game = game
         self.text = ""
-        self.start_button = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, START_IMG, 0.8)  # create button instance
-        self.exit_button = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 125, EXIT_IMG, 0.8)  # create button instance
-        self.settings_input_button = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, SETTINGS_IMG, 0.8)
-        self.return_button = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, RETURN_IMG, 0.8)
         self.running = True
-        self.get_pressed_keys_action = False
+        self.get_pressed_keys_action = False       
+        self.menu_exit_action = False
 
     def show(self, surface):
         self.running = True
         self.exit_action = False
         while self.running:
             self.main_menu(surface)
-
             if self.exit_action:
                 self.running = False
 
@@ -32,26 +28,23 @@ class Menu:
         self.input = self.game.input
         self.input.menu()
         if self.input.menu_running == False:
-            self.running = False
-
-    def events(self):
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.running = False
-                #if event.type == pygame.KEYDOWN:
-                    #print(event.key)
+            self.menu_exit_action = True
+        else:
+            self.menu_exit_action = False
+ 
     # GET PRESSED KEYS
     def get_pressed_keys(self, action):
         if self.get_pressed_keys_action:
             self.game.menu_get_pressed_keys(action)
-
             if self.game.menu_get_pressed_keys(action) == False:
                 self.get_pressed_keys_action = False
-
 
     def main_menu(self, surface):
         running = True
         while running:
+            # DEFINING CONSTANT VARIABLES
+            MENU_MOUSE_POS = pygame.mouse.get_pos()
+
             # SETTING TEXT FOR MENU
             heading_text = "Menu"
 
@@ -60,43 +53,108 @@ class Menu:
             headingtextrect = headingtext.get_rect()                                                              # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
             headingtextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 250)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
 
-
-            # DRAWING TO SURFACE
+            # DRAWING ON THE SURFACE
             surface.blit(BACKGROUND_IMG)
             surface.blit(headingtext, headingtextrect)
 
-            self.start_button.draw(surface)
+            ## INITIALIZING BUTTONS AND DRAWING THEM ##
+            START_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, START_IMG, 0.8)  # create button instance
+            START_BUTTON.draw(surface)
+            
+            SETTINGS_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 125, SETTINGS_IMG, 0.8)
+            SETTINGS_BUTTON.draw(surface)
 
-            self.exit_button.draw(surface)
+            EXIT_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, EXIT_IMG, 0.8)  # create button instance
+            EXIT_BUTTON.draw(surface)
 
-            self.settings_input_button.draw(surface)
+            # OR TRY FOLLOWING INSTEAD:
+            # for button in [self.start_button, self.exit_button, self.settings_button]:
+            #     button.draw(surface)
 
-            if self.start_button.action:
-                pygame.mixer.Sound.play(MENU_SOUND)
-                pygame.mixer.music.stop()
+
+            # INPUT HANDLING
+            if self.menu_exit_action == True:
                 self.running, running = False, False
-            if self.exit_button.action:
-                self.exit_action = True
+
+            ## EVENTS ##
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:                                                                               # exit game function
+                    self.exit_action = True
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if START_BUTTON.checkForInput(MENU_MOUSE_POS):
+                        pygame.mixer.Sound.play(MENU_SOUND)
+                        pygame.mixer.music.stop()
+                        self.running, running = False, False                                                                # quit all menus and this specific menu loop
+                    if SETTINGS_BUTTON.checkForInput(MENU_MOUSE_POS):
+                        running = False
+                        self.settings_menu(surface)
+                    if EXIT_BUTTON.checkForInput(MENU_MOUSE_POS):
+                        self.exit_action = True
+
+            if self.exit_action == True:
                 return self.exit_action
-            if self.settings_input_button.action:
-                self.settings_input(surface)
-                running = False
 
-            if self.running == False:
-                return self.running
-                
-            self.events()
+            ## INPUT ##
             self.get_input()
-
+            
+            # DISPLAY UPDATE
             pygame.display.update()                                                                                         # update the screen
 
+    def settings_menu(self, surface):
+        running = True
+        while running:
+            # DEFINING CONSTANT VARIABLES
+            MENU_MOUSE_POS = pygame.mouse.get_pos()
+            # SETTING TEXT FOR SETTINGS MENU
+            heading_text = "Settings Menu"
+
+            # DEFINING TEXT VARIABLES
+            headingtext = HEADINGTEXT.render(heading_text, True, (0, 0, 0)).convert_alpha()  # render a Small Text
+            headingtextrect = headingtext.get_rect()                                                              # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
+            headingtextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 250)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+
+            # DRAWING ON THE SURFACE
+            surface.blit(BACKGROUND_IMG)
+            surface.blit(headingtext, headingtextrect)
+
+            ## INITIALIZING BUTTONS AND DRAWING THEM ##
+            SETTINGS_INPUT_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 125, SETTINGS_IMG, 0.8)
+            SETTINGS_INPUT_BUTTON.draw(surface)
+
+            RETURN_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, RETURN_IMG, 0.8)
+            RETURN_BUTTON.draw(surface)
 
 
-    def settings_input(self, surface):
+            # EVENTS
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.exit_action = True
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if SETTINGS_INPUT_BUTTON.checkForInput(MENU_MOUSE_POS):
+                        self.settings_input_menu(surface)
+                        running = False
+                    if RETURN_BUTTON.checkForInput(MENU_MOUSE_POS):
+                        running = False
+                        self.main_menu(surface)
+            
+            if self.exit_action == True:
+                return self.exit_action
+
+
+            # INPUT
+            self.get_input()
+
+            # DISPLAY UPDATE
+            pygame.display.update()
+
+
+    def settings_input_menu(self, surface):
         running = True
         action = None
         while running:
-            # SETTING TEXT FOR MENU
+            # INITIALIZING CONSTANT VARIABLES
+            MENU_MOUSE_POS = pygame.mouse.get_pos()
+            # SETTING TEXTS FOR THE MENU
             heading_text = "Settings - Input"
             menu_toggle_text = "Toggle Menu"
             move_up_text = "Move Up"
@@ -135,7 +193,7 @@ class Menu:
             attentiontextrect.center = (WINDOW_WIDTH // 2 + 400, WINDOW_HEIGHT - -225)
 
 
-            # DRAWING TO SURFACE
+            # DRAWING TO THE SURFACE
             surface.blit(BACKGROUND_IMG)
             surface.blit(headingtext, headingtextrect)
             surface.blit(menu_toggletext, menu_toggletextrect)
@@ -143,59 +201,60 @@ class Menu:
             surface.blit(move_downtext, move_downtextrect)
             surface.blit(move_righttext, move_righttextrect)
             surface.blit(move_lefttext, move_lefttextrect)
-
             surface.blit(attentiontext, attentiontextrect)
 
-            ## DRAWING BUTTONS ##
-            self.return_button.draw(surface)
-            self.menu_toggle_button = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 180, TEST_IMG, 0.5)
-            self.menu_toggle_button.draw(surface)
+            ## DRAWING AND INITIALIZING BUTTONS ##
+            RETURN_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, RETURN_IMG, 0.8)
+            RETURN_BUTTON.draw(surface)
 
-            self.move_up_button = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 100, TEST_IMG, 0.5)
-            self.move_up_button.draw(surface)
+            MENU_TOGGLE_BUTTON = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 180, TEST_IMG, 0.5)
+            MENU_TOGGLE_BUTTON.draw(surface)
 
-            self.move_down_button = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 20, TEST_IMG, 0.5)
-            self.move_down_button.draw(surface)
+            MOVE_UP_BUTTON = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 100, TEST_IMG, 0.5)
+            MOVE_UP_BUTTON.draw(surface)
 
-            self.move_right_button = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - -60, TEST_IMG, 0.5)
-            self.move_right_button.draw(surface)
+            MOVE_DOWN_BUTTON = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 20, TEST_IMG, 0.5)
+            MOVE_DOWN_BUTTON.draw(surface)
 
-            self.move_left_button = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - -140, TEST_IMG, 0.5)
-            self.move_left_button.draw(surface)
+            MOVE_RIGHT_BUTTON = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - -60, TEST_IMG, 0.5)
+            MOVE_RIGHT_BUTTON.draw(surface)
 
-
-            # CHECK CONDITIONS
-            if self.return_button.action:
-                self.main_menu(surface)
-                running = False
-
-            if self.menu_toggle_button.action:
-                self.get_pressed_keys_action = True
-                action = "menu_toggle"
-
-            if self.move_up_button.action:
-                self.get_pressed_keys_action = True
-                action = "move_up"
-
-            if self.move_down_button.action:
-                self.get_pressed_keys_action = True
-                action = "move_down"
-
-            if self.move_right_button.action:
-                self.get_pressed_keys_action = True
-                action = "move_right"
-
-            if self.move_left_button.action:
-                self.get_pressed_keys_action = True
-                action = "move_left"
+            MOVE_LEFT_BUTTON = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - -140, TEST_IMG, 0.5)
+            MOVE_LEFT_BUTTON.draw(surface)
 
 
-            self.events()
-            self.get_input()
-            if action != None:
-                self.get_pressed_keys(action)
+            # EVENTS
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.exit_action = True
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if RETURN_BUTTON.checkForInput(MENU_MOUSE_POS):
+                        running = False
+                        self.settings_menu(surface)
+                    if MENU_TOGGLE_BUTTON.checkForInput(MENU_MOUSE_POS):
+                        self.get_pressed_keys_action = True
+                        action = "menu_toggle"                      
+                    if MOVE_UP_BUTTON.checkForInput(MENU_MOUSE_POS):
+                        self.get_pressed_keys_action = True
+                        action = "move_up"
+                    if MOVE_DOWN_BUTTON.checkForInput(MENU_MOUSE_POS):
+                        self.get_pressed_keys_action = True
+                        action = "move_down"
+                    if MOVE_RIGHT_BUTTON.checkForInput(MENU_MOUSE_POS):
+                        self.get_pressed_keys_action = True
+                        action = "move_right"
+                    if MOVE_LEFT_BUTTON.checkForInput(MENU_MOUSE_POS):
+                        self.get_pressed_keys_action = True
+                        action = "move_left"
 
-            #menu_toggle_key = self.input.key_bindings["menu_toggle"]
-            #print(pygame.key.name(menu_toggle_key))
+            if self.exit_action == True:
+                return self.exit_action
 
+
+            # INPUT
+            self.get_input()                                                                                                                                    # input handling function for menu (joystick + keyboard support)                                                                                                          
+            if action != None:                                                                                                                                  # if any of the button was pressed, do following:
+                self.get_pressed_keys(action)                                                                                                                   # get user input and bound new key to an action
+
+            # DISPLAY UPDATE
             pygame.display.update()  # update the screen
