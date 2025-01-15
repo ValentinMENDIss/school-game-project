@@ -70,10 +70,8 @@ class Game:
         # GET ITEMS' POSITION
         for obj in tmx_map.get_layer_by_name('Items'):
             if obj.name == 'Item' and obj.properties['item-name'] == 'item-test':
-                #self.items = Items((obj.x, obj.y), obj.properties['item-name'], self.all_sprites)                       # obj.properties['item-name'] gets the name of item's name and puts it into Items() Class
                 self.items.add((obj.x, obj.y), obj.properties['item-name'])
             if obj.name == 'Item' and obj.properties['item-name'] == 'item-test2':
-                #self.items = Items((obj.x, obj.y), obj.properties['item-name'], self.all_sprites)                       # obj.properties['item-name'] gets the name of item's name and puts it into Items() Class
                 self.items.add((obj.x, obj.y), obj.properties['item-name'])
 
     # MENU LOGIC
