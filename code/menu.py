@@ -125,6 +125,10 @@ class Menu:
             RETURN_BUTTON.draw(surface)
 
 
+            # INPUT HANDLING
+            if self.menu_exit_action == True:
+                self.running, running = False, False
+
             # EVENTS
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -222,6 +226,10 @@ class Menu:
             MOVE_LEFT_BUTTON = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - -140, TEST_IMG, 0.5)
             MOVE_LEFT_BUTTON.draw(surface)
 
+
+            # INPUT HANDLING
+            if self.menu_exit_action == True:
+                self.running, running = False, False
 
             # EVENTS
             for event in pygame.event.get():
