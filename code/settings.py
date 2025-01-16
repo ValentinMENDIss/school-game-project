@@ -11,7 +11,7 @@ pygame.mixer.init()
 ######### CONSTANTS ###########
 
 WINDOW_WIDTH,WINDOW_HEIGHT = 1280,720
-TILE_SIZE = 32
+TILE_SIZE = 64
 
 pygame.font.init()
 

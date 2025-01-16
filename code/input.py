@@ -10,10 +10,10 @@ class UserInput:
         self.joystick_button_pressed = False                                                                            # initialize variable that stores information of, if the joystick button has been already pressed and so counts to being hold
         self.game = game                                                                                                # import main game's logic variables and functions, so that they could be runned here
         self.key_bindings = {
-            "move_left": pygame.K_LEFT,
-            "move_right": pygame.K_RIGHT,
-            "move_up": pygame.K_UP,
-            "move_down": pygame.K_DOWN,
+            "move_left": pygame.K_LEFT and pygame.K_a,
+            "move_right": pygame.K_RIGHT and pygame.K_d,
+            "move_up": pygame.K_UP and pygame.K_w,
+            "move_down": pygame.K_DOWN and pygame.K_s,
             "menu_toggle": pygame.K_ESCAPE
         }
 
