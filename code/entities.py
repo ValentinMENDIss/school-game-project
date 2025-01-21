@@ -39,6 +39,7 @@ class Player(pygame.sprite.Sprite):
     def __init__(self, input, pos, groups, health=100):
         # ATTRIBUTES
         self.health = health                                                                                            # initialize new variable/attribute for the player (health)
+        self.z = WORLD_LAYERS['main']
 
         super().__init__(groups)                                                                                        # this subclass sets up the basic properties and methods that it inherits from its parent class (group)
         self.image = PLAYER_R[0].convert_alpha()                                                                        # assign image to the player # convert_alpha() function used to specify that the image should be rendered with alpha colors (for .png format)
@@ -52,6 +53,7 @@ class Player(pygame.sprite.Sprite):
         self.joystick_input_vector = None                                                                               # initializing joystick input vector variable and giving it a default value
         self.index = 0
         self.animation_speed = 5
+        self.y_sort = self.rect.centery
 
 
     # INPUT FOR JOYSTICK LOGIC
@@ -111,6 +113,7 @@ class Player(pygame.sprite.Sprite):
         self.rect.center += self.direction * 250 * dt                                                                   # multiplying by dt = delta time (difference from last and next frame), so that our movement will be frame speed independent. It means it will not get faster or slower if fps changes.
 
     def update(self, dt):
+        self.y_sort = self.rect.centery
         self.input_logic()
         self.animation(dt)
         self.move(dt)
@@ -125,6 +128,8 @@ class NPC(pygame.sprite.Sprite):
         self.image = (pygame.transform.scale(self.image, self.new_size_image))
         self.rect = self.image.get_frect(center=pos)                                                                    # convert image to rectangle (needed for collision in the future), center is position that was provided during construction (__init__())
         self.pos = pos
+        self.z = WORLD_LAYERS['main']
+        self.y_sort = self.rect.centery
 
     def interact(self, text, player_center):
         self.player_center = player_center
