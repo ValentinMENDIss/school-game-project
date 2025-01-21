@@ -5,7 +5,7 @@ from pygame.midi import Input
 from settings import *
 from pytmx.util_pygame import load_pygame
 from entities import *
-from sprites import Sprite
+from sprites import Sprite, BorderSprite
 from groups import *
 from dialog import *
 from menu import *
@@ -32,7 +32,7 @@ class Game:
         self.inventory = Inventory(self)
         self.time = 0
         self.pressed_start_time = 0
-        self.pressed_duration = 5000
+        self.pressed_duration = 5000		
 
         # CONFIGURING PYGAME
         self.SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))                                            # create screen with (x,y) (tuple)
@@ -47,6 +47,7 @@ class Game:
 
         # GROUPS
         self.all_sprites = AllSprites()                                                                                 # create a sprite group # assigns to AllSprites() Class
+        self.collision_sprites = pygame.sprite.Group()
 
         self.import_assets()                                                                                            # import tilesets (assets)
         self.setup(self.tmx_maps['world'], 'spawn')                                                                     # import this one specific tileset (mapset/asset)
@@ -59,12 +60,17 @@ class Game:
         self.tmx_maps = {'world': load_pygame(os.path.join('..', 'data', 'maps', 'world.tmx'))}                         # load world.tmx file (with given location of it)
         
     def setup(self, tmx_map, player_start_pos):
+        # clear the map
+        for group in (self.all_sprites, self.collision_sprites):
+            group.empty()
+
+
         for x,y, surf in tmx_map.get_layer_by_name('Terrain').tiles():                                                  # get only 'Terrain' layer from world.tmx
             Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites, WORLD_LAYERS['bg'])                                              # parse information of sprite to Sprite() class
         # GET ENTITIES' POSITION
         for obj in tmx_map.get_layer_by_name('Entities'):
             if obj.name == 'Player' and obj.properties['pos'] == player_start_pos:                                      # check whether the object's name is Player and its properties for pos(position). Check also whether it is the same as player_start_pos
-                self.player = Player(self.input,(obj.x, obj.y), self.all_sprites)                                   # create player() instance with object's x and y coordinates that we got from tilemap(tmx). And assign player() instance to AllSprites() group/class
+                self.player = Player(self.input,(obj.x, obj.y), self.all_sprites, self.collision_sprites)                                   # create player() instance with object's x and y coordinates that we got from tilemap(tmx). And assign player() instance to AllSprites() group/class
             if obj.name == 'Character' and obj.properties['pos'] == 'bottom-right':
                 self.npc = NPC((obj.x, obj.y), self.all_sprites)
         # GET ITEMS' POSITION
@@ -73,6 +79,10 @@ class Game:
                 self.items.add((obj.x, obj.y), obj.properties['item-name'])
             if obj.name == 'Item' and obj.properties['item-name'] == 'item-test2':
                 self.items.add((obj.x, obj.y), obj.properties['item-name'])
+        # GET COLLISION OBJECTS' POSITION
+        for obj in tmx_map.get_layer_by_name('Collisions'):
+            BorderSprite((obj.x, obj.y), pygame.Surface((obj.width, obj.height)), self.collision_sprites)
+
 
     # MENU LOGIC
     def menu_logic(self):
