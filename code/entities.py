@@ -36,10 +36,13 @@ NPC_IDLE = pygame.image.load(os.path.join('..', 'graphics', 'player', 'idle', 'p
 ######### CLASSes ############
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, input, pos, groups, health=100):
+    def __init__(self, input, pos, groups, collision_sprites, health=100):
         # ATTRIBUTES
         self.health = health                                                                                            # initialize new variable/attribute for the player (health)
         self.z = WORLD_LAYERS['main']
+        self.collision_rects = [sprite.rect for sprite in collision_sprites if sprite is not self]
+        self.collision_sprites = collision_sprites
+        self.speed = 250                                                                                                # in-game attribute for speed
 
         super().__init__(groups)                                                                                        # this subclass sets up the basic properties and methods that it inherits from its parent class (group)
         self.image = PLAYER_R[0].convert_alpha()                                                                        # assign image to the player # convert_alpha() function used to specify that the image should be rendered with alpha colors (for .png format)
@@ -54,7 +57,7 @@ class Player(pygame.sprite.Sprite):
         self.index = 0
         self.animation_speed = 5
         self.y_sort = self.rect.centery
-
+        self.hitbox = self.rect.inflate(-self.rect.width / 2, -60)
 
     # INPUT FOR JOYSTICK LOGIC
     def input_joystick(self, axes_value=pygame.Vector2(0, 0), button_value=0):
@@ -110,7 +113,30 @@ class Player(pygame.sprite.Sprite):
         self.image = pygame.transform.scale(animation_frames[int(self.index)].convert_alpha(), self.new_size_image)
 
     def move(self, dt):
-        self.rect.center += self.direction * 250 * dt                                                                   # multiplying by dt = delta time (difference from last and next frame), so that our movement will be frame speed independent. It means it will not get faster or slower if fps changes.
+        self.rect.centerx += self.direction.x * self.speed * dt                                                                   # multiplying by dt = delta time (difference from last and next frame), so that our movement will be frame speed independent. It means it will not get faster or slower if fps changes.
+        self.hitbox.centerx = self.rect.centerx
+        self.collisions('horizontal')
+
+        self.rect.centery += self.direction.y * self.speed * dt
+        self.hitbox.centery = self.rect.centery
+        self.collisions('vertical')
+
+    def collisions(self, axis):
+        for sprite in self.collision_sprites:
+            if sprite.hitbox.colliderect(self.hitbox):
+                if axis == 'horizontal':
+                    if self.direction.x > 0: 
+                        self.hitbox.right = sprite.hitbox.left
+                    if self.direction.x < 0:
+                        self.hitbox.left = sprite.hitbox.right
+                    self.rect.centerx = self.hitbox.centerx
+                else:
+                    if self.direction.y > 0:
+                        self.hitbox.bottom = sprite.hitbox.top
+                    if self.direction.y < 0:
+                        self.hitbox.top = sprite.hitbox.bottom
+                    self.rect.centery = self.hitbox.centery
+
 
     def update(self, dt):
         self.y_sort = self.rect.centery
