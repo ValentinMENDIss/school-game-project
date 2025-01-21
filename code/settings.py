@@ -15,6 +15,16 @@ TILE_SIZE = 32
 
 pygame.font.init()
 
+######### LAYERS ##############
+WORLD_LAYERS = {
+	'water': 0,
+	'bg': 1,
+	'shadow': 2,
+    'item': 3,
+	'main': 4,
+	'top': 5
+}
+
 ######### TEXT ##############
 SMALLTEXT = pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'), 25)                                           # set Font and Size for the Small Text
 HEADINGTEXT = pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'), 65)                                         # set Font and Size for the Small Text
