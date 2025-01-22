@@ -4,41 +4,44 @@ from button import *
 from input import *
 
 # LOADING IMAGES
-BACKGROUND_IMG = pygame.image.load(os.path.join('..', 'graphics', 'background.png'))		                                # load image and use it as a menu background
+BACKGROUND_IMG = pygame.image.load(os.path.join('..', 'graphics', 'background.png'))		                            # load image and use it as a menu background
 
 ######### CLASSES #############
 class Menu:
     def __init__(self, game):
-        pygame.init()
-        self.game = game
-        self.text = ""
-        self.running = True
-        self.get_pressed_keys_action = False       
+        pygame.init()                                                                                                   # initialize pygame framework
+        self.game = game                                                                                                # declare variable that stores values from game() Class
+        self.text = ""                                                                                                  # text variable
+        self.running = True                                                                                             # loop value
+        self.get_pressed_keys_action = False
         self.menu_exit_action = False
-
+    
+    # DRAWING LOGIC
     def show(self, surface):
         self.running = True
         self.exit_action = False
         while self.running:
-            self.main_menu(surface)
-            if self.exit_action:
-                self.running = False
+            self.main_menu(surface)                                                                                     # draw main menu
+            if self.exit_action:                                                                                        # if exit button is pressed, do following:
+                self.running = False                                                                                    # exit (set loop variable 'running' to false)
 
+    # GET USER'S INPUT
     def get_input(self):
         self.input = self.game.input
-        self.input.menu()
-        if self.input.menu_running == False:
-            self.menu_exit_action = True
-        else:
-            self.menu_exit_action = False
+        self.input.menu()                                                                                               # get input (function called from input class)
+        if self.input.menu_running == False:                                                                            # if user is willing to exit menu, do following
+            self.menu_exit_action = True                                                                                # exit (set menu_exit_action variable to True)
+        else:                                                                                                           # else, do following:
+            self.menu_exit_action = False                                                                               # set exit_action variable to default (False)
  
     # GET PRESSED KEYS
     def get_pressed_keys(self, action):
-        if self.get_pressed_keys_action:
-            self.game.menu_get_pressed_keys(action)
+        if self.get_pressed_keys_action:                                                                                # if any key has been pressed, do following
+            self.game.menu_get_pressed_keys(action)                                                                     # get pressed keys
             if self.game.menu_get_pressed_keys(action) == False:
                 self.get_pressed_keys_action = False
 
+    # MAIN MENU
     def main_menu(self, surface):
         running = True
         while running:
@@ -100,6 +103,7 @@ class Menu:
             # DISPLAY UPDATE
             pygame.display.update()                                                                                         # update the screen
 
+    # SETTINGS MENU
     def settings_menu(self, surface):
         running = True
         while running:
@@ -151,7 +155,7 @@ class Menu:
             # DISPLAY UPDATE
             pygame.display.update()
 
-
+    # INPUT SETTINGS MENU
     def settings_input_menu(self, surface):
         running = True
         action = None

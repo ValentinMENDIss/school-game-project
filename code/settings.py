@@ -10,13 +10,13 @@ pygame.mixer.init()
 
 ######### CONSTANTS ###########
 
-WINDOW_WIDTH,WINDOW_HEIGHT = 1280,720
-TILE_SIZE = 64
+WINDOW_WIDTH,WINDOW_HEIGHT = 1280,720																					# setting up window's width and height
+TILE_SIZE = 64																											# Tile size (tileset)
 
-pygame.font.init()
+pygame.font.init()																										# initialize pygame.font framework (needed for text)
 
 ######### LAYERS ##############
-WORLD_LAYERS = {
+WORLD_LAYERS = {																										# Dictionary that store Sprite Layers
 	'water': 0,
 	'bg': 1,
 	'shadow': 2,
