@@ -5,7 +5,7 @@ from pygame.midi import Input
 from settings import *
 from pytmx.util_pygame import load_pygame
 from entities import *
-from sprites import Sprite, BorderSprite, CollidableSprite
+from sprites import Sprite, BorderSprite, CollidableSprite, TransitionSprite
 from groups import *
 from dialog import *
 from menu import *
@@ -48,6 +48,9 @@ class Game:
         # GROUPS
         self.all_sprites = AllSprites()                                                                                 # create a sprite group # assigns to AllSprites() Class
         self.collision_sprites = pygame.sprite.Group()
+        self.transition_sprites = pygame.sprite.Group()
+
+        self.transition_target = 0
 
         self.import_assets()                                                                                            # import tilesets (assets)
         self.setup(self.tmx_maps['world'], 'spawn')                                                                     # import this one specific tileset (mapset/asset)
@@ -57,13 +60,13 @@ class Game:
 
 
     def import_assets(self):
-        self.tmx_maps = {'world': load_pygame(os.path.join('..', 'data', 'maps', 'world.tmx'))}                         # load world.tmx file (with given location of it)
-        
+        self.tmx_maps = {'world': load_pygame(os.path.join('..', 'data', 'maps', 'world.tmx')),                         # load world.tmx file (with given location of it)
+                         'world2': load_pygame(os.path.join('..', 'data', 'maps', 'world2.tmx'))}
+
     def setup(self, tmx_map, player_start_pos):
         # clear the map
-        for group in (self.all_sprites, self.collision_sprites):
+        for group in (self.all_sprites, self.collision_sprites, self.transition_sprites):
             group.empty()
-
 
         for x,y, surf in tmx_map.get_layer_by_name('Terrain').tiles():                                                  # get only 'Terrain' layer from world.tmx
             Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites, WORLD_LAYERS['bg'])                                              # parse information of sprite to Sprite() class
@@ -85,6 +88,9 @@ class Game:
         # GET COLLISION OBJECTS' POSITION
         for obj in tmx_map.get_layer_by_name('Collisions'):
             BorderSprite((obj.x, obj.y), pygame.Surface((obj.width, obj.height)), self.collision_sprites)
+        # GET TRANSITION OBJECTS' POSITION
+        for obj in tmx_map.get_layer_by_name('Transitions'):
+            TransitionSprite((obj.x, obj.y), (obj.width, obj.height), (obj.properties['target'], obj.properties['pos']), self.transition_sprites)
 
 
     # MENU LOGIC
@@ -100,11 +106,16 @@ class Game:
         else:
             self.menu.get_pressed_keys_action = self.input.menu_input(action)
 
-
     def get_random_interact_text(self):
         random_number = random.randint(0, len(NPC_INTERACT_DATA) - 1)
         self.random_interact_text = NPC_INTERACT_DATA[random_number]
 
+    def transition_check(self):
+        sprites = [sprite for sprite in self.transition_sprites if sprite.rect.colliderect(self.player.hitbox)]
+        if sprites:
+            self.transition_target = sprites[0].target
+            self.setup(self.tmx_maps[self.transition_target[0]], self.transition_target[1])                                                   # import this one specific tileset (mapset/asset)
+    
     # MAIN (RUN) LOGIC
     def run(self):
         # VARIABLES
@@ -118,7 +129,6 @@ class Game:
                     self.running = False                                                                                    # quit/exit by assigning boolean 'False' to self.run variable
 
             dt = self.clock.tick() / 1000                                                                               # tick every second  # dt = difference between previous and next frame
-
             self.input.run()
 
             if self.menu_startup == True:
@@ -127,6 +137,7 @@ class Game:
 
             # PYGAME LOGIC
 
+            self.transition_check()                                                                                     # check if the player is colliding with transition point (TP)
             self.all_sprites.update(dt)                                                                                 # update screen (all sprites) by FPS
             self.SCREEN.fill('white')                                                                                   # fill screen with white color, so it's fully updated
             self.all_sprites.draw(self.player.rect.center)                                                              # draw all sprites to the center of the rectangle of the player (camera)
@@ -141,9 +152,7 @@ class Game:
                 elif pygame.time.get_ticks() - self.interact_start_time >= self.interact_duration:                      # else if more or equal time than interact duration has been gone do following:
                     self.interact = False                                                                               # turn interaction off
                     self.interact_start_time = 0                                                                        # reset interact start time counter
-
                 self.npc.interact(self.random_interact_text, self.player.rect)
-
             else:                                                                                                       # else (interact isn't true)
                 self.interact_start_time = 0                                                                            # reset interact start time
 

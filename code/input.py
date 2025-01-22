@@ -31,6 +31,7 @@ class UserInput:
                 pygame.mixer.Sound.play(YIPPEE_SOUND)                                                                   # play sound
                 pygame.mixer.music.stop()                                                                               # stop sound
                 self.game.interact = True                                                                               # assign following value to self.interact variable: True
+
         if self.keys[self.key_bindings["menu_toggle"]] or (self.num_joysticks > 0 and self.button_states[7] == 1 and self.joystick_button_pressed == False):  # if the key that was just pressed on the keyboard is 'ESCAPE', do following:
             if self.game.menu_startup == False:
                 self.button_state()

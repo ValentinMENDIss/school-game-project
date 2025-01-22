@@ -12,6 +12,7 @@ class Sprite(pygame.sprite.Sprite):
         self.rect = self.image.get_frect(topleft = pos)                                                                 # get_frect = get float rectangle position (better precision)
         self.z = z                                                                                                      # z axis (Layers)
         self.y_sort = self.rect.centery                                                                                 # y axis (needed for drawing objects in right order, when object is at front or behind something)
+        self.hitbox = self.rect.copy()
 
 class BorderSprite(Sprite):
     def __init__(self, pos, surf, groups):
@@ -22,3 +23,9 @@ class CollidableSprite(Sprite):
 	def __init__(self, pos, surf, groups):
 		super().__init__(pos, surf, groups)                                                                             # needed to initialize the parent Sprite class with those same values
 		self.hitbox = self.rect.inflate(0, -self.rect.height * 0.6)                                                     # initialize new variable that stores rect. position of BorderSprite()'s Object
+
+class TransitionSprite(Sprite):
+	def __init__(self, pos, size, target, groups):
+		surf = pygame.Surface(size)
+		super().__init__(pos, surf, groups)
+		self.target = target

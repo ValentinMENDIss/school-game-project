@@ -57,7 +57,7 @@ class Player(pygame.sprite.Sprite):
         self.index = 0
         self.animation_speed = 5
         self.y_sort = self.rect.centery
-        self.hitbox = self.rect.inflate(-self.rect.width / 2, -60)
+        self.hitbox = self.rect.inflate(-self.rect.width / 2, -60)                                                      # .inflate() : method that allows to change the size of a rectangle (hitbox is slightly smaller than whole image.rect)
 
     # INPUT FOR JOYSTICK LOGIC
     def input_joystick(self, axes_value=pygame.Vector2(0, 0), button_value=0):
@@ -137,13 +137,11 @@ class Player(pygame.sprite.Sprite):
                         self.hitbox.top = sprite.hitbox.bottom
                     self.rect.centery = self.hitbox.centery
 
-
     def update(self, dt):
         self.y_sort = self.rect.centery
         self.input_logic()
         self.animation(dt)
         self.move(dt)
-        #print(self.input.key_bindings)
 
 
 class NPC(pygame.sprite.Sprite):
