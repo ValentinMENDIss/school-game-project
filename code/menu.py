@@ -3,7 +3,7 @@ from settings import *
 from button import *
 from input import *
 
-# LOADING IMAGES
+# LOADING IMAGE            if hasattr(self.game.npc_enemy):S
 BACKGROUND_IMG = pygame.image.load(os.path.join('..', 'graphics', 'background.png'))		                            # load image and use it as a menu background
 
 ######### CLASSES #############
@@ -270,3 +270,4 @@ class Menu:
 
             # DISPLAY UPDATE
             pygame.display.update()  # update the screen
+

@@ -4,7 +4,7 @@ import pygame
 
 from settings import *
 from dialog import *
-
+from battle import Battle_Menu
 ######### SPRITEs #############
 
 # LISTS FOR LOADING SPRITES (ANIMATION)
@@ -159,3 +159,23 @@ class NPC(pygame.sprite.Sprite):
         self.player_center = player_center
         dialog = Dialog(self.pos)                                                                                       # initializing dialog class
         dialog.interact(text, self.player_center)                                                                       # run dialogs' interact function, to show some tex
+
+class NPC_Enemy(NPC):
+    def __init__(self, pos, groups):
+        super().__init__(pos, groups)
+        self.image = NPC_IDLE.convert_alpha()
+        self.new_size_image = (self.image.get_width() * 4, self.image.get_height() * 4)                                 # declare new variable that has 4 times bigger scale than the player's image
+        self.image = (pygame.transform.scale(self.image, self.new_size_image))
+        self.rect = self.image.get_frect(center=pos)                                                                    # convert image to rectangle (needed for collision in the future), center is position that was provided during construction (__init__())
+        self.pos = pos
+        self.z = WORLD_LAYERS['main']
+        self.y_sort = self.rect.centery
+        self.battle_menu = Battle_Menu()
+
+    def interact(self, surface):
+        running = True
+        while running:
+            self.battle_menu.show(surface)
+
+
+       
