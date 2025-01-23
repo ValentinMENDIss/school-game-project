@@ -173,9 +173,7 @@ class NPC_Enemy(NPC):
         self.battle_menu = Battle_Menu()
 
     def interact(self, surface):
-        running = True
-        while running:
-            self.battle_menu.show(surface)
+        self.battle_menu.draw(surface)
 
 
        
