@@ -14,7 +14,10 @@ NPC_INTERACT_DATA = ["Oh... also try to get near these Items and to press E. See
                      "It's so nice to see you",
                      "Try to explore the world",
                      "YIPPEE!",
-                     "My life is so exciting, I get to see everyday people like you and that's cool!\nWhat about you?"]
+                     "My life is so exciting, I get to see everyday people like you and that's cool!\nWhat about you?",
+                     "Try to find items near this area!",
+                     "I've heard that you can find items in this area. Maybe it's just a legend...",
+                     "This school looks awesome :)"]
 
 #print(NPC_INTERACT_DATA[0])
 ITEM_INTERACT_DATA = [

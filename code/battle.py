@@ -23,6 +23,7 @@ class Battle_Menu:
     # DRAWING LOGIC
     def draw(self, surface):
         running = True
+        FightButtonMenu = None
         while running:
             # DEFINING CONSTANT VARIABLES
             MENU_MOUSE_POS = pygame.mouse.get_pos()
@@ -40,8 +41,29 @@ class Battle_Menu:
             surface.blit(headingtext, headingtextrect)
 
             ## INITIALIZING BUTTONS AND DRAWING THEM ##
-            SURRENDER_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT - 100, START_IMG, 0.5) # create button instance
+            SURRENDER_BUTTON = Button(WINDOW_WIDTH - 150, WINDOW_HEIGHT - 100, START_IMG, 0.40) # create button instance
             SURRENDER_BUTTON.draw(surface)
+
+            FIGHT_BUTTON = Button(150, WINDOW_HEIGHT - 100, START_IMG, 0.40)
+            FIGHT_BUTTON.draw(surface)
+
+            DEFENSE_BUTTON = Button(400, WINDOW_HEIGHT - 100, START_IMG, 0.40)
+            DEFENSE_BUTTON.draw(surface)
+
+            ITEMS_BUTTON = Button(650, WINDOW_HEIGHT - 100, START_IMG, 0.40)
+            ITEMS_BUTTON.draw(surface)
+
+            SPELL_BUTTON = Button(900, WINDOW_HEIGHT - 100, START_IMG, 0.40)
+            SPELL_BUTTON.draw(surface)
+
+
+            EMOTIONAL_ATTACK_BUTTON = Button(150, WINDOW_HEIGHT - 175, START_IMG, 0.40)
+
+            ATTACK_BUTTON = Button(150, WINDOW_HEIGHT - 250, START_IMG, 0.40)
+
+            if FightButtonMenu:
+                ATTACK_BUTTON.draw(surface)
+                EMOTIONAL_ATTACK_BUTTON.draw(surface)
 
             ## EVENTS ##
             for event in pygame.event.get():
@@ -52,6 +74,8 @@ class Battle_Menu:
                         pygame.mixer.Sound.play(MENU_SOUND)
                         pygame.mixer.music.stop()
                         running = False
+                    if FIGHT_BUTTON.checkForInput(MENU_MOUSE_POS):
+                        FightButtonMenu = True
 
             pygame.display.update()
             
