@@ -270,4 +270,3 @@ class Menu:
 
             # DISPLAY UPDATE
             pygame.display.update()  # update the screen
-
