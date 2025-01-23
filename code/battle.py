@@ -7,7 +7,7 @@ from button import Button
 
 ######### SPRITES ##############
 
-BACKGROUND_IMG = pygame.image.load(os.path.join('..', 'graphics', 'background.png'))
+BACKGROUND_IMG = pygame.image.load(os.path.join('..', 'graphics', 'battle-menu-background.png'))
 
 ######### CLASSes ##############
 
