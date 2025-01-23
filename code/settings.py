@@ -44,6 +44,7 @@ EXIT_IMG = pygame.image.load(os.path.join('..', 'graphics', 'exit-button.png'))	
 RETURN_IMG = pygame.image.load(os.path.join('..', 'graphics', 'return-button.png'))		                                # load image for return button
 SETTINGS_IMG = pygame.image.load(os.path.join('..', 'graphics', 'settings-button.png'))		                                # load image for settings button
 TEST_IMG = pygame.image.load(os.path.join('..', 'graphics', 'test-button.png'))
+SURRENDER_IMG = pygame.image.load(os.path.join('..', 'graphics', 'surrender-button.png'))
 
 ## HEALTHBAR ##
 HEALTH_0 = pygame.image.load(os.path.join('..', 'graphics', 'healthbar', '0%.png'))

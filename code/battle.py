@@ -41,29 +41,21 @@ class Battle_Menu:
             surface.blit(headingtext, headingtextrect)
 
             ## INITIALIZING BUTTONS AND DRAWING THEM ##
-            SURRENDER_BUTTON = Button(WINDOW_WIDTH - 150, WINDOW_HEIGHT - 100, START_IMG, 0.40) # create button instance
-            SURRENDER_BUTTON.draw(surface)
-
+            SURRENDER_BUTTON = Button(WINDOW_WIDTH - 150, WINDOW_HEIGHT - 100, SURRENDER_IMG, 0.40)                             # create button instance
             FIGHT_BUTTON = Button(150, WINDOW_HEIGHT - 100, START_IMG, 0.40)
-            FIGHT_BUTTON.draw(surface)
-
             DEFENSE_BUTTON = Button(400, WINDOW_HEIGHT - 100, START_IMG, 0.40)
-            DEFENSE_BUTTON.draw(surface)
-
             ITEMS_BUTTON = Button(650, WINDOW_HEIGHT - 100, START_IMG, 0.40)
-            ITEMS_BUTTON.draw(surface)
-
             SPELL_BUTTON = Button(900, WINDOW_HEIGHT - 100, START_IMG, 0.40)
-            SPELL_BUTTON.draw(surface)
 
+            for button in [SURRENDER_BUTTON, FIGHT_BUTTON, DEFENSE_BUTTON, ITEMS_BUTTON, SPELL_BUTTON]:                     # iterate through every single button instance and draw it to the screen
+                button.draw(surface)
 
             EMOTIONAL_ATTACK_BUTTON = Button(150, WINDOW_HEIGHT - 175, START_IMG, 0.40)
-
             ATTACK_BUTTON = Button(150, WINDOW_HEIGHT - 250, START_IMG, 0.40)
 
             if FightButtonMenu:
-                ATTACK_BUTTON.draw(surface)
                 EMOTIONAL_ATTACK_BUTTON.draw(surface)
+                ATTACK_BUTTON.draw(surface)
 
             ## EVENTS ##
             for event in pygame.event.get():
@@ -76,6 +68,12 @@ class Battle_Menu:
                         running = False
                     if FIGHT_BUTTON.checkForInput(MENU_MOUSE_POS):
                         FightButtonMenu = True
+
+                    if FightButtonMenu:
+                        if EMOTIONAL_ATTACK_BUTTON.checkForInput(MENU_MOUSE_POS):
+                            print("EMOTIONAL_ATTACK_BUTTON Pressed")
+                        elif ATTACK_BUTTON.checkForInput(MENU_MOUSE_POS):
+                            print("ATTACK_BUTTON Pressed")
 
             pygame.display.update()
             
