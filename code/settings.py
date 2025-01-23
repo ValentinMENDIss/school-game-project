@@ -38,6 +38,15 @@ PICKUP_SOUND = pygame.mixer.Sound(os.path.join('..', 'data', 'sound', 'pickup.wa
 ITEM_TEST = pygame.image.load(os.path.join('..', 'graphics', 'item-test.png'))                                          # load sprite of the ITEM_TEST
 ITEM_TEST2 = pygame.image.load(os.path.join('..', 'graphics', 'item-test2.png'))                                        # load sprite of the ITEM_TEST2
 
+## BUTTON ##
+START_IMG = pygame.image.load(os.path.join('..', 'graphics', 'start-button.png'))		                                # load image for start button
+EXIT_IMG = pygame.image.load(os.path.join('..', 'graphics', 'exit-button.png'))		                                    # load image for exit button
+RETURN_IMG = pygame.image.load(os.path.join('..', 'graphics', 'return-button.png'))		                                # load image for return button
+SETTINGS_IMG = pygame.image.load(os.path.join('..', 'graphics', 'settings-button.png'))		                                # load image for settings button
+TEST_IMG = pygame.image.load(os.path.join('..', 'graphics', 'test-button.png'))
+SURRENDER_IMG = pygame.image.load(os.path.join('..', 'graphics', 'surrender-button.png'))
+
+## HEALTHBAR ##
 HEALTH_0 = pygame.image.load(os.path.join('..', 'graphics', 'healthbar', '0%.png'))
 HEALTH_10 = pygame.image.load(os.path.join('..', 'graphics', 'healthbar', '10%.png'))
 HEALTH_20 = pygame.image.load(os.path.join('..', 'graphics', 'healthbar', '20%.png'))

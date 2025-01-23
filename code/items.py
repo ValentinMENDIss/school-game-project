@@ -52,4 +52,11 @@ class Items:
                     pygame.mixer.Sound.play(PICKUP_SOUND)                                                               # play sound
                     pygame.mixer.music.stop()                                                                           # stop sound
                     self.remove(key)                                                                                    # remove item from the floor
-                    self.inventory.add_item(key)                                                                        # add item to the inventory
+#                    if key == "item-test" or key == "item-test2": # Überprüfen, ob das Item ein "Health"-Item ist und den Multiplikator anwenden
+#                        self.game.player.health = self.game.player.health * self.multiplicator  # Health erhöhen
+#                        print(self.game.player.health)
+#                        ITEM_INTERACT_DATA.append(key)
+#                        
+                    self.inventory.add_item(key)                                                                                                                                        # add item to the inventory
+                    
+                    

@@ -14,6 +14,7 @@ from hud import *
 from items import *
 from gamedata import *
 from input import *
+from battle import Battle_Menu
 
 ######### CLASSES #############
 
@@ -25,7 +26,7 @@ class Game:
 
         # INITIALIZE VARIABLES
         self.running = True
-        self.interact = False                                                                                           # declare/initialize self.interact variable that has a default value: False
+        self.interact = None                                                                                           # declare/initialize self.interact variable that has a default value: False
         self.menu = Menu(self)
         self.items = Items(self)#, WORLD_LAYERS['item'])
         self.input = UserInput(self)
@@ -75,7 +76,10 @@ class Game:
             if obj.name == 'Player' and obj.properties['pos'] == player_start_pos:                                      # check whether the object's name is Player and its properties for pos(position). Check also whether it is the same as player_start_pos
                 self.player = Player(self.input,(obj.x, obj.y), self.all_sprites, self.collision_sprites)                                   # create player() instance with object's x and y coordinates that we got from tilemap(tmx). And assign player() instance to AllSprites() group/class
             if obj.name == 'Character' and obj.properties['pos'] == 'mid-left':
-                self.npc = NPC((obj.x, obj.y), self.all_sprites)
+                if obj.properties['enemy'] == False:
+                    self.npc = NPC((obj.x, obj.y), self.all_sprites)
+                if obj.properties['enemy'] == True:
+                    self.npc_enemy = NPC_Enemy((obj.x, obj.y), self.all_sprites)
         # GET ITEMS' POSITION
         for obj in tmx_map.get_layer_by_name('Items'):
             if obj.name == 'Item' and obj.properties['item-name'] == 'item-test':
@@ -145,14 +149,18 @@ class Game:
             self.hud.draw(self.SCREEN)
 
             # INTERACTION HANDLING
-            if self.interact == True:                                                                                   # check whether interact condition is true or not (bool check)
-                if self.interact_start_time == 0:                                                                       # if interact start time equals to 0, do following:
-                    self.interact_start_time = pygame.time.get_ticks()                                                  # assign ticks to interact start time variable
-                    self.get_random_interact_text()
-                elif pygame.time.get_ticks() - self.interact_start_time >= self.interact_duration:                      # else if more or equal time than interact duration has been gone do following:
-                    self.interact = False                                                                               # turn interaction off
-                    self.interact_start_time = 0                                                                        # reset interact start time counter
-                self.npc.interact(self.random_interact_text, self.player.rect)
+            if self.interact:                                                                                   # check whether interact condition is true or not (bool check)
+                if self.interact == "npc":
+                    if self.interact_start_time == 0:                                                                       # if interact start time equals to 0, do following:
+                        self.interact_start_time = pygame.time.get_ticks()                                                  # assign ticks to interact start time variable
+                        self.get_random_interact_text()
+                    elif pygame.time.get_ticks() - self.interact_start_time >= self.interact_duration:                      # else if more or equal time than interact duration has been gone do following:
+                        self.interact = None                                                                               # turn interaction off
+                        self.interact_start_time = 0                                                                        # reset interact start time counter
+                    self.npc.interact(self.random_interact_text, self.player.rect)
+                elif self.interact == "npc_enemy":
+                    self.npc_enemy.interact(self.SCREEN)
+                    self.interact = None
             else:                                                                                                       # else (interact isn't true)
                 self.interact_start_time = 0                                                                            # reset interact start time
 
