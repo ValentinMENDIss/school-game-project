@@ -62,7 +62,8 @@ class Game:
 
     def import_assets(self):
         self.tmx_maps = {'world': load_pygame(os.path.join('..', 'data', 'maps', 'world.tmx')),                         # load world.tmx file (with given location of it)
-                         'world2': load_pygame(os.path.join('..', 'data', 'maps', 'world2.tmx'))}
+                         'world2': load_pygame(os.path.join('..', 'data', 'maps', 'world2.tmx')),
+                         'school-building-bottom-left': load_pygame(os.path.join('..', 'data', 'maps', 'school-building-bottom-left.tmx'))}
 
     def setup(self, tmx_map, player_start_pos):
         # clear the map
@@ -143,7 +144,8 @@ class Game:
 
             self.transition_check()                                                                                     # check if the player is colliding with transition point (TP)
             self.all_sprites.update(dt)                                                                                 # update screen (all sprites) by FPS
-            self.SCREEN.fill('white')                                                                                   # fill screen with white color, so it's fully updated
+            self.SCREEN.fill((173, 216, 230))
+#            self.SCREEN.blit(SKY_BG_1)
             self.all_sprites.draw(self.player.rect.center)                                                              # draw all sprites to the center of the rectangle of the player (camera)
             self.items.draw(self.SCREEN, self.player.rect.center)
             self.hud.draw(self.SCREEN)

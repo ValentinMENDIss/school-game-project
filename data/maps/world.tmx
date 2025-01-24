@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="64" tileheight="64" infinite="0" nextlayerid="9" nextobjectid="188">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="60" height="40" tilewidth="64" tileheight="64" infinite="0" nextlayerid="9" nextobjectid="207">
  <tileset firstgid="1" source="../../../school-game-project-level-transition-testing/data/tilesets/world.tsx"/>
  <tileset firstgid="211" source="../../../school-game-project-level-transition-testing/data/tilesets/objects.tsx"/>
  <layer id="1" name="Terrain" width="60" height="40">
@@ -63,6 +63,12 @@
   <object id="187" name="Player" x="573.182" y="445.974">
    <properties>
     <property name="pos" value="world_school_building1"/>
+   </properties>
+   <point/>
+  </object>
+  <object id="206" name="Player" x="554.545" y="2011.36">
+   <properties>
+    <property name="pos" value="world_building_bottom_left"/>
    </properties>
    <point/>
   </object>
@@ -243,6 +249,90 @@
    <properties>
     <property name="pos" value="spawn"/>
     <property name="target" value="world2"/>
+   </properties>
+  </object>
+  <object id="188" x="1781.82" y="642.045" width="6.81818" height="63.6364">
+   <properties>
+    <property name="pos" value="spawn"/>
+    <property name="target" value="world2"/>
+   </properties>
+  </object>
+  <object id="190" x="1789.77" y="705.682" width="322.727" height="6.81818">
+   <properties>
+    <property name="pos" value="spawn"/>
+    <property name="target" value="world2"/>
+   </properties>
+  </object>
+  <object id="191" x="2818.18" y="255.682" width="315.909" height="6.81818">
+   <properties>
+    <property name="pos" value="spawn"/>
+    <property name="target" value="world2"/>
+   </properties>
+  </object>
+  <object id="192" x="2809.09" y="192.045" width="6.81818" height="63.6364">
+   <properties>
+    <property name="pos" value="spawn"/>
+    <property name="target" value="world2"/>
+   </properties>
+  </object>
+  <object id="193" x="3137.5" y="192.045" width="7.95455" height="63.6364">
+   <properties>
+    <property name="pos" value="spawn"/>
+    <property name="target" value="world2"/>
+   </properties>
+  </object>
+  <object id="194" x="3519.32" y="1594.32" width="64.7727" height="5.68182">
+   <properties>
+    <property name="pos" value="spawn"/>
+    <property name="target" value="world2"/>
+   </properties>
+  </object>
+  <object id="195" x="3512.5" y="1600" width="5.68182" height="319.318">
+   <properties>
+    <property name="pos" value="spawn"/>
+    <property name="target" value="world2"/>
+   </properties>
+  </object>
+  <object id="196" x="3522.73" y="1920.45" width="61.3636" height="5.68182">
+   <properties>
+    <property name="pos" value="spawn"/>
+    <property name="target" value="world2"/>
+   </properties>
+  </object>
+  <object id="197" x="2229.55" y="2236.36" width="6.81818" height="65.9091">
+   <properties>
+    <property name="pos" value="spawn"/>
+    <property name="target" value="world2"/>
+   </properties>
+  </object>
+  <object id="198" x="2229.55" y="2225" width="330.682" height="10.2273">
+   <properties>
+    <property name="pos" value="spawn"/>
+    <property name="target" value="world2"/>
+   </properties>
+  </object>
+  <object id="199" x="2561.36" y="2240.91" width="5.68182" height="62.5">
+   <properties>
+    <property name="pos" value="spawn"/>
+    <property name="target" value="world2"/>
+   </properties>
+  </object>
+  <object id="201" x="385.227" y="1843.18" width="63.6364" height="11.3636">
+   <properties>
+    <property name="pos" value="spawn"/>
+    <property name="target" value="school-building-bottom-left"/>
+   </properties>
+  </object>
+  <object id="202" x="447.727" y="1855.68" width="11.3636" height="319.318">
+   <properties>
+    <property name="pos" value="spawn"/>
+    <property name="target" value="school-building-bottom-left"/>
+   </properties>
+  </object>
+  <object id="203" x="386.364" y="2176.14" width="64.7727" height="5.68182">
+   <properties>
+    <property name="pos" value="spawn"/>
+    <property name="target" value="school-building-bottom-left"/>
    </properties>
   </object>
  </objectgroup>

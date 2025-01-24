@@ -35,6 +35,13 @@ MENU_SOUND = pygame.mixer.Sound(os.path.join('..', 'data', 'sound', 'menu.wav'))
 PICKUP_SOUND = pygame.mixer.Sound(os.path.join('..', 'data', 'sound', 'pickup.wav'))
 
 ######### SPRITEs ##############
+## SKY ##
+SKY_BG_1 = pygame.image.load(os.path.join('..', 'graphics', 'clouds', '1.png'))
+SKY_BG_2 = pygame.image.load(os.path.join('..', 'graphics', 'clouds', '2.png'))
+SKY_BG_3 = pygame.image.load(os.path.join('..', 'graphics', 'clouds', '3.png'))
+SKY_BG_4 = pygame.image.load(os.path.join('..', 'graphics', 'clouds', '4.png'))
+
+## ITEMS ##
 ITEM_TEST = pygame.image.load(os.path.join('..', 'graphics', 'item-test.png'))                                          # load sprite of the ITEM_TEST
 ITEM_TEST2 = pygame.image.load(os.path.join('..', 'graphics', 'item-test2.png'))                                        # load sprite of the ITEM_TEST2
 

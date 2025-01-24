@@ -20,10 +20,23 @@ class Battle_Menu:
         self.enemytext = "test"
 
     def random_text(self):
-        index = random.randint(0, len(NPC_ENEMY_INTERACT_DATA) - 1)
-        self.enemytext = NPC_ENEMY_INTERACT_DATA[index]
+        if self.enemy_health <= 0:
+            self.enemytext = "Congratulations, You've won me..."
+        else:
+            index = random.randint(0, len(NPC_ENEMY_INTERACT_DATA) - 1)
+            self.enemytext = NPC_ENEMY_INTERACT_DATA[index]
+
+    def attack_enemy(self, attack_type):
+        if attack_type == "emotional_attack":
+            self.enemy_health -= random.randint(0, 15) 
+            self.random_text()
+        elif attack_type == "attack":
+            self.enemy_health -= random.randint(0, 25)
+            self.random_text()
+
     # DRAWING LOGIC
     def draw(self, surface, enemy_health):
+        self.enemy_health = enemy_health
         running = True
         FightButtonMenu = None
         while running:
@@ -77,19 +90,17 @@ class Battle_Menu:
                         FightButtonMenu = True
                     if FightButtonMenu:
                         if EMOTIONAL_ATTACK_BUTTON.checkForInput(MENU_MOUSE_POS):
+                            self.attack_enemy("emotional_attack")
                             print("EMOTIONAL_ATTACK_BUTTON Pressed") 
-                            enemy_health -= random.randint(0, 15) 
-                            self.random_text()
                         elif ATTACK_BUTTON.checkForInput(MENU_MOUSE_POS):
+                            self.attack_enemy("attack")
                             print("ATTACK_BUTTON Pressed")
-                            enemy_health -= random.randint(0, 25)
-                            self.random_text()
 
-            if enemy_health <= 0:
+            if self.enemy_health <= 0:
                 print("You've won me")
             else:
                 pass
 
-            print(enemy_health)
+            print(self.enemy_health)
             pygame.display.update()
             
