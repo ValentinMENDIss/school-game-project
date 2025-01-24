@@ -3,6 +3,7 @@
 import pygame
 
 from settings import *
+from gamedata import NPC_ENEMY_INTERACT_DATA 
 from button import Button
 
 ######### SPRITES ##############
@@ -13,15 +14,16 @@ BACKGROUND_IMG = pygame.image.load(os.path.join('..', 'graphics', 'battle-menu-b
 
 class Battle_Menu:
     def __init__(self):
-        self.text = ""
         self.get_pressed_keys_action = False
         self.exit_action = False
+        # TEXTs
+        self.enemytext = "test"
 
-    def get_input(self):
-        pass
-
+    def random_text(self):
+        index = random.randint(0, len(NPC_ENEMY_INTERACT_DATA) - 1)
+        self.enemytext = NPC_ENEMY_INTERACT_DATA[index]
     # DRAWING LOGIC
-    def draw(self, surface):
+    def draw(self, surface, enemy_health):
         running = True
         FightButtonMenu = None
         while running:
@@ -36,9 +38,14 @@ class Battle_Menu:
             headingtextrect = headingtext.get_rect()                                                              # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
             headingtextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 250)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
 
+            enemytext = SMALLTEXT.render(self.enemytext, True, (0, 0, 0)).convert_alpha()        # render an enemy text
+            enemytextrect = enemytext.get_rect()
+            enemytextrect.center = (WINDOW_WIDTH // 2 + 350, WINDOW_HEIGHT // 2)
+
             # DRAWING ON THE SURFACE
             surface.blit(BACKGROUND_IMG)
             surface.blit(headingtext, headingtextrect)
+            surface.blit(enemytext, enemytextrect)
 
             ## INITIALIZING BUTTONS AND DRAWING THEM ##
             SURRENDER_BUTTON = Button(WINDOW_WIDTH - 150, WINDOW_HEIGHT - 100, SURRENDER_IMG, 0.40)                             # create button instance
@@ -68,12 +75,21 @@ class Battle_Menu:
                         running = False
                     if FIGHT_BUTTON.checkForInput(MENU_MOUSE_POS):
                         FightButtonMenu = True
-
                     if FightButtonMenu:
                         if EMOTIONAL_ATTACK_BUTTON.checkForInput(MENU_MOUSE_POS):
-                            print("EMOTIONAL_ATTACK_BUTTON Pressed")
+                            print("EMOTIONAL_ATTACK_BUTTON Pressed") 
+                            enemy_health -= random.randint(0, 15) 
+                            self.random_text()
                         elif ATTACK_BUTTON.checkForInput(MENU_MOUSE_POS):
                             print("ATTACK_BUTTON Pressed")
+                            enemy_health -= random.randint(0, 25)
+                            self.random_text()
 
+            if enemy_health <= 0:
+                print("You've won me")
+            else:
+                pass
+
+            print(enemy_health)
             pygame.display.update()
             

@@ -19,6 +19,27 @@ NPC_INTERACT_DATA = ["Oh... also try to get near these Items and to press E. See
                      "I've heard that you can find items in this area. Maybe it's just a legend...",
                      "This school looks awesome :)"]
 
+NPC_ENEMY_INTERACT_DATA = ["Is it all you can do?",
+                           "Well done...",
+                           "Write your exam faster",
+                           "I see that Peace was never an option...",
+                           "That was quite exciting, but have you seen my power?",
+                           "Good move :)",
+                           "Look what I've got!",
+                           "Continue Fighting!",
+                           "You will not be able to do this. Surrender!",
+                           "I like silly things, oh I've forgot, we are fighting, anyways...",
+                           "Do you really think that you can beat me?",
+                           "No one has ever won me, so good luck!",
+                           "Are you scared?",
+                           "Maybe you want to stop?",
+                           "Look, behind you!",
+                           "Uh, it hurts!",
+                           "Peace?",
+                           "Violence?",
+                           "...",
+                           "... And now see my power!"]
+
 #print(NPC_INTERACT_DATA[0])
 ITEM_INTERACT_DATA = [
     ]

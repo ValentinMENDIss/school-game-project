@@ -161,7 +161,7 @@ class NPC(pygame.sprite.Sprite):
         dialog.interact(text, self.player_center)                                                                       # run dialogs' interact function, to show some tex
 
 class NPC_Enemy(NPC):
-    def __init__(self, pos, groups):
+    def __init__(self, pos, groups, health=100):
         super().__init__(pos, groups)
         self.image = NPC_IDLE.convert_alpha()
         self.new_size_image = (self.image.get_width() * 4, self.image.get_height() * 4)                                 # declare new variable that has 4 times bigger scale than the player's image
@@ -171,9 +171,9 @@ class NPC_Enemy(NPC):
         self.z = WORLD_LAYERS['main']
         self.y_sort = self.rect.centery
         self.battle_menu = Battle_Menu()
+        # ATTRIBUTES
+        self.health = 100
 
     def interact(self, surface):
-        self.battle_menu.draw(surface)
-
-
-       
+        self.battle_menu.draw(surface, 
+                              enemy_health=self.health)
