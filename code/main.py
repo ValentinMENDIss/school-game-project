@@ -27,9 +27,9 @@ class Game:
 
         # INITIALIZE VARIABLES
         self.running = True
-        self.interact = None                                                                                           # declare/initialize self.interact variable that has a default value: False
+        self.action = None                                                                                           # declare/initialize self.action variable that has a default value: False
         self.menu = Menu(self)
-        self.items = Items(self)#, WORLD_LAYERS['item'])
+        #self.items = Items(self)#, WORLD_LAYERS['item'])
         self.input = UserInput(self)
         self.inventory = Inventory(self)
         self.time = 0
@@ -43,8 +43,8 @@ class Game:
         self.ticks = pygame.time.get_ticks()                                                                            # get ticks (needed in order to count how much time is gone)
 
         # INTERACTION SETTINGS
-        self.interact_start_time = 0                                                                                    # interaction start time variable
-        self.interact_duration = 5000                                                                                   # duration of interaction with NPC variable
+        self.action_start_time = 0                                                                                    # interaction start time variable
+        self.action_duration = 5000                                                                                   # duration of interaction with NPC variable
 
         # GROUPS
         self.all_sprites = AllSprites()                                                                                 # create a sprite group # assigns to AllSprites() Class
@@ -77,15 +77,15 @@ class Game:
                 self.player = Player(self.input,(obj.x, obj.y), self.all_sprites, self.collision_sprites)                                   # create player() instance with object's x and y coordinates that we got from tilemap(tmx). And assign player() instance to AllSprites() group/class
             if obj.name == 'Character' and obj.properties['pos'] == 'mid-left':
                 if obj.properties['enemy'] == False:
-                    self.npc = NPC((obj.x, obj.y), self.all_sprites)
+                    self.npc = NPC((obj.x, obj.y), self.all_sprites, game=self)
                 if obj.properties['enemy'] == True:
-                    self.npc_enemy = NPC_Enemy((obj.x, obj.y), self.all_sprites)
+                    self.npc_enemy = NPC_Enemy((obj.x, obj.y), self.all_sprites, game=self)
         # GET ITEMS' POSITION
         for obj in tmx_map.get_layer_by_name('Items'):
             if obj.name == 'Item' and obj.properties['item-name'] == 'item-test':
-                self.items.add((obj.x, obj.y), obj.properties['item-name'])
+                self.item_test = Items((obj.x, obj.y), obj.properties['item-name'], self.all_sprites, game=self)
             if obj.name == 'Item' and obj.properties['item-name'] == 'item-test2':
-                self.items.add((obj.x, obj.y), obj.properties['item-name'])
+                self.item_test2 = Items((obj.x, obj.y), obj.properties['item-name'], self.all_sprites, game=self)
         # GET OBJECTS' POSITION
         for obj in tmx_map.get_layer_by_name('Objects'):
             CollidableSprite((obj.x, obj.y), obj.image, (self.all_sprites, self.collision_sprites))
@@ -146,31 +146,33 @@ class Game:
                 self.menu_startup = False
 
             # PYGAME LOGIC
-
+            
             self.transition_check()                                                                                     # check if the player is colliding with transition point (TP)
             self.all_sprites.update(dt)                                                                                 # update screen (all sprites) by FPS
             self.SCREEN.fill((173, 216, 230))
 #            self.SCREEN.blit(SKY_BG_1)
             self.SCREEN.blit(self.static_layer, (-(self.player.rect.center[0] - WINDOW_WIDTH / 2), -(self.player.rect.center[1] - WINDOW_HEIGHT / 2)))
             self.all_sprites.draw(self.player.rect.center)                                                              # draw all sprites to the center of the rectangle of the player (camera)
-            self.items.draw(self.SCREEN, self.player.rect.center)
             self.hud.draw(self.SCREEN)
 
-            # INTERACTION HANDLING
-            if self.interact:                                                                                   # check whether interact condition is true or not (bool check)
-                if self.interact == "npc":
-                    if self.interact_start_time == 0:                                                                       # if interact start time equals to 0, do following:
-                        self.interact_start_time = pygame.time.get_ticks()                                                  # assign ticks to interact start time variable
+            # INTERACTION/ACTION HANDLING
+            if self.action:                                                                                   # check whether interact condition is true or not (bool check)
+                if self.action == "item_pickup":
+                    for item in [self.item_test, self.item_test2]:
+                        item.pickup_logic(self.player.rect.center)
+                elif self.action == "npc":
+                    if self.action_start_time == 0:                                                                       # if interact start time equals to 0, do following:
+                        self.action_start_time = pygame.time.get_ticks()                                                  # assign ticks to interact start time variable
                         self.get_random_interact_text()
-                    elif pygame.time.get_ticks() - self.interact_start_time >= self.interact_duration:                      # else if more or equal time than interact duration has been gone do following:
-                        self.interact = None                                                                               # turn interaction off
-                        self.interact_start_time = 0                                                                        # reset interact start time counter
+                    elif pygame.time.get_ticks() - self.action_start_time >= self.action_duration:                      # else if more or equal time than interact duration has been gone do following:
+                        self.action = None                                                                               # turn interaction off
+                        self.action_start_time = 0                                                                        # reset interact start time counter
                     self.npc.interact(self.random_interact_text, self.player.rect)
-                elif self.interact == "npc_enemy":
+                elif self.action == "npc_enemy":
                     self.npc_enemy.interact(self.SCREEN)
-                    self.interact = None
+                    self.action = None
             else:                                                                                                       # else (interact isn't true)
-                self.interact_start_time = 0                                                                            # reset interact start time
+                self.action_start_time = 0                                                                            # reset interact start time
             
             ## GET CURRENT FPS ##
             print(self.clock.get_fps())

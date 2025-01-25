@@ -6,10 +6,10 @@ from entities import *
 
 class Dialog:
     def __init__(self, npc_pos):
-        self.SCREEN = pygame.display.get_surface()                                                                      # initializing screen (SCREEN)
+        #self.SCREEN = pygame.display.get_surface()                                                                      # initializing screen (SCREEN)
         self.pos = npc_pos                                                                                              # set npc's position to a variable 'pos'
 
-    def interact(self, text, player_center):
+    def interact(self, text, player_center, screen):
         smalltext = pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'),20)                               # set Font and Size for the Small Text
         smalltext = smalltext.render(text, True,(0, 0, 0)).convert_alpha()                                 # render a Small Text
         smalltextrect = smalltext.get_rect()                                                                            # get a Rectangle of the small Text ( needed, to be able to place the Text precisely )
@@ -19,4 +19,5 @@ class Dialog:
 
         smalltextrect.topleft = (self.pos[0] + self.offset_x, self.pos[1] + self.offset_y)                              # place a text near to the npc's coordinates + offset (needed for camera effect)
 
-        self.SCREEN.blit(smalltext, smalltextrect)                                                                      # draw a text with its coordinates
+        #self.SCREEN.blit(smalltext, smalltextrect)                                                                      # draw a text with its coordinates
+        screen.blit(smalltext, smalltextrect)
