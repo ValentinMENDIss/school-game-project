@@ -177,7 +177,6 @@ class Game:
  
             pygame.display.update()                                                                                     # refresh(update) the screen
 
-            self.clock.get_fps()
 
 ####### MAIN CODE ############
 
