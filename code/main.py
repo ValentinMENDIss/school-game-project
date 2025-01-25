@@ -1,7 +1,6 @@
 ######### IMPORT ##############
 import pygame
 from pygame.midi import Input
-
 from settings import *
 from pytmx.util_pygame import load_pygame
 from entities import *
@@ -15,6 +14,8 @@ from items import *
 from gamedata import *
 from input import *
 from battle import Battle_Menu
+
+import cProfile
 
 ######### CLASSES #############
 
@@ -45,7 +46,6 @@ class Game:
         self.interact_start_time = 0                                                                                    # interaction start time variable
         self.interact_duration = 5000                                                                                   # duration of interaction with NPC variable
 
-
         # GROUPS
         self.all_sprites = AllSprites()                                                                                 # create a sprite group # assigns to AllSprites() Class
         self.collision_sprites = pygame.sprite.Group()
@@ -59,7 +59,6 @@ class Game:
         # OTHER VARIABLES
         self.hud = HUD(self.player)
 
-
     def import_assets(self):
         self.tmx_maps = {'world': load_pygame(os.path.join('..', 'data', 'maps', 'world.tmx')),                         # load world.tmx file (with given location of it)
                          'world2': load_pygame(os.path.join('..', 'data', 'maps', 'world2.tmx')),
@@ -70,8 +69,8 @@ class Game:
         for group in (self.all_sprites, self.collision_sprites, self.transition_sprites):
             group.empty()
 
-        for x,y, surf in tmx_map.get_layer_by_name('Terrain').tiles():                                                  # get only 'Terrain' layer from world.tmx
-            Sprite((x * TILE_SIZE, y * TILE_SIZE), surf, self.all_sprites, WORLD_LAYERS['bg'])                                              # parse information of sprite to Sprite() class
+        self.static_layer = self.create_static_layer(tmx_map=tmx_map, layer_name='Terrain')
+
         # GET ENTITIES' POSITION
         for obj in tmx_map.get_layer_by_name('Entities'):
             if obj.name == 'Player' and obj.properties['pos'] == player_start_pos:                                      # check whether the object's name is Player and its properties for pos(position). Check also whether it is the same as player_start_pos
@@ -96,6 +95,12 @@ class Game:
         # GET TRANSITION OBJECTS' POSITION
         for obj in tmx_map.get_layer_by_name('Transitions'):
             TransitionSprite((obj.x, obj.y), (obj.width, obj.height), (obj.properties['target'], obj.properties['pos']), self.transition_sprites)
+
+    def create_static_layer(self, tmx_map, layer_name):
+        layer = pygame.Surface((tmx_map.width * TILE_SIZE, tmx_map.height * TILE_SIZE), pygame.SRCALPHA)
+        for x, y, surf in tmx_map.get_layer_by_name(layer_name).tiles():
+            layer.blit(surf, (x * TILE_SIZE, y * TILE_SIZE))
+        return layer
 
 
     # MENU LOGIC
@@ -146,6 +151,7 @@ class Game:
             self.all_sprites.update(dt)                                                                                 # update screen (all sprites) by FPS
             self.SCREEN.fill((173, 216, 230))
 #            self.SCREEN.blit(SKY_BG_1)
+            self.SCREEN.blit(self.static_layer, (-(self.player.rect.center[0] - WINDOW_WIDTH / 2), -(self.player.rect.center[1] - WINDOW_HEIGHT / 2)))
             self.all_sprites.draw(self.player.rect.center)                                                              # draw all sprites to the center of the rectangle of the player (camera)
             self.items.draw(self.SCREEN, self.player.rect.center)
             self.hud.draw(self.SCREEN)
@@ -165,7 +171,10 @@ class Game:
                     self.interact = None
             else:                                                                                                       # else (interact isn't true)
                 self.interact_start_time = 0                                                                            # reset interact start time
-
+            
+            ## GET CURRENT FPS ##
+#            print(self.clock.get_fps())
+ 
             pygame.display.update()                                                                                     # refresh(update) the screen
 
             self.clock.get_fps()
@@ -175,3 +184,6 @@ class Game:
 if __name__ == "__main__":                                                                                              # if code is in main.py (__main__) run following
     game = Game()                                                                                                       # initialize game() (class)
     game.run()                                                                                                          # run game (game-logic)
+    
+    ## DEBUG ##
+    #cProfile.run('game.run()')

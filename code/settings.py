@@ -6,14 +6,14 @@ import os
 from pygame.math import Vector2 as vector
 import time
 import random
+
 pygame.mixer.init()
+pygame.font.init()																										# initialize pygame.font framework (needed for text)
 
 ######### CONSTANTS ###########
 
 WINDOW_WIDTH,WINDOW_HEIGHT = 1280,720																					# setting up window's width and height
 TILE_SIZE = 64																											# Tile size (tileset)
-
-pygame.font.init()																										# initialize pygame.font framework (needed for text)
 
 ######### LAYERS ##############
 WORLD_LAYERS = {																										# Dictionary that store Sprite Layers
@@ -35,6 +35,31 @@ MENU_SOUND = pygame.mixer.Sound(os.path.join('..', 'data', 'sound', 'menu.wav'))
 PICKUP_SOUND = pygame.mixer.Sound(os.path.join('..', 'data', 'sound', 'pickup.wav'))
 
 ######### SPRITEs ##############
+## ENTITIES ##
+PLAYER_R = [
+    pygame.image.load(os.path.join('..', 'graphics', 'player', 'walk_animation', 'player_right_still.png')),
+    pygame.image.load(os.path.join('..', 'graphics', 'player', 'walk_animation', 'player_right_walk_1.png')),
+    pygame.image.load(os.path.join('..', 'graphics', 'player', 'walk_animation', 'player_right_walk_2.png'))]
+
+PLAYER_L = [
+    pygame.image.load(os.path.join('..', 'graphics', 'player', 'walk_animation', 'player_left_still.png')),
+    pygame.image.load(os.path.join('..', 'graphics', 'player', 'walk_animation', 'player_left_walk_1.png')),
+    pygame.image.load(os.path.join('..', 'graphics', 'player', 'walk_animation', 'player_left_walk_2.png'))]
+
+PLAYER_B = [
+    pygame.image.load(os.path.join('..', 'graphics', 'player', 'walk_animation', 'player_back_still.png')),
+    pygame.image.load(os.path.join('..', 'graphics', 'player', 'walk_animation', 'player_back_walk_1.png')),
+    pygame.image.load(os.path.join('..', 'graphics', 'player', 'walk_animation', 'player_back_walk_2.png'))]
+
+PLAYER_F = [
+    pygame.image.load(os.path.join('..', 'graphics', 'player', 'walk_animation', 'player_front_still.png')),
+    pygame.image.load(os.path.join('..', 'graphics', 'player', 'walk_animation', 'player_front_walk_1.png')),
+    pygame.image.load(os.path.join('..', 'graphics', 'player', 'walk_animation', 'player_front_walk_2.png'))]
+
+
+## NPC'S SPRITE/S
+NPC_IDLE = pygame.image.load(os.path.join('..', 'graphics', 'player', 'idle', 'player_idle.png'))                                         # load sprite of the NPC (in action: idle) # for now it's the same image, but in the future there will be a separate one.
+
 ## SKY ##
 SKY_BG_1 = pygame.image.load(os.path.join('..', 'graphics', 'clouds', '1.png'))
 SKY_BG_2 = pygame.image.load(os.path.join('..', 'graphics', 'clouds', '2.png'))
