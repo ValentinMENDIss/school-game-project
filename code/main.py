@@ -173,7 +173,7 @@ class Game:
                 self.interact_start_time = 0                                                                            # reset interact start time
             
             ## GET CURRENT FPS ##
-#            print(self.clock.get_fps())
+            print(self.clock.get_fps())
  
             pygame.display.update()                                                                                     # refresh(update) the screen
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="30" height="20" tilewidth="64" tileheight="64" infinite="0" nextlayerid="7" nextobjectid="41">
- <tileset firstgid="1" source="../../../school-game-project-level-transition-testing/data/tilesets/indoor.tsx"/>
+ <tileset firstgid="1" source="../tilesets/indoor.tsx"/>
  <layer id="1" name="Terrain" width="30" height="20">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
