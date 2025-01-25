@@ -6,17 +6,23 @@ from gamedata import *
 ######### CLASSes ##############
 
 class Items(pygame.sprite.Sprite):
-    def __init__(self, pos, name, groups, game):
+    def __init__(self, pos, name, groups, rarity, game):                                                                 # Positional arguments → Then keyword arguments
         super().__init__(groups)
         self.game = game
         self.pos = pos
         self.name = name
+        self.rarity = rarity
         self.image = ITEM_TEST.convert_alpha()
         self.rect = self.image.get_frect(center=(self.pos))
         self.z = WORLD_LAYERS['item']
         self.y_sort = self.rect.centery
         self.offset = vector()
         self.inventory = self.game.inventory
+
+        if self.rarity == "RARE":
+            self.item_data = ITEM_RARITY_DATA_RARE 
+        elif self.rarity == "EPIC":
+            self.item_data = ITEM_RARITY_DATA_EPIC
 
     def pickup_logic(self, player_center):
         self.player_center = player_center
@@ -27,13 +33,8 @@ class Items(pygame.sprite.Sprite):
             self.kill()                                                                                                 # remove the item from all sprites groups atfter pickup, avoiding reprocessing
         self.game.action = None                                                                                         # reset variable that stores action (from action handling)
                          
-#                    if key == "item-test":
-#                        item_data = ITEM_INTERACT_DATA_RARE
-#                    elif key == "item-test2":
-#                        item_data = ITEM_INTERACT_DATA_EPIC
-#                    else:
-#                        continue
 
+#    def random_abilities(self):     
                     #random select of abilities
 #                    effect, multiplier = random.choice(list(item_data.items()))
 #                    if effect == "health_mul":

@@ -83,9 +83,9 @@ class Game:
         # GET ITEMS' POSITION
         for obj in tmx_map.get_layer_by_name('Items'):
             if obj.name == 'Item' and obj.properties['item-name'] == 'item-test':
-                self.item_test = Items((obj.x, obj.y), obj.properties['item-name'], self.all_sprites, game=self)
+                self.item_test = Items((obj.x, obj.y), obj.properties['item-name'], self.all_sprites, rarity="RARE",  game=self)
             if obj.name == 'Item' and obj.properties['item-name'] == 'item-test2':
-                self.item_test2 = Items((obj.x, obj.y), obj.properties['item-name'], self.all_sprites, game=self)
+                self.item_test2 = Items((obj.x, obj.y), obj.properties['item-name'], self.all_sprites, rarity="EPIC", game=self)
         # GET OBJECTS' POSITION
         for obj in tmx_map.get_layer_by_name('Objects'):
             CollidableSprite((obj.x, obj.y), obj.image, (self.all_sprites, self.collision_sprites))

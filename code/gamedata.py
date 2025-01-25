@@ -4,6 +4,7 @@ from settings import *
 
 ######### DATA ##############
 
+## ENTITY DATA ##
 NPC_INTERACT_DATA = ["Oh... also try to get near these Items and to press E. See what happens :3",
                      "OMG, I CAN SPEAK!!! Thank you developers :3",
                      "Hello, how are you?",
@@ -40,31 +41,23 @@ NPC_ENEMY_INTERACT_DATA = ["Is it all you can do?",
                            "...",
                            "... And now see my power!"]
 
-#print(NPC_INTERACT_DATA[0)
-ITEM_INTERACT_DATA_RARE = {"health_mul": 1.2,
-                      "stamina_mul": 1.2,
-                      "attack_mul": 1.2,
-                      "defence_mul": 1.2
-                      
-    }
+## ITEM DATA ##
+ITEM_RARITY_DATA_RARE = {"health_mul": 1.2,
+                         "stamina_mul": 1.2,
+                         "attack_mul": 1.2,
+                         "defence_mul": 1.2}
 
-ITEM_INTERACT_DATA_EPIC = {"health_mul": 1.3,
-                      "stamina_mul": 1.3,
-                      "attack_mul": 1.3,
-                      "defence_mul": 1.3
-                      
-    }
+ITEM_RARITY_DATA_EPIC = {"health_mul": 1.3,
+                         "stamina_mul": 1.3,
+                         "attack_mul": 1.3,
+                         "defence_mul": 1.3}
 
-ITEM_INTERACT_DATA_MYTHIC = {"health_mul": 1.4,
-                      "stamina_mul": 1.4,
-                      "attack_mul": 1.4,
-                      "defence_mul": 1.4
-                      
-    }
+ITEM_RARITY_DATA_MYTHIC = {"health_mul": 1.4,
+                           "stamina_mul": 1.4,
+                           "attack_mul": 1.4,
+                           "defence_mul": 1.4}
 
-ITEM_INTERACT_DATA_LEGENDERY = {"health_mul": 1.5,
-                      "stamina_mul": 1.5,
-                      "attack_mul": 1.5,
-                      "defence_mul": 1.5
-                      
-    }
+ITEM_RARITY_DATA_LEGENDERY = {"health_mul": 1.5,
+                              "stamina_mul": 1.5,
+                              "attack_mul": 1.5,
+                              "defence_mul": 1.5}
