@@ -41,5 +41,30 @@ NPC_ENEMY_INTERACT_DATA = ["Is it all you can do?",
                            "... And now see my power!"]
 
 #print(NPC_INTERACT_DATA[0])
-ITEM_INTERACT_DATA = [
-    ]
+ITEM_INTERACT_DATA_RARE = {"health_mul": 0.2,
+                      "stamina_mul": 0.2,
+                      "attack_mul": 0.2,
+                      "defence_mul": 0.2
+                      
+    }
+
+ITEM_INTERACT_DATA_EPIC = {"health_mul": 0.3,
+                      "stamina_mul": 0.3,
+                      "attack_mul": 0.3,
+                      "defence_mul": 0.3
+                      
+    }
+
+ITEM_INTERACT_DATA_MYTHIC = {"health_mul": 0.4,
+                      "stamina_mul": 0.4,
+                      "attack_mul": 0.4,
+                      "defence_mul": 0.4
+                      
+    }
+
+ITEM_INTERACT_DATA_LEGENDERY = {"health_mul": 0.5,
+                      "stamina_mul": 0.5,
+                      "attack_mul": 0.5,
+                      "defence_mul": 0.5
+                      
+    }
