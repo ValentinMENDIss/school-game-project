@@ -3,7 +3,7 @@
 import pygame
 
 from settings import *
-from gamedata import NPC_ENEMY_INTERACT_DATA 
+from gamedata import NPC_ENEMY_INTERACT_DATA
 from button import Button
 
 ######### SPRITES ##############
@@ -36,6 +36,7 @@ class Battle_Menu:
 
     # DRAWING LOGIC
     def draw(self, surface, enemy_health):
+        self.enemytext = ""
         self.enemy_health = enemy_health
         running = True
         FightButtonMenu = None
