@@ -1,6 +1,7 @@
 ######### IMPORT ##############
 
 import pygame
+from random import randint
 
 from settings import *
 from gamedata import NPC_ENEMY_INTERACT_DATA
@@ -13,11 +14,14 @@ BACKGROUND_IMG = pygame.image.load(os.path.join('..', 'graphics', 'battle-menu-b
 ######### CLASSes ##############
 
 class Battle_Menu:
-    def __init__(self):
+    def __init__(self, enemy_health):
+        self.attack_type = ["attack", "emotional_attack"]
         self.get_pressed_keys_action = False
         self.exit_action = False
+        self.enemy_health = enemy_health
+        self.player_health = 100
         # TEXTs
-        self.enemytext = "test"
+        self.enemytext = ""
 
     def random_text(self):
         if self.enemy_health <= 0:
@@ -27,19 +31,31 @@ class Battle_Menu:
             self.enemytext = NPC_ENEMY_INTERACT_DATA[index]
 
     def attack_enemy(self, attack_type):
-        if attack_type == "emotional_attack":
-            self.enemy_health -= random.randint(0, 15) 
-            self.random_text()
-        elif attack_type == "attack":
+        if attack_type == "attack":
             self.enemy_health -= random.randint(0, 25)
             self.random_text()
+        elif attack_type == "emotional_attack":
+            self.enemy_health -= random.randint(0, 15) 
+            self.random_text()
+
+    def attack_player(self):
+        index = random.randint(0, len(self.attack_type) - 1)
+        attack_type = self.attack_type[index]
+
+        if attack_type == "attack":
+            self.player_health -= random.randint(0, 25)
+        if attack_type == "emotional_attack":
+            self.player_health -= random.randint(0, 15)
 
     # DRAWING LOGIC
-    def draw(self, surface, enemy_health):
-        self.enemytext = ""
-        self.enemy_health = enemy_health
-        running = True
+    def draw(self, surface):
         FightButtonMenu = None
+        # ACTION
+        action = None
+        action_start_time = 0
+        action_duration = 2000
+        # LOOP VARIABLES
+        running = True
         while running:
             # DEFINING CONSTANT VARIABLES
             MENU_MOUSE_POS = pygame.mouse.get_pos()
@@ -91,11 +107,25 @@ class Battle_Menu:
                         FightButtonMenu = True
                     if FightButtonMenu:
                         if EMOTIONAL_ATTACK_BUTTON.checkForInput(MENU_MOUSE_POS):
-                            self.attack_enemy("emotional_attack")
+                            self.attack_enemy(self.attack_type[1])
                             print("EMOTIONAL_ATTACK_BUTTON Pressed") 
+                            action = "Fight"
                         elif ATTACK_BUTTON.checkForInput(MENU_MOUSE_POS):
-                            self.attack_enemy("attack")
+                            self.attack_enemy(self.attack_type[0])
                             print("ATTACK_BUTTON Pressed")
+                            action = "Fight"
+
+            if action:
+                if action == "Fight":
+                    if action_start_time == 0:
+                        action_start_time = pygame.time.get_ticks()
+                    elif pygame.time.get_ticks() - action_start_time >= action_duration:
+                        self.attack_player()
+                        print(f"PLAYER HEALTH: {self.player_health}")
+                        action = None
+                        action_start_time = 0
+                else:
+                    pass
 
             if self.enemy_health <= 0:
                 print("You've won me")

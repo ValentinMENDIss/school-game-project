@@ -144,10 +144,11 @@ class NPC_Enemy(NPC):
         self.pos = pos
         self.z = WORLD_LAYERS['main']
         self.y_sort = self.rect.centery
-        self.battle_menu = Battle_Menu()
         # ATTRIBUTES
         self.health = 100
 
+        self.battle_menu = Battle_Menu(enemy_health=self.health)
+
+
     def interact(self, surface):
-        self.battle_menu.draw(surface, 
-                              enemy_health=self.health)
+        self.battle_menu.draw(surface)
