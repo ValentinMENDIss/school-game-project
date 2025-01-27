@@ -43,6 +43,11 @@ class Menu:
 
     # MAIN MENU
     def main_menu(self, surface):
+        ## INITIALIZING BUTTONS ##
+        START_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, scale=0.8, image=START_IMG, hovered_image=START_IMG_PRESSED)  # create button instance
+        SETTINGS_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 125, scale=0.8, image=SETTINGS_IMG, hovered_image=SETTINGS_IMG_PRESSED)
+        EXIT_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, scale=0.8, image=EXIT_IMG, hovered_image=EXIT_IMG_PRESSED)  # create button instance
+
         running = True
         while running:
             # DEFINING CONSTANT VARIABLES
@@ -60,20 +65,9 @@ class Menu:
             surface.blit(BACKGROUND_IMG)
             surface.blit(headingtext, headingtextrect)
 
-            ## INITIALIZING BUTTONS AND DRAWING THEM ##
-            START_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, START_IMG, 0.8)  # create button instance
-            START_BUTTON.draw(surface)
-            
-            SETTINGS_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 125, SETTINGS_IMG, 0.8)
-            SETTINGS_BUTTON.draw(surface)
-
-            EXIT_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, EXIT_IMG, 0.8)  # create button instance
-            EXIT_BUTTON.draw(surface)
-
-            # OR TRY FOLLOWING INSTEAD:
-            # for button in [self.start_button, self.exit_button, self.settings_button]:
-            #     button.draw(surface)
-
+            ## DRAWING BUTTONS ##
+            for button in [START_BUTTON, SETTINGS_BUTTON, EXIT_BUTTON]:
+                button.draw(surface)
 
             # INPUT HANDLING
             if self.menu_exit_action == True:
@@ -105,6 +99,10 @@ class Menu:
 
     # SETTINGS MENU
     def settings_menu(self, surface):
+        ## INITIALIZING BUTTONS ##
+        SETTINGS_INPUT_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 125, scale=0.8, image=SETTINGS_IMG, hovered_image=SETTINGS_IMG_PRESSED)
+        RETURN_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, scale=0.8,  image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
+
         running = True
         while running:
             # DEFINING CONSTANT VARIABLES
@@ -121,13 +119,9 @@ class Menu:
             surface.blit(BACKGROUND_IMG)
             surface.blit(headingtext, headingtextrect)
 
-            ## INITIALIZING BUTTONS AND DRAWING THEM ##
-            SETTINGS_INPUT_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 125, SETTINGS_IMG, 0.8)
-            SETTINGS_INPUT_BUTTON.draw(surface)
-
-            RETURN_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, RETURN_IMG, 0.8)
-            RETURN_BUTTON.draw(surface)
-
+            ## DRAWING BUTTONS ##
+            for button in [SETTINGS_INPUT_BUTTON, RETURN_BUTTON]:
+                button.draw(surface)
 
             # INPUT HANDLING
             if self.menu_exit_action == True:
@@ -157,6 +151,14 @@ class Menu:
 
     # INPUT SETTINGS MENU
     def settings_input_menu(self, surface):
+        ## INITIALIZING BUTTONS ##
+        RETURN_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, scale=0.5, image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
+        MENU_TOGGLE_BUTTON = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 180, scale=0.5, image=TEST_IMG, hovered_image=TEST_IMG_PRESSED)
+        MOVE_UP_BUTTON = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 100, scale=0.5, image=TEST_IMG, hovered_image=TEST_IMG_PRESSED)
+        MOVE_DOWN_BUTTON = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 20, scale=0.5, image=TEST_IMG, hovered_image=TEST_IMG_PRESSED)
+        MOVE_RIGHT_BUTTON = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - -60, scale=0.5, image=TEST_IMG, hovered_image=TEST_IMG_PRESSED)
+        MOVE_LEFT_BUTTON = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - -140, scale=0.5, image=TEST_IMG, hovered_image=TEST_IMG_PRESSED)
+        # DEFINING VARIABLES
         running = True
         action = None
         while running:
@@ -211,25 +213,9 @@ class Menu:
             surface.blit(move_lefttext, move_lefttextrect)
             surface.blit(attentiontext, attentiontextrect)
 
-            ## DRAWING AND INITIALIZING BUTTONS ##
-            RETURN_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, RETURN_IMG, 0.8)
-            RETURN_BUTTON.draw(surface)
-
-            MENU_TOGGLE_BUTTON = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 180, TEST_IMG, 0.5)
-            MENU_TOGGLE_BUTTON.draw(surface)
-
-            MOVE_UP_BUTTON = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 100, TEST_IMG, 0.5)
-            MOVE_UP_BUTTON.draw(surface)
-
-            MOVE_DOWN_BUTTON = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 20, TEST_IMG, 0.5)
-            MOVE_DOWN_BUTTON.draw(surface)
-
-            MOVE_RIGHT_BUTTON = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - -60, TEST_IMG, 0.5)
-            MOVE_RIGHT_BUTTON.draw(surface)
-
-            MOVE_LEFT_BUTTON = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - -140, TEST_IMG, 0.5)
-            MOVE_LEFT_BUTTON.draw(surface)
-
+            ## DRAWING BUTTONS ##
+            for button in [RETURN_BUTTON, MENU_TOGGLE_BUTTON, MOVE_UP_BUTTON, MOVE_DOWN_BUTTON, MOVE_RIGHT_BUTTON, MOVE_LEFT_BUTTON]: 
+                button.draw(surface)
 
             # INPUT HANDLING
             if self.menu_exit_action == True:

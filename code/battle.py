@@ -56,12 +56,24 @@ class Battle_Menu:
         action_duration = 2000
         # LOOP VARIABLES
         running = True
+
+        # INITALIZING BUTTONS
+        SURRENDER_BUTTON = Button(WINDOW_WIDTH - 150, WINDOW_HEIGHT - 100, scale=0.40, image=SURRENDER_IMG, hovered_image=SURRENDER_IMG_PRESSED)                             # create button instance
+        FIGHT_BUTTON = Button(150, WINDOW_HEIGHT - 100, scale=0.40, image=START_IMG, hovered_image=START_IMG_PRESSED)
+        DEFENSE_BUTTON = Button(400, WINDOW_HEIGHT - 100, scale=0.40, image=START_IMG, hovered_image=START_IMG_PRESSED)
+        ITEMS_BUTTON = Button(650, WINDOW_HEIGHT - 100, scale=0.40, image=START_IMG, hovered_image=START_IMG_PRESSED)
+        SPELL_BUTTON = Button(900, WINDOW_HEIGHT - 100, scale=0.40, image=START_IMG, hovered_image=START_IMG_PRESSED)
+
+        EMOTIONAL_ATTACK_BUTTON = Button(150, WINDOW_HEIGHT - 175, scale=0.40, image=START_IMG, hovered_image=START_IMG_PRESSED)
+        ATTACK_BUTTON = Button(150, WINDOW_HEIGHT - 250, scale=0.40, image=START_IMG, hovered_image=START_IMG_PRESSED)
+
+        # SETTING TEXT FOR MENU
+        heading_text = "Battle Menu"
+
+       # LOOP
         while running:
             # DEFINING CONSTANT VARIABLES
             MENU_MOUSE_POS = pygame.mouse.get_pos()
-
-            # SETTING TEXT FOR MENU
-            heading_text = "Battle Menu"
 
             # DEFINING TEXT VARIABLES
             headingtext = HEADINGTEXT.render(heading_text, True, (0, 0, 0)).convert_alpha()  # render a Small Text
@@ -77,18 +89,9 @@ class Battle_Menu:
             surface.blit(headingtext, headingtextrect)
             surface.blit(enemytext, enemytextrect)
 
-            ## INITIALIZING BUTTONS AND DRAWING THEM ##
-            SURRENDER_BUTTON = Button(WINDOW_WIDTH - 150, WINDOW_HEIGHT - 100, SURRENDER_IMG, 0.40)                             # create button instance
-            FIGHT_BUTTON = Button(150, WINDOW_HEIGHT - 100, START_IMG, 0.40)
-            DEFENSE_BUTTON = Button(400, WINDOW_HEIGHT - 100, START_IMG, 0.40)
-            ITEMS_BUTTON = Button(650, WINDOW_HEIGHT - 100, START_IMG, 0.40)
-            SPELL_BUTTON = Button(900, WINDOW_HEIGHT - 100, START_IMG, 0.40)
-
+            ## DRAWING BUTTONS ##
             for button in [SURRENDER_BUTTON, FIGHT_BUTTON, DEFENSE_BUTTON, ITEMS_BUTTON, SPELL_BUTTON]:                     # iterate through every single button instance and draw it to the screen
                 button.draw(surface)
-
-            EMOTIONAL_ATTACK_BUTTON = Button(150, WINDOW_HEIGHT - 175, START_IMG, 0.40)
-            ATTACK_BUTTON = Button(150, WINDOW_HEIGHT - 250, START_IMG, 0.40)
 
             if FightButtonMenu:
                 EMOTIONAL_ATTACK_BUTTON.draw(surface)
@@ -108,10 +111,12 @@ class Battle_Menu:
                     if FightButtonMenu:
                         if EMOTIONAL_ATTACK_BUTTON.checkForInput(MENU_MOUSE_POS):
                             self.attack_enemy(self.attack_type[1])
+                            EMOTIONAL_ATTACK_BUTTON.set_image(START_IMG_PRESSED, scale=0.4)
                             print("EMOTIONAL_ATTACK_BUTTON Pressed") 
                             action = "Fight"
                         elif ATTACK_BUTTON.checkForInput(MENU_MOUSE_POS):
                             self.attack_enemy(self.attack_type[0])
+                            ATTACK_BUTTON.set_image(START_IMG_PRESSED, scale=0.4)
                             print("ATTACK_BUTTON Pressed")
                             action = "Fight"
 
