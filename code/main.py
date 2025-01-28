@@ -119,6 +119,7 @@ class Game:
     def get_random_interact_text(self, data):
         random_number = random.randint(0, len(data) - 1)
         self.random_interact_text = data[random_number]
+        return f"{self.random_interact_text}"
 
     def transition_check(self):
         sprites = [sprite for sprite in self.transition_sprites if sprite.rect.colliderect(self.player.hitbox)]
@@ -169,15 +170,8 @@ class Game:
                     self.npc.interact(self.random_interact_text, self.player.rect)
 
                 elif self.action == "npc_enemy":
-                    if timer.active == False and not timer.is_finished:
-                        timer.start(self.action_duration)
-                        self.get_random_interact_text(NPC_ENEMY_DEFEATED_INTERACT_DATA)
-                    if timer.is_finished:
-                        self.action = None
-                        timer.is_finished = False
+                   self.npc_enemy.interact(self.SCREEN, self.player.rect)
 
-                    timer.update()
-                    self.npc_enemy.interact(self.random_interact_text, self.SCREEN, self.player.rect)
             else:                                                                                                       # else (interact isn't true)
                 self.action_start_time = 0                                                                            # reset interact start time
 

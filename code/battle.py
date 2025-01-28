@@ -22,8 +22,11 @@ class Battle_Menu:
         self.exit_action = False
         self.enemy_health = enemy_health
         self.player_health = 100
+        self.damage = 0
+        self.show_damage_action = False
         # TEXTs
         self.enemytext = ""
+        self.damagetext = ""
 
     def random_text(self):
         if self.enemy_health <= 0:
@@ -34,20 +37,38 @@ class Battle_Menu:
 
     def attack_enemy(self, attack_type):
         if attack_type == "attack":
-            self.enemy_health -= random.randint(0, 25)
+            self.enemy_dmg = random.randint(0, 25)
+            self.enemy_health -= self.enemy_dmg
             self.random_text()
         elif attack_type == "emotional_attack":
-            self.enemy_health -= random.randint(0, 15)
+            self.enemy_dmg = random.randint(0, 15)
+            self.enemy_health -= self.enemy_dmg
             self.random_text()
+        self.show_damage_action = True
+
+    # SHOW DEALT DAMAGE ON THE SCREEN
+    def show_damage(self, surface):
+        size = 25
+        DAMAGETEXT = pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'), size)
+
+        damagetext = DAMAGETEXT.render(str(self.enemy_dmg), True, (210,39,48)).convert_alpha()        # render an enemy text
+        damagetextrect = damagetext.get_rect()
+        damagetextrect.center = (WINDOW_WIDTH // 2 + 350, WINDOW_HEIGHT // 2 - 50)
+
+        surface.blit(damagetext, damagetextrect)
+        if size >= 35:
+            self.show_damage_action = False
 
     def attack_player(self):
         index = random.randint(0, len(self.attack_type) - 1)
         attack_type = self.attack_type[index]
 
         if attack_type == "attack":
-            self.player_health -= random.randint(0, 25)
+            self.damage = random.randint(0, 25)
+            self.player_health -= self.damage
         if attack_type == "emotional_attack":
-            self.player_health -= random.randint(0, 15)
+            self.damage = random.randint(0, 15)
+            self.player_health -= self.damage
 
     # DRAWING LOGIC
     def draw(self, surface):
@@ -98,7 +119,6 @@ class Battle_Menu:
             if FightButtonMenu:
                 EMOTIONAL_ATTACK_BUTTON.draw(surface)
                 ATTACK_BUTTON.draw(surface)
-
             ## EVENTS ##
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:                                                                               # exit game function
@@ -109,6 +129,7 @@ class Battle_Menu:
                         pygame.mixer.Sound.play(MENU_SOUND)
                         pygame.mixer.music.stop()
                         running = False
+                        #return False
                     if FIGHT_BUTTON.checkForInput(MENU_MOUSE_POS):
                         FightButtonMenu = True
                     if FightButtonMenu:
@@ -135,13 +156,16 @@ class Battle_Menu:
                 else:
                     pass
 
+            if self.show_damage_action:
+                self.show_damage(surface)
             if self.enemy_health <= 0:
                 print("You've won me")
                 if timer.active == False and not timer.is_finished:
                     timer.start(5000)
                 timer.update()
                 if timer.is_finished:
-                    return False
+                    running = False
+                    #return self.enemy_health
             else:
                 pass
 

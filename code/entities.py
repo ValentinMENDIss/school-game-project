@@ -5,6 +5,8 @@ import pygame
 from settings import *
 from dialog import *
 from battle import Battle_Menu
+from timer import Timer
+from gamedata import NPC_ENEMY_DEFEATED_INTERACT_DATA
 
 ######### CLASSes ############
 
@@ -149,7 +151,27 @@ class NPC_Enemy(NPC):
         self.battle_menu = Battle_Menu()
         # ATTRIBUTES
         self.health = 100
+        self.text = ""
+        self.battle_menu = Battle_Menu(enemy_health=self.health, game=self.game)
+        self.timer = Timer()
 
-    def interact(self, surface):
-        self.battle_menu.draw(surface, 
-                              enemy_health=self.health)
+
+
+    def interact(self, surface, player_center):
+        if self.health > 0:
+            self.battle_menu.draw(surface)
+            if self.battle_menu.enemy_health <= 0:
+                self.health = 0
+                self.game.action = None
+        else:
+            if self.timer.active == False and not self.timer.is_finished:
+                self.timer.start(self.game.action_duration)
+                self.text = self.game.get_random_interact_text(NPC_ENEMY_DEFEATED_INTERACT_DATA)
+            if self.timer.is_finished:
+                self.game.action = None
+                self.timer.is_finished = False
+
+            self.timer.update()
+            self.player_center = player_center
+            dialog = Dialog(self.pos)                                                                                       # initializing dialog class
+            dialog.interact(self.text, self.player_center, screen=self.game.SCREEN)                                                                       # run dialogs' interact function, to show some tex
