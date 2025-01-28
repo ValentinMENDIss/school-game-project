@@ -41,6 +41,13 @@ NPC_ENEMY_INTERACT_DATA = ["Is it all you can do?",
                            "...",
                            "... And now see my power!"]
 
+NPC_ENEMY_DEFEATED_INTERACT_DATA = ["You have already won me...",
+                                    "You can't fight with me anymore, sadly...",
+                                    "I don't want to fight with you anymore",
+                                    "Why are you still here?",
+                                    "Do you really want me to fight with you second time?",
+                                    "I am not in the mood to fight anymore..."]
+
 ## ITEM DATA ##
 ITEM_RARITY_DATA_RARE = {"health_mul": 1.2,
                          "stamina_mul": 1.2,

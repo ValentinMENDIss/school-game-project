@@ -151,6 +151,14 @@ class NPC_Enemy(NPC):
         self.battle_menu = Battle_Menu(enemy_health=self.health, game=self.game)
 
 
-    def interact(self, surface):
-        if self.battle_menu.draw(surface) == False:
-            self.health = 0
+    def interact(self, text, surface, player_center):
+        if self.health > 0:
+            if self.battle_menu.draw(surface) == False:
+                self.health = 0
+        else: 
+            self.player_center = player_center
+            dialog = Dialog(self.pos)                                                                                       # initializing dialog class
+            dialog.interact(text, self.player_center, screen=self.game.SCREEN)                                                                       # run dialogs' interact function, to show some tex
+
+           
+

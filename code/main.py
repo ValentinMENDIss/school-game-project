@@ -13,6 +13,7 @@ from hud import *
 from items import *
 from gamedata import *
 from input import *
+from timer import Timer
 
 import cProfile
 
@@ -115,9 +116,9 @@ class Game:
         else:
             self.menu.get_pressed_keys_action = self.input.menu_input(action)
 
-    def get_random_interact_text(self):
-        random_number = random.randint(0, len(NPC_INTERACT_DATA) - 1)
-        self.random_interact_text = NPC_INTERACT_DATA[random_number]
+    def get_random_interact_text(self, data):
+        random_number = random.randint(0, len(data) - 1)
+        self.random_interact_text = data[random_number]
 
     def transition_check(self):
         sprites = [sprite for sprite in self.transition_sprites if sprite.rect.colliderect(self.player.hitbox)]
@@ -130,7 +131,7 @@ class Game:
         # VARIABLES
         self.running = True                                                                                             # initializing variable for main loop
         self.menu_startup = True
-
+        timer = Timer()
         # PYGAME EVENTS
         while self.running == True:
             for event in pygame.event.get():                                                                            # for every single event that is available in pygame do following:
@@ -149,7 +150,6 @@ class Game:
             self.transition_check()                                                                                     # check if the player is colliding with transition point (TP)
             self.all_sprites.update(dt)                                                                                 # update screen (all sprites) by FPS
             self.SCREEN.fill((173, 216, 230))
-#            self.SCREEN.blit(SKY_BG_1)
             self.SCREEN.blit(self.static_layer, (-(self.player.rect.center[0] - WINDOW_WIDTH / 2), -(self.player.rect.center[1] - WINDOW_HEIGHT / 2)))
             self.all_sprites.draw(self.player.rect.center)                                                              # draw all sprites to the center of the rectangle of the player (camera)
             self.hud.draw(self.SCREEN)
@@ -162,15 +162,22 @@ class Game:
                 elif self.action == "npc":
                     if self.action_start_time == 0:                                                                       # if interact start time equals to 0, do following:
                         self.action_start_time = pygame.time.get_ticks()                                                  # assign ticks to interact start time variable
-                        self.get_random_interact_text()
+                        self.get_random_interact_text(NPC_INTERACT_DATA)
                     elif pygame.time.get_ticks() - self.action_start_time >= self.action_duration:                      # else if more or equal time than interact duration has been gone do following:
                         self.action = None                                                                               # turn interaction off
                         self.action_start_time = 0                                                                        # reset interact start time counter
                     self.npc.interact(self.random_interact_text, self.player.rect)
+
                 elif self.action == "npc_enemy":
-                    if self.npc_enemy.health > 0:
-                        self.npc_enemy.interact(self.SCREEN)
+                    if timer.active == False and not timer.is_finished:
+                        timer.start(self.action_duration)
+                        self.get_random_interact_text(NPC_ENEMY_DEFEATED_INTERACT_DATA)
+                    if timer.is_finished:
                         self.action = None
+                        timer.is_finished = False
+
+                    timer.update()
+                    self.npc_enemy.interact(self.random_interact_text, self.SCREEN, self.player.rect)
             else:                                                                                                       # else (interact isn't true)
                 self.action_start_time = 0                                                                            # reset interact start time
 
