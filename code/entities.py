@@ -98,7 +98,7 @@ class Player(pygame.sprite.Sprite):
         for sprite in self.collision_sprites:
             if sprite.hitbox.colliderect(self.hitbox):
                 if axis == 'horizontal':
-                    if self.direction.x > 0: 
+                    if self.direction.x > 0:
                         self.hitbox.right = sprite.hitbox.left
                     if self.direction.x < 0:
                         self.hitbox.left = sprite.hitbox.right
@@ -137,6 +137,7 @@ class NPC(pygame.sprite.Sprite):
 class NPC_Enemy(NPC):
     def __init__(self, pos, groups, game, health=100):
         super().__init__(pos, groups, game)
+        self.game = game
         self.image = NPC_IDLE.convert_alpha()
         self.new_size_image = (self.image.get_width() * 4, self.image.get_height() * 4)                                 # declare new variable that has 4 times bigger scale than the player's image
         self.image = (pygame.transform.scale(self.image, self.new_size_image))
@@ -147,8 +148,9 @@ class NPC_Enemy(NPC):
         # ATTRIBUTES
         self.health = 100
 
-        self.battle_menu = Battle_Menu(enemy_health=self.health)
+        self.battle_menu = Battle_Menu(enemy_health=self.health, game=self.game)
 
 
     def interact(self, surface):
-        self.battle_menu.draw(surface)
+        if self.battle_menu.draw(surface) == False:
+            self.health = 0

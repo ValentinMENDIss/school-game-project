@@ -6,6 +6,7 @@ from random import randint
 from settings import *
 from gamedata import NPC_ENEMY_INTERACT_DATA
 from button import Button
+from timer import Timer
 
 ######### SPRITES ##############
 
@@ -14,7 +15,8 @@ BACKGROUND_IMG = pygame.image.load(os.path.join('..', 'graphics', 'battle-menu-b
 ######### CLASSes ##############
 
 class Battle_Menu:
-    def __init__(self, enemy_health):
+    def __init__(self, enemy_health, game):
+        self.game = game
         self.attack_type = ["attack", "emotional_attack"]
         self.get_pressed_keys_action = False
         self.exit_action = False
@@ -35,7 +37,7 @@ class Battle_Menu:
             self.enemy_health -= random.randint(0, 25)
             self.random_text()
         elif attack_type == "emotional_attack":
-            self.enemy_health -= random.randint(0, 15) 
+            self.enemy_health -= random.randint(0, 15)
             self.random_text()
 
     def attack_player(self):
@@ -69,7 +71,7 @@ class Battle_Menu:
 
         # SETTING TEXT FOR MENU
         heading_text = "Battle Menu"
-
+        timer = Timer()
        # LOOP
         while running:
             # DEFINING CONSTANT VARIABLES
@@ -101,7 +103,8 @@ class Battle_Menu:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:                                                                               # exit game function
                     running = False
-                if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.game.running = False
+                if event.type == pygame.MOUSEBUTTONDOWN and not timer.active:
                     if SURRENDER_BUTTON.checkForInput(MENU_MOUSE_POS):
                         pygame.mixer.Sound.play(MENU_SOUND)
                         pygame.mixer.music.stop()
@@ -112,7 +115,7 @@ class Battle_Menu:
                         if EMOTIONAL_ATTACK_BUTTON.checkForInput(MENU_MOUSE_POS):
                             self.attack_enemy(self.attack_type[1])
                             EMOTIONAL_ATTACK_BUTTON.set_image(START_IMG_PRESSED, scale=0.4)
-                            print("EMOTIONAL_ATTACK_BUTTON Pressed") 
+                            print("EMOTIONAL_ATTACK_BUTTON Pressed")
                             action = "Fight"
                         elif ATTACK_BUTTON.checkForInput(MENU_MOUSE_POS):
                             self.attack_enemy(self.attack_type[0])
@@ -134,9 +137,13 @@ class Battle_Menu:
 
             if self.enemy_health <= 0:
                 print("You've won me")
+                if timer.active == False and not timer.is_finished:
+                    timer.start(5000)
+                timer.update()
+                if timer.is_finished:
+                    return False
             else:
                 pass
 
             print(self.enemy_health)
             pygame.display.update()
-            

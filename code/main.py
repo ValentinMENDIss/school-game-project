@@ -13,7 +13,6 @@ from hud import *
 from items import *
 from gamedata import *
 from input import *
-from battle import Battle_Menu
 
 import cProfile
 
@@ -125,7 +124,7 @@ class Game:
         if sprites:
             self.transition_target = sprites[0].target
             self.setup(self.tmx_maps[self.transition_target[0]], self.transition_target[1])                                                   # import this one specific tileset (mapset/asset)
-    
+
     # MAIN (RUN) LOGIC
     def run(self):
         # VARIABLES
@@ -146,7 +145,7 @@ class Game:
                 self.menu_startup = False
 
             # PYGAME LOGIC
-            
+
             self.transition_check()                                                                                     # check if the player is colliding with transition point (TP)
             self.all_sprites.update(dt)                                                                                 # update screen (all sprites) by FPS
             self.SCREEN.fill((173, 216, 230))
@@ -169,14 +168,15 @@ class Game:
                         self.action_start_time = 0                                                                        # reset interact start time counter
                     self.npc.interact(self.random_interact_text, self.player.rect)
                 elif self.action == "npc_enemy":
-                    self.npc_enemy.interact(self.SCREEN)
-                    self.action = None
+                    if self.npc_enemy.health > 0:
+                        self.npc_enemy.interact(self.SCREEN)
+                        self.action = None
             else:                                                                                                       # else (interact isn't true)
                 self.action_start_time = 0                                                                            # reset interact start time
-            
+
             ## GET CURRENT FPS ##
             print(self.clock.get_fps())
- 
+
             pygame.display.update()                                                                                     # refresh(update) the screen
 
 
@@ -185,6 +185,6 @@ class Game:
 if __name__ == "__main__":                                                                                              # if code is in main.py (__main__) run following
     game = Game()                                                                                                       # initialize game() (class)
     game.run()                                                                                                          # run game (game-logic)
-    
+
     ## DEBUG ##
     #cProfile.run('game.run()')
