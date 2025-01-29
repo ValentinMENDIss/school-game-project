@@ -11,12 +11,12 @@ from gamedata import NPC_ENEMY_DEFEATED_INTERACT_DATA
 ######### CLASSes ############
 
 class Player(pygame.sprite.Sprite):
-    def __init__(self, input, pos, groups, collision_sprites, health=100,stamina=100,defence=100,attack=100):
+    def __init__(self, input, pos, groups, collision_sprites, health=100, stamina=100, defence=100, damage=100):
         # ATTRIBUTES
         self.health = health                                                                                            # initialize new variable/attribute for the player (health)
         self.stamina = stamina
-        self.attack = attack
         self.defence = defence
+        self.damage = damage
         self.z = WORLD_LAYERS['main']
         self.collision_rects = [sprite.rect for sprite in collision_sprites if sprite is not self]
         self.collision_sprites = collision_sprites
