@@ -103,7 +103,7 @@ class Player(pygame.sprite.Sprite):
         for sprite in self.collision_sprites:
             if sprite.hitbox.colliderect(self.hitbox):
                 if axis == 'horizontal':
-                    if self.direction.x > 0: 
+                    if self.direction.x > 0:
                         self.hitbox.right = sprite.hitbox.left
                     if self.direction.x < 0:
                         self.hitbox.left = sprite.hitbox.right
@@ -123,8 +123,9 @@ class Player(pygame.sprite.Sprite):
 
 
 class NPC(pygame.sprite.Sprite):
-    def __init__(self, pos, groups):
+    def __init__(self, pos, groups, game):
         super().__init__(groups)
+        self.game = game
         self.image = NPC_IDLE.convert_alpha()
         self.new_size_image = (self.image.get_width() * 4, self.image.get_height() * 4)                                 # declare new variable that has 4 times bigger scale than the player's image
         self.image = (pygame.transform.scale(self.image, self.new_size_image))
@@ -136,11 +137,12 @@ class NPC(pygame.sprite.Sprite):
     def interact(self, text, player_center):
         self.player_center = player_center
         dialog = Dialog(self.pos)                                                                                       # initializing dialog class
-        dialog.interact(text, self.player_center)                                                                       # run dialogs' interact function, to show some tex
+        dialog.interact(text, self.player_center, screen=self.game.SCREEN)                                                                       # run dialogs' interact function, to show some tex
 
 class NPC_Enemy(NPC):
-    def __init__(self, pos, groups, health=100):
-        super().__init__(pos, groups)
+    def __init__(self, pos, groups, game, health=100):
+        super().__init__(pos, groups, game)
+        self.game = game
         self.image = NPC_IDLE.convert_alpha()
         self.new_size_image = (self.image.get_width() * 4, self.image.get_height() * 4)                                 # declare new variable that has 4 times bigger scale than the player's image
         self.image = (pygame.transform.scale(self.image, self.new_size_image))
@@ -148,7 +150,6 @@ class NPC_Enemy(NPC):
         self.pos = pos
         self.z = WORLD_LAYERS['main']
         self.y_sort = self.rect.centery
-        self.battle_menu = Battle_Menu()
         # ATTRIBUTES
         self.health = 100
         self.text = ""
