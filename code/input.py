@@ -29,7 +29,6 @@ class UserInput:
             try:
                 if abs(self.game.npc.rect[0] - self.game.player.rect[0]) <= 200 and abs(self.game.npc.rect[1] - self.game.player.rect[1]) <= 200:   # check NPC's and player's position. If the differences between each x and y value/coordinates is smaller in value then 200, do following:
                     pygame.mixer.Sound.play(YIPPEE_SOUND)                                                                   # play sound
-                    pygame.mixer.music.stop()                                                                               # stop sound
                     self.game.action = "npc"                                                                               # assign following value to self.interact variable: True
             except AttributeError:
                 print("The npc attribute is not present in the game class")
@@ -38,7 +37,6 @@ class UserInput:
             try:
                 if abs(self.game.npc_enemy.rect[0] - self.game.player.rect[0]) <= 200 and abs(self.game.npc_enemy.rect[1] - self.game.player.rect[1]) <= 200:   # check NPC's and player's position. If the differences between each x and y value/coordinates is smaller in value then 200, do following:
                     pygame.mixer.Sound.play(YIPPEE_SOUND)                                                                   # play sound
-                    pygame.mixer.music.stop()                                                                               # stop sound
                     self.game.action = "npc_enemy"                                                                               # assign following value to self.interact variable: True
             except AttributeError:
                 print("The npc_enemy attribbute is not present in the game class")
@@ -86,7 +84,6 @@ class UserInput:
 
         if self.keys[self.key_bindings["menu_toggle"]] or (self.num_joysticks > 0 and self.button_states[7] == 1 and self.joystick_button_pressed == False):  # if the key that was just pressed on the keyboard is 'ESCAPE', or "A" button on the joystick do following:
             pygame.mixer.Sound.play(MENU_SOUND)
-            pygame.mixer.music.stop()
             self.menu_running = False                                                                                   # set value: False(bool) to the menu_running variable. The menu should be quited
         self.button_state()
 

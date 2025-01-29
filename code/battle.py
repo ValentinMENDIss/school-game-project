@@ -127,7 +127,6 @@ class Battle_Menu:
                 if event.type == pygame.MOUSEBUTTONDOWN and not timer.active:
                     if SURRENDER_BUTTON.checkForInput(MENU_MOUSE_POS):
                         pygame.mixer.Sound.play(MENU_SOUND)
-                        pygame.mixer.music.stop()
                         running = False
                         #return False
                     if FIGHT_BUTTON.checkForInput(MENU_MOUSE_POS):

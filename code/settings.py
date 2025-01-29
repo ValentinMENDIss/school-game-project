@@ -7,7 +7,7 @@ from pygame.math import Vector2 as vector
 import time
 import random
 
-pygame.mixer.init()
+pygame.mixer.init(frequency=44100, size=-16, channels=2, buffer=512)
 pygame.font.init()																										# initialize pygame.font framework (needed for text)
 
 ######### CONSTANTS ###########

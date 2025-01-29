@@ -80,7 +80,6 @@ class Menu:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if START_BUTTON.checkForInput(MENU_MOUSE_POS):
                         pygame.mixer.Sound.play(MENU_SOUND)
-                        pygame.mixer.music.stop()
                         self.running, running = False, False                                                                # quit all menus and this specific menu loop
                     if SETTINGS_BUTTON.checkForInput(MENU_MOUSE_POS):
                         running = False

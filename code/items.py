@@ -20,7 +20,7 @@ class Items(pygame.sprite.Sprite):
         self.inventory = self.game.inventory
 
         if self.rarity == "RARE":
-            self.item_data = ITEM_RARITY_DATA_RARE 
+            self.item_data = ITEM_RARITY_DATA_RARE
         elif self.rarity == "EPIC":
             self.item_data = ITEM_RARITY_DATA_EPIC
 
@@ -28,13 +28,12 @@ class Items(pygame.sprite.Sprite):
         self.player_center = player_center
         if abs(self.pos[0] - self.player_center[0]) <= 100 and abs(self.pos[1] - self.player_center[1]) <= 100:         # ; [0] = x; [1] = y;
             pygame.mixer.Sound.play(PICKUP_SOUND)                                                                       # play sound
-            pygame.mixer.music.stop()                                                                                   # stop sound
             self.inventory.add_item(self.name)
             self.kill()                                                                                                 # remove the item from all sprites groups atfter pickup, avoiding reprocessing
         self.game.action = None                                                                                         # reset variable that stores action (from action handling)
-                         
 
-#    def random_abilities(self):     
+
+#    def random_abilities(self):
                     #random select of abilities
 #                    effect, multiplier = random.choice(list(item_data.items()))
 #                    if effect == "health_mul":
@@ -56,6 +55,4 @@ class Items(pygame.sprite.Sprite):
 #                        self.game.player.health = self.game.player.health * self.multiplicator  # Health erhöhen
 #                        print(self.game.player.health)
 #                        ITEM_INTERACT_DATA.append(key)
-#                        
-                    
-                    
+#
