@@ -152,17 +152,16 @@ class NPC_Enemy(NPC):
         # ATTRIBUTES
         self.health = 100
         self.text = ""
+
         self.battle_menu = Battle_Menu(enemy_health=self.health, game=self.game)
         self.timer = Timer()
-
-
 
     def interact(self, surface, player_center):
         if self.health > 0:
             self.battle_menu.draw(surface)
             if self.battle_menu.enemy_health <= 0:
                 self.health = 0
-                self.game.action = None
+            self.game.action = None
         else:
             if self.timer.active == False and not self.timer.is_finished:
                 self.timer.start(self.game.action_duration)

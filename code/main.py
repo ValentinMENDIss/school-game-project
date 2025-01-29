@@ -37,7 +37,8 @@ class Game:
         self.pressed_duration = 5000
 
         # CONFIGURING PYGAME
-        self.SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT))                                            # create screen with (x,y) (tuple)
+        SCREEN_FLAGS = pygame.HWSURFACE | pygame.DOUBLEBUF
+        self.SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), SCREEN_FLAGS)                                            # create screen with (x,y) (tuple)
         pygame.display.set_caption("School-Game-Project(11. Grade)")                                                    # set/change title (caption) of the window
         self.clock = pygame.time.Clock()                                                                                # create a clock
         self.ticks = pygame.time.get_ticks()                                                                            # get ticks (needed in order to count how much time is gone)
@@ -170,15 +171,23 @@ class Game:
                     self.npc.interact(self.random_interact_text, self.player.rect)
 
                 elif self.action == "npc_enemy":
-                   self.npc_enemy.interact(self.SCREEN, self.player.rect)
+#                    if timer.active == False and not timer.is_finished:
+#                        timer.start(self.action_duration)
+#                        self.get_random_interact_text(NPC_ENEMY_DEFEATED_INTERACT_DATA)
+#                    if timer.is_finished:
+#                        self.action = None
+#                        timer.is_finished = False
 
+#                    timer.update()
+                    #self.npc_enemy.interact(self.random_interact_text, self.SCREEN, self.player.rect)
+                    self.npc_enemy.interact(self.SCREEN, self.player.rect)
             else:                                                                                                       # else (interact isn't true)
                 self.action_start_time = 0                                                                            # reset interact start time
 
             ## GET CURRENT FPS ##
             print(self.clock.get_fps())
 
-            pygame.display.update()                                                                                     # refresh(update) the screen
+            pygame.display.flip()                                                                                     # refresh(update) the screen
 
 
 ####### MAIN CODE ############
