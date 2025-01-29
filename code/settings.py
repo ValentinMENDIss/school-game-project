@@ -34,6 +34,9 @@ YIPPEE_SOUND = pygame.mixer.Sound(os.path.join('..', 'data', 'sound', 'yippee-tb
 MENU_SOUND = pygame.mixer.Sound(os.path.join('..', 'data', 'sound', 'menu.wav'))
 PICKUP_SOUND = pygame.mixer.Sound(os.path.join('..', 'data', 'sound', 'pickup.wav'))
 
+######### MUSIC ##############
+MAIN_MUSIC = os.path.join('..', 'data', 'music', 'main-music.mp3')
+
 ######### SPRITEs ##############
 ## ENTITIES ##
 PLAYER_R = [
@@ -93,4 +96,3 @@ HEALTH_52 = pygame.image.load(os.path.join('..', 'graphics', 'healthbar', '52%.p
 HEALTH_60 = pygame.image.load(os.path.join('..', 'graphics', 'healthbar', '60%.png'))
 HEALTH_68 = pygame.image.load(os.path.join('..', 'graphics', 'healthbar', '68%.png'))
 HEALTH_100 = pygame.image.load(os.path.join('..', 'graphics', 'healthbar', '100%.png'))
-

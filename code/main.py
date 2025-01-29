@@ -35,6 +35,7 @@ class Game:
         self.time = 0
         self.pressed_start_time = 0
         self.pressed_duration = 5000
+        self.music_paused = False
 
         # CONFIGURING PYGAME
         SCREEN_FLAGS = pygame.HWSURFACE | pygame.DOUBLEBUF
@@ -103,6 +104,27 @@ class Game:
             layer.blit(surf, (x * TILE_SIZE, y * TILE_SIZE))
         return layer
 
+    def play_music(self):
+            pygame.mixer.music.stop()
+            pygame.mixer.music.load(MAIN_MUSIC)
+            pygame.mixer.music.play()                                                                     # The '-1' means repeat endlessly
+
+    def check_music_status(self):
+        if pygame.mixer.music.get_busy():
+            return "Playing"
+        else:
+            if self.music_paused:
+                return "Paused"
+            elif self.music_paused == False:
+                return "Stopped"
+
+    def pause_music(self):
+        pygame.mixer.music.pause()
+        self.music_paused = True
+
+    def unpause_music(self):
+        pygame.mixer.music.unpause()
+        self.music_paused = False
 
     # MENU LOGIC
     def menu_logic(self):
@@ -155,6 +177,14 @@ class Game:
             self.SCREEN.blit(self.static_layer, (-(self.player.rect.center[0] - WINDOW_WIDTH / 2), -(self.player.rect.center[1] - WINDOW_HEIGHT / 2)))
             self.all_sprites.draw(self.player.rect.center)                                                              # draw all sprites to the center of the rectangle of the player (camera)
             self.hud.draw(self.SCREEN)
+            music_status = self.check_music_status()
+            print(music_status)
+            if music_status == "Paused" and self.music_paused == True:
+                self.unpause_music()
+            elif music_status == "Stopped":
+                self.play_music()
+            else:
+                pass
 
             # INTERACTION/ACTION HANDLING
             if self.action:                                                                                   # check whether interact condition is true or not (bool check)
@@ -171,16 +201,7 @@ class Game:
                     self.npc.interact(self.random_interact_text, self.player.rect)
 
                 elif self.action == "npc_enemy":
-#                    if timer.active == False and not timer.is_finished:
-#                        timer.start(self.action_duration)
-#                        self.get_random_interact_text(NPC_ENEMY_DEFEATED_INTERACT_DATA)
-#                    if timer.is_finished:
-#                        self.action = None
-#                        timer.is_finished = False
-
-#                    timer.update()
-                    #self.npc_enemy.interact(self.random_interact_text, self.SCREEN, self.player.rect)
-                    self.npc_enemy.interact(self.SCREEN, self.player.rect)
+                   self.npc_enemy.interact(self.SCREEN, self.player.rect)
             else:                                                                                                       # else (interact isn't true)
                 self.action_start_time = 0                                                                            # reset interact start time
 

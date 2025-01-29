@@ -165,7 +165,6 @@ class Battle_Menu:
                 timer.update()
                 if timer.is_finished:
                     running = False
-                    #return self.enemy_health
             else:
                 pass
 

@@ -15,7 +15,7 @@ class Menu:
         self.running = True                                                                                             # loop value
         self.get_pressed_keys_action = False
         self.menu_exit_action = False
-    
+
     # DRAWING LOGIC
     def show(self, surface):
         self.running = True
@@ -33,7 +33,7 @@ class Menu:
             self.menu_exit_action = True                                                                                # exit (set menu_exit_action variable to True)
         else:                                                                                                           # else, do following:
             self.menu_exit_action = False                                                                               # set exit_action variable to default (False)
- 
+
     # GET PRESSED KEYS
     def get_pressed_keys(self, action):
         if self.get_pressed_keys_action:                                                                                # if any key has been pressed, do following
@@ -47,7 +47,7 @@ class Menu:
         START_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, scale=0.8, image=START_IMG, hovered_image=START_IMG_PRESSED)  # create button instance
         SETTINGS_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 125, scale=0.8, image=SETTINGS_IMG, hovered_image=SETTINGS_IMG_PRESSED)
         EXIT_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, scale=0.8, image=EXIT_IMG, hovered_image=EXIT_IMG_PRESSED)  # create button instance
-
+        self.game.pause_music()
         running = True
         while running:
             # DEFINING CONSTANT VARIABLES
@@ -93,7 +93,7 @@ class Menu:
 
             ## INPUT ##
             self.get_input()
-            
+
             # DISPLAY UPDATE
             pygame.display.update()                                                                                         # update the screen
 
@@ -102,7 +102,6 @@ class Menu:
         ## INITIALIZING BUTTONS ##
         SETTINGS_INPUT_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 125, scale=0.8, image=SETTINGS_IMG, hovered_image=SETTINGS_IMG_PRESSED)
         RETURN_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, scale=0.8,  image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
-
         running = True
         while running:
             # DEFINING CONSTANT VARIABLES
@@ -138,7 +137,7 @@ class Menu:
                     if RETURN_BUTTON.checkForInput(MENU_MOUSE_POS):
                         running = False
                         self.main_menu(surface)
-            
+
             if self.exit_action == True:
                 return self.exit_action
 
@@ -214,7 +213,7 @@ class Menu:
             surface.blit(attentiontext, attentiontextrect)
 
             ## DRAWING BUTTONS ##
-            for button in [RETURN_BUTTON, MENU_TOGGLE_BUTTON, MOVE_UP_BUTTON, MOVE_DOWN_BUTTON, MOVE_RIGHT_BUTTON, MOVE_LEFT_BUTTON]: 
+            for button in [RETURN_BUTTON, MENU_TOGGLE_BUTTON, MOVE_UP_BUTTON, MOVE_DOWN_BUTTON, MOVE_RIGHT_BUTTON, MOVE_LEFT_BUTTON]:
                 button.draw(surface)
 
             # INPUT HANDLING
@@ -231,7 +230,7 @@ class Menu:
                         self.settings_menu(surface)
                     if MENU_TOGGLE_BUTTON.checkForInput(MENU_MOUSE_POS):
                         self.get_pressed_keys_action = True
-                        action = "menu_toggle"                      
+                        action = "menu_toggle"
                     if MOVE_UP_BUTTON.checkForInput(MENU_MOUSE_POS):
                         self.get_pressed_keys_action = True
                         action = "move_up"
@@ -250,7 +249,7 @@ class Menu:
 
 
             # INPUT
-            self.get_input()                                                                                                                                    # input handling function for menu (joystick + keyboard support)                                                                                                          
+            self.get_input()                                                                                                                                    # input handling function for menu (joystick + keyboard support)
             if action != None:                                                                                                                                  # if any of the button was pressed, do following:
                 self.get_pressed_keys(action)                                                                                                                   # get user input and bound new key to an action
 
