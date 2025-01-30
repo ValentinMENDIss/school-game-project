@@ -14,6 +14,7 @@ from items import *
 from gamedata import *
 from input import *
 from timer import Timer
+from music import Music
 
 import cProfile
 
@@ -29,9 +30,9 @@ class Game:
         self.running = True
         self.action = None                                                                                           # declare/initialize self.action variable that has a default value: False
         self.menu = Menu(self)
-        #self.items = Items(self)#, WORLD_LAYERS['item'])
         self.input = UserInput(self)
         self.inventory = Inventory(self)
+        self.music = Music()
         self.time = 0
         self.pressed_start_time = 0
         self.pressed_duration = 5000
@@ -104,28 +105,6 @@ class Game:
             layer.blit(surf, (x * TILE_SIZE, y * TILE_SIZE))
         return layer
 
-    def play_music(self):
-            pygame.mixer.music.stop()
-            pygame.mixer.music.load(MAIN_MUSIC)
-            pygame.mixer.music.play()                                                                     # The '-1' means repeat endlessly
-
-    def check_music_status(self):
-        if pygame.mixer.music.get_busy():
-            return "Playing"
-        else:
-            if self.music_paused:
-                return "Paused"
-            elif self.music_paused == False:
-                return "Stopped"
-
-    def pause_music(self):
-        pygame.mixer.music.pause()
-        self.music_paused = True
-
-    def unpause_music(self):
-        pygame.mixer.music.unpause()
-        self.music_paused = False
-
     # MENU LOGIC
     def menu_logic(self):
         self.menu.show(self.SCREEN)                                                                                     # show menu
@@ -177,12 +156,12 @@ class Game:
             self.SCREEN.blit(self.static_layer, (-(self.player.rect.center[0] - WINDOW_WIDTH / 2), -(self.player.rect.center[1] - WINDOW_HEIGHT / 2)))
             self.all_sprites.draw(self.player.rect.center)                                                              # draw all sprites to the center of the rectangle of the player (camera)
             self.hud.draw(self.SCREEN)
-            music_status = self.check_music_status()
-            print(music_status)
-            if music_status == "Paused" and self.music_paused == True:
-                self.unpause_music()
+
+            music_status = self.music.check_status()
+            if music_status == "Paused" and self.music.paused == True:
+                self.music.unpause()
             elif music_status == "Stopped":
-                self.play_music()
+                self.music.play(MAIN_MUSIC)
             else:
                 pass
 

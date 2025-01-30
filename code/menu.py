@@ -47,7 +47,7 @@ class Menu:
         START_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, scale=0.8, image=START_IMG, hovered_image=START_IMG_PRESSED)  # create button instance
         SETTINGS_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 125, scale=0.8, image=SETTINGS_IMG, hovered_image=SETTINGS_IMG_PRESSED)
         EXIT_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, scale=0.8, image=EXIT_IMG, hovered_image=EXIT_IMG_PRESSED)  # create button instance
-        self.game.pause_music()
+        self.game.music.pause()
         running = True
         while running:
             # DEFINING CONSTANT VARIABLES

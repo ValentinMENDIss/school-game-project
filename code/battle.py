@@ -93,6 +93,7 @@ class Battle_Menu:
         # SETTING TEXT FOR MENU
         heading_text = "Battle Menu"
         timer = Timer()
+        self.game.music.pause()
        # LOOP
         while running:
             # DEFINING CONSTANT VARIABLES
