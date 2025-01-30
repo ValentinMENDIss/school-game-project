@@ -29,6 +29,7 @@ class Game:
         # INITIALIZE VARIABLES
         self.running = True
         self.action = None                                                                                           # declare/initialize self.action variable that has a default value: False
+        self.timer = Timer()
         self.menu = Menu(self)
         self.input = UserInput(self)
         self.inventory = Inventory(self)
@@ -134,7 +135,6 @@ class Game:
         # VARIABLES
         self.running = True                                                                                             # initializing variable for main loop
         self.menu_startup = True
-        timer = Timer()
         # PYGAME EVENTS
         while self.running == True:
             for event in pygame.event.get():                                                                            # for every single event that is available in pygame do following:
@@ -171,18 +171,16 @@ class Game:
                     for item in [self.item_test, self.item_test2]:
                         item.pickup_logic(self.player.rect.center)
                 elif self.action == "npc":
-                    if self.action_start_time == 0:                                                                       # if interact start time equals to 0, do following:
-                        self.action_start_time = pygame.time.get_ticks()                                                  # assign ticks to interact start time variable
+                    if self.timer.active == False and not self.timer.is_finished:
+                        self.timer.start(self.action_duration)
                         self.get_random_interact_text(NPC_INTERACT_DATA)
-                    elif pygame.time.get_ticks() - self.action_start_time >= self.action_duration:                      # else if more or equal time than interact duration has been gone do following:
-                        self.action = None                                                                               # turn interaction off
-                        self.action_start_time = 0                                                                        # reset interact start time counter
+                    if self.timer.is_finished:
+                        self.action = None
+                        self.timer.is_finished = False
+                    self.timer.update()
                     self.npc.interact(self.random_interact_text, self.player.rect)
-
                 elif self.action == "npc_enemy":
-                   self.npc_enemy.interact(self.SCREEN, self.player.rect)
-            else:                                                                                                       # else (interact isn't true)
-                self.action_start_time = 0                                                                            # reset interact start time
+                    self.npc_enemy.interact(self.SCREEN, self.player.rect)
 
             ## GET CURRENT FPS ##
             print(self.clock.get_fps())
