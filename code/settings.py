@@ -36,6 +36,12 @@ PICKUP_SOUND = pygame.mixer.Sound(os.path.join('..', 'data', 'sound', 'pickup.wa
 
 ######### MUSIC ##############
 MAIN_MUSIC = os.path.join('..', 'data', 'music', 'main-music.mp3')
+CHILL_PIANO_MUSIC = os.path.join('..', 'data', 'music', 'chill-piano-music.mp3')
+CHILL_MUSIC = os.path.join('..', 'data', 'music', 'chill-music.mp3')
+LOFI_MUSIC = os.path.join('..', 'data', 'music', 'lofi-music.mp3')
+PIANO_MUSIC = os.path.join('..', 'data', 'music', 'piano-music.mp3')
+SOFT_PIANO_LIVE_DRUMS_MUSIC = os.path.join('..', 'data', 'music', 'soft-piano-live-drums-music.mp3')
+MUSIC = [MAIN_MUSIC, CHILL_PIANO_MUSIC, CHILL_MUSIC, LOFI_MUSIC, PIANO_MUSIC, SOFT_PIANO_LIVE_DRUMS_MUSIC]
 
 ######### SPRITEs ##############
 ## ENTITIES ##

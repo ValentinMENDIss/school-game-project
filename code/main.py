@@ -161,7 +161,8 @@ class Game:
             if music_status == "Paused" and self.music.paused == True:
                 self.music.unpause()
             elif music_status == "Stopped":
-                self.music.play(MAIN_MUSIC)
+                #self.music.play(MAIN_MUSIC)
+                self.music.play_random()
             else:
                 pass
 
