@@ -1,6 +1,6 @@
 ######### IMPORT ##############
 from settings import *
-from button import *
+from button import Button, Slider
 from input import *
 
 # LOADING IMAGE            if hasattr(self.game.npc_enemy):S
@@ -83,7 +83,7 @@ class Menu:
                         self.running, running = False, False                                                                # quit all menus and this specific menu loop
                     if SETTINGS_BUTTON.checkForInput(MENU_MOUSE_POS):
                         running = False
-                        self.settings_menu(surface)
+                        self.settings(surface)
                     if EXIT_BUTTON.checkForInput(MENU_MOUSE_POS):
                         self.exit_action = True
 
@@ -97,9 +97,10 @@ class Menu:
             pygame.display.update()                                                                                         # update the screen
 
     # SETTINGS MENU
-    def settings_menu(self, surface):
+    def settings(self, surface):
         ## INITIALIZING BUTTONS ##
-        SETTINGS_INPUT_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 125, scale=0.8, image=SETTINGS_IMG, hovered_image=SETTINGS_IMG_PRESSED)
+        SETTINGS_INPUT_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, scale=0.8, image=SETTINGS_IMG, hovered_image=SETTINGS_IMG_PRESSED)
+        SETTINGS_SOUND_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 +125, scale=0.8, image=SETTINGS_IMG, hovered_image=SETTINGS_IMG_PRESSED)
         RETURN_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, scale=0.8,  image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
         running = True
         while running:
@@ -118,7 +119,7 @@ class Menu:
             surface.blit(headingtext, headingtextrect)
 
             ## DRAWING BUTTONS ##
-            for button in [SETTINGS_INPUT_BUTTON, RETURN_BUTTON]:
+            for button in [SETTINGS_INPUT_BUTTON, SETTINGS_SOUND_BUTTON, RETURN_BUTTON]:
                 button.draw(surface)
 
             # INPUT HANDLING
@@ -131,8 +132,10 @@ class Menu:
                     self.exit_action = True
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if SETTINGS_INPUT_BUTTON.checkForInput(MENU_MOUSE_POS):
-                        self.settings_input_menu(surface)
+                        self.settings_input(surface)
                         running = False
+                    if SETTINGS_SOUND_BUTTON.checkForInput(MENU_MOUSE_POS):
+                        self.settings_sound(surface)
                     if RETURN_BUTTON.checkForInput(MENU_MOUSE_POS):
                         running = False
                         self.main_menu(surface)
@@ -148,7 +151,7 @@ class Menu:
             pygame.display.update()
 
     # INPUT SETTINGS MENU
-    def settings_input_menu(self, surface):
+    def settings_input(self, surface):
         ## INITIALIZING BUTTONS ##
         RETURN_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, scale=0.5, image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
         MENU_TOGGLE_BUTTON = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 180, scale=0.5, image=TEST_IMG, hovered_image=TEST_IMG_PRESSED)
@@ -226,7 +229,7 @@ class Menu:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if RETURN_BUTTON.checkForInput(MENU_MOUSE_POS):
                         running = False
-                        self.settings_menu(surface)
+                        self.settings(surface)
                     if MENU_TOGGLE_BUTTON.checkForInput(MENU_MOUSE_POS):
                         self.get_pressed_keys_action = True
                         action = "menu_toggle"
@@ -251,6 +254,56 @@ class Menu:
             self.get_input()                                                                                                                                    # input handling function for menu (joystick + keyboard support)
             if action != None:                                                                                                                                  # if any of the button was pressed, do following:
                 self.get_pressed_keys(action)                                                                                                                   # get user input and bound new key to an action
+
+            # DISPLAY UPDATE
+            pygame.display.update()  # update the screen
+
+    def settings_sound(self, surface):
+        ## INITIALIZING BUTTONS ##
+        RETURN_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, scale=0.5, image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
+        VOLUME_SLIDER = Slider(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, width=500, height=25, min_value=0, max_value=1, initial_value= 0.35)
+        # DEFINING VARIABLES
+        running = True
+        while running:
+            # DEFINING CONSTANT VARIABLES
+            MENU_MOUSE_POS = pygame.mouse.get_pos()
+            # SETTING TEXT FOR SETTINGS MENU
+            heading_text = "Settings - Sound"
+
+            # DEFINING TEXT VARIABLES
+            headingtext = HEADINGTEXT.render(heading_text, True, (0, 0, 0)).convert_alpha()  # render a Small Text
+            headingtextrect = headingtext.get_rect()                                                              # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
+            headingtextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 250)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+
+            # DRAWING ON THE SURFACE
+            surface.blit(BACKGROUND_IMG)
+            surface.blit(headingtext, headingtextrect)
+
+            for button in [RETURN_BUTTON]:
+                button.draw(surface)
+            for slider in [VOLUME_SLIDER]:
+                slider.draw(surface)
+
+
+            # INPUT HANDLING
+            if self.menu_exit_action == True:
+                self.running, running = False, False
+
+            # EVENTS
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.exit_action = True
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if RETURN_BUTTON.checkForInput(MENU_MOUSE_POS):
+                        running = False
+                    VOLUME_SLIDER.checkForInput(mouse_pos=MENU_MOUSE_POS, pressed_button=event.button)
+                    #print(event.button)
+                
+            # INPUT
+            self.get_input()                                                                                                                                    # input handling function for menu (joystick + keyboard support)
+
+            if self.exit_action == True:
+                return self.exit_action
 
             # DISPLAY UPDATE
             pygame.display.update()  # update the screen
