@@ -89,6 +89,7 @@ class Slider():
         #pygame.draw.rect(surface, (255, 255, 255), (self.x, self.y, self.width, self.height))
 
         pygame.draw.rect(surface, (255, 255, 255), self.rect)
+        pygame.draw.rect(surface, (186, 186, 186), (self.x + (self.handle_x - self.x), self.y, self.width - int(self.value * self.width), self.height))
 
         pygame.draw.circle(surface, (0, 0, 0), (self.handle_x, self.handle_y), self.handle_radius)
 
