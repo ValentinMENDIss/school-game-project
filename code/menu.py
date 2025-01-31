@@ -261,7 +261,7 @@ class Menu:
     def settings_sound(self, surface):
         ## INITIALIZING BUTTONS ##
         RETURN_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, scale=0.5, image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
-        VOLUME_SLIDER = Slider(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, width=500, height=25, min_value=0, max_value=1, initial_value= 0.35)
+        VOLUME_SLIDER = Slider(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, width=500, height=25, min_value=0, max_value=1, initial_value= 0.35, centered=True)
         # DEFINING VARIABLES
         running = True
         while running:

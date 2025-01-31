@@ -61,6 +61,8 @@ class Slider():
         self.width = width                                                                          # width of slider
         self.height = height                                                                        # height of slider
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)                                 # create rectangle
+        if centered:
+            self.rect.center = (self.x, self.y)
         self.min_value = min_value                                                                  # minimal allowed value
         self.max_value = max_value                                                                  # maximum allowed value
         self.value = initial_value                                                                  # value given when initialized
@@ -68,9 +70,6 @@ class Slider():
         self.handle_y = self.rect.y + self.height // 2
         self.handle_radius = self.height // 1.50
         self.is_dragging = False                                                                    # declaring variable that holds bool value for dragging of the slider
-        self.centerd = centered
-        if centered:
-            self.rect.center = (self.x, self.y)
 
     # CHECK USER'S INPUT
     def checkForInput(self, mouse_pos, pressed_button):                                
