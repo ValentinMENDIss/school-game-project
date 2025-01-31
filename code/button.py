@@ -55,7 +55,7 @@ class Button:
         surface.blit(self.image,(self.rect.x, self.rect.y))
 
 class Slider():
-    def __init__(self, x, y, width, height, min_value, max_value, initial_value):
+    def __init__(self, x, y, width, height, min_value, max_value, initial_value, centered=False):
         self.x = x                                                                                  # position on x-axis of slider
         self.y = y                                                                                  # position on y-axis of slider
         self.width = width                                                                          # width of slider
@@ -64,10 +64,13 @@ class Slider():
         self.min_value = min_value                                                                  # minimal allowed value
         self.max_value = max_value                                                                  # maximum allowed value
         self.value = initial_value                                                                  # value given when initialized
-        self.handle_x = self.x + int(self.value * self.width)
-        self.handle_y = self.y + self.height // 2
+        self.handle_x = self.rect.x + int(self.value * self.width)
+        self.handle_y = self.rect.y + self.height // 2
         self.handle_radius = self.height // 1.50
         self.is_dragging = False                                                                    # declaring variable that holds bool value for dragging of the slider
+        self.centerd = centered
+        if centered:
+            self.rect.center = (self.x, self.y)
 
     # CHECK USER'S INPUT
     def checkForInput(self, mouse_pos, pressed_button):                                
@@ -79,18 +82,14 @@ class Slider():
             self.is_dragging = False                                                                            
 
         if self.is_dragging:                                                                                            # if user is dragging slider, do following:
-            self.value = ((self.mouse_pos[0] - self.x) / self.width)                                                    # calculate value depending on mouse's position
+            self.value = ((self.mouse_pos[0] - self.rect.x) / self.width)                                 # Define the rectangle
             self.value = max(0, min(1, self.value))
             self.value = float(f"{self.value:.2f}")
-            self.handle_x = self.x + int(self.value * self.width)
-            self.handle_y = self.y + self.height // 2
+            self.handle_x = self.rect.x + int(self.value * self.width)
+            self.handle_y = self.rect.y + self.height // 2
             
     def draw(self, surface):
-        #pygame.draw.rect(surface, (255, 255, 255), (self.x, self.y, self.width, self.height))
-
         pygame.draw.rect(surface, (255, 255, 255), self.rect)
-        pygame.draw.rect(surface, (186, 186, 186), (self.x + (self.handle_x - self.x), self.y, self.width - int(self.value * self.width), self.height))
+        pygame.draw.rect(surface, (186, 186, 186), (self.rect.x + (self.handle_x - self.rect.x), self.rect.y, self.width - int(self.value * self.width), self.height))
 
         pygame.draw.circle(surface, (0, 0, 0), (self.handle_x, self.handle_y), self.handle_radius)
-
-        print(self.value) 
