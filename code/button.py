@@ -55,17 +55,18 @@ class Button:
         surface.blit(self.image,(self.rect.x, self.rect.y))
 
 class Slider():
-    def __init__(self, x, y, width, height, min_value, max_value, initial_value, centered=False):
+    def __init__(self, x, y, width, height, min_value, max_value, initial_value, centered=False, show_value=True):
         self.x = x                                                                                  # position on x-axis of slider
         self.y = y                                                                                  # position on y-axis of slider
         self.width = width                                                                          # width of slider
         self.height = height                                                                        # height of slider
-        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)                                 # create rectangle
-        if centered:
-            self.rect.center = (self.x, self.y)
+        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)                            # create rectangle
+        if centered:                                                                                
+            self.rect.center = (self.x, self.y)                                                     # center slider (set rectangle anchor in the middle/center of rectangle)
         self.min_value = min_value                                                                  # minimal allowed value
         self.max_value = max_value                                                                  # maximum allowed value
         self.value = initial_value                                                                  # value given when initialized
+        self.show_value = show_value
         self.handle_x = self.rect.x + int(self.value * self.width)
         self.handle_y = self.rect.y + self.height // 2
         self.handle_radius = self.height // 1.50
@@ -86,8 +87,14 @@ class Slider():
             self.value = float(f"{self.value:.2f}")
             self.handle_x = self.rect.x + int(self.value * self.width)
             self.handle_y = self.rect.y + self.height // 2
-            
+ 
     def draw(self, surface):
+        if self.show_value:
+            self.valuetext = SMALLTEXT.render(str(self.value), True, (0, 0, 0)).convert_alpha()
+            self.valuetextrect = self.valuetext.get_rect()
+            self.valuetextrect.center = (self.x, self.y - 50)
+            surface.blit(self.valuetext, self.valuetextrect)
+
         pygame.draw.rect(surface, (255, 255, 255), self.rect)
         pygame.draw.rect(surface, (186, 186, 186), (self.rect.x + (self.handle_x - self.rect.x), self.rect.y, self.width - int(self.value * self.width), self.height))
 
