@@ -33,7 +33,6 @@ class Music:
                 return "Paused"
             elif self.paused == False:
                 return "Stopped"
-        print(MUSIC_VOLUME)
 
     def pause(self):
         pygame.mixer.music.pause()
@@ -42,3 +41,8 @@ class Music:
     def unpause(self):
         pygame.mixer.music.unpause()
         self.paused = False
+
+    def set_volume(self, volume):
+        self.volume = volume
+        pygame.mixer.music.set_volume(volume)
+

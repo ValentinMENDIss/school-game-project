@@ -297,8 +297,7 @@ class Menu:
                     if RETURN_BUTTON.checkForInput(MENU_MOUSE_POS):
                         running = False
                     VOLUME_SLIDER.checkForInput(mouse_pos=MENU_MOUSE_POS, pressed_button=event.button)
-                    self.game.music.volume = VOLUME_SLIDER.value
-                    pygame.mixer.music.set_volume(VOLUME_SLIDER.value) 
+                    self.game.music.set_volume(VOLUME_SLIDER.value)
                 
             # INPUT
             self.get_input()                                                                                                                                    # input handling function for menu (joystick + keyboard support)
