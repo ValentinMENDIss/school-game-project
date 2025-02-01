@@ -3,10 +3,11 @@ from timer import Timer
 
 class Music:
     def __init__(self):
-        pygame.mixer.music.set_volume(0.35)
         self.timer = Timer()
         self.paused = False
         self.fade = 5000                                                                                # music's fade-in/fade-out (in ms)
+        self.volume = 0.35
+        pygame.mixer.music.set_volume(self.volume)
 
     def play(self, music):
         pygame.mixer.music.stop()
@@ -32,6 +33,7 @@ class Music:
                 return "Paused"
             elif self.paused == False:
                 return "Stopped"
+        print(MUSIC_VOLUME)
 
     def pause(self):
         pygame.mixer.music.pause()

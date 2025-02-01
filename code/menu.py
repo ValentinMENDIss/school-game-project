@@ -261,7 +261,7 @@ class Menu:
     def settings_sound(self, surface):
         ## INITIALIZING BUTTONS ##
         RETURN_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, scale=0.5, image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
-        VOLUME_SLIDER = Slider(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, width=500, height=25, min_value=0, max_value=1, initial_value= 0.35, centered=True)
+        VOLUME_SLIDER = Slider(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, width=500, height=25, min_value=0, max_value=1, initial_value=self.game.music.volume, centered=True)
         # DEFINING VARIABLES
         running = True
         while running:
@@ -297,7 +297,8 @@ class Menu:
                     if RETURN_BUTTON.checkForInput(MENU_MOUSE_POS):
                         running = False
                     VOLUME_SLIDER.checkForInput(mouse_pos=MENU_MOUSE_POS, pressed_button=event.button)
-                    #print(event.button)
+                    self.game.music.volume = VOLUME_SLIDER.value
+                    pygame.mixer.music.set_volume(VOLUME_SLIDER.value) 
                 
             # INPUT
             self.get_input()                                                                                                                                    # input handling function for menu (joystick + keyboard support)
