@@ -108,10 +108,20 @@ class Battle_Menu:
             enemytextrect = enemytext.get_rect()
             enemytextrect.center = (WINDOW_WIDTH // 2 + 350, WINDOW_HEIGHT // 2)
 
+            playerhealthtext = HEADINGTEXT.render(str(self.player_health), True, (4,106,56)).convert_alpha()        # render an enemy text
+            playerhealthtextrect = playerhealthtext.get_rect()
+            playerhealthtextrect.center = (450, 500)
+
+            enemyhealthtext = HEADINGTEXT.render(str(self.enemy_health), True, (4,106,56)).convert_alpha()        # render an enemy text
+            enemyhealthtextrect = enemyhealthtext.get_rect()
+            enemyhealthtextrect.center = (WINDOW_WIDTH // 2 + 350, 150)
+
             # DRAWING ON THE SURFACE
             surface.blit(BACKGROUND_IMG)
             surface.blit(headingtext, headingtextrect)
             surface.blit(enemytext, enemytextrect)
+            surface.blit(playerhealthtext, playerhealthtextrect)
+            surface.blit(enemyhealthtext, enemyhealthtextrect)
 
             ## DRAWING BUTTONS ##
             for button in [SURRENDER_BUTTON, FIGHT_BUTTON, DEFENSE_BUTTON, ITEMS_BUTTON, SPELL_BUTTON]:                     # iterate through every single button instance and draw it to the screen
