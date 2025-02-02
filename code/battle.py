@@ -24,6 +24,10 @@ class Battle_Menu:
         self.player_health = 100
         self.damage = 0
         self.show_damage_action = False
+        # IMAGES
+        self.enemy_image = NPC_IDLE.convert_alpha()
+        self.enemy_new_size_image = (self.enemy_image.get_width() * 4, self.enemy_image.get_height() * 4)                                 # declare new variable that has 4 times bigger scale than the player's image
+        self.enemy_image = (pygame.transform.scale(self.enemy_image, self.enemy_new_size_image))
         # TEXTs
         self.enemytext = ""
         self.damagetext = ""
@@ -53,7 +57,7 @@ class Battle_Menu:
 
         damagetext = DAMAGETEXT.render(str(self.enemy_dmg), True, (210,39,48)).convert_alpha()        # render an enemy text
         damagetextrect = damagetext.get_rect()
-        damagetextrect.center = (WINDOW_WIDTH // 2 + 350, WINDOW_HEIGHT // 2 - 50)
+        damagetextrect.center = (WINDOW_WIDTH // 2 + 350, WINDOW_HEIGHT // 2 - 150)
 
         surface.blit(damagetext, damagetextrect)
         if size >= 35:
@@ -106,7 +110,7 @@ class Battle_Menu:
 
             enemytext = SMALLTEXT.render(self.enemytext, True, (0, 0, 0)).convert_alpha()        # render an enemy text
             enemytextrect = enemytext.get_rect()
-            enemytextrect.center = (WINDOW_WIDTH // 2 + 350, WINDOW_HEIGHT // 2)
+            enemytextrect.center = (WINDOW_WIDTH // 2 + 350, WINDOW_HEIGHT // 2 - 100)
 
             playerhealthtext = HEADINGTEXT.render(str(self.player_health), True, (4,106,56)).convert_alpha()        # render an enemy text
             playerhealthtextrect = playerhealthtext.get_rect()
@@ -122,6 +126,7 @@ class Battle_Menu:
             surface.blit(enemytext, enemytextrect)
             surface.blit(playerhealthtext, playerhealthtextrect)
             surface.blit(enemyhealthtext, enemyhealthtextrect)
+            surface.blit(self.enemy_image, (WINDOW_WIDTH // 2 + 280, WINDOW_HEIGHT // 2 - 70))
 
             ## DRAWING BUTTONS ##
             for button in [SURRENDER_BUTTON, FIGHT_BUTTON, DEFENSE_BUTTON, ITEMS_BUTTON, SPELL_BUTTON]:                     # iterate through every single button instance and draw it to the screen
