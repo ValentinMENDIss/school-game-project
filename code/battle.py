@@ -93,7 +93,7 @@ class Battle_Menu:
         action_start_time = 0
         action_duration = 2000
         # LOOP VARIABLES
-        running = True
+        self.running = True
 
         # INITALIZING BUTTONS
         SURRENDER_BUTTON = Button(WINDOW_WIDTH - 150, WINDOW_HEIGHT - 100, scale=0.40, image=SURRENDER_IMG, hovered_image=SURRENDER_IMG_PRESSED)                             # create button instance
@@ -110,7 +110,7 @@ class Battle_Menu:
         timer = Timer()
         self.game.music.pause()
        # LOOP
-        while running:
+        while self.running:
             # DEFINING CONSTANT VARIABLES
             MENU_MOUSE_POS = pygame.mouse.get_pos()
 
@@ -149,13 +149,12 @@ class Battle_Menu:
             ## EVENTS ##
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:                                                                               # exit game function
-                    running = False
+                    self.exit_battle()
                     self.game.running = False
                 if event.type == pygame.MOUSEBUTTONDOWN and not timer.active and not action:
                     if SURRENDER_BUTTON.checkForInput(MENU_MOUSE_POS):
                         pygame.mixer.Sound.play(MENU_SOUND)
-                        running = False
-                        #return False
+                        self.exit_battle()
                     if FIGHT_BUTTON.checkForInput(MENU_MOUSE_POS):
                         FightButtonMenu = True
                     if FightButtonMenu:
@@ -190,7 +189,7 @@ class Battle_Menu:
                     timer.start(5000)
                 timer.update()
                 if timer.is_finished:
-                    running = False
+                    self.exit_battle()
             else:
                 pass
 
@@ -201,6 +200,9 @@ class Battle_Menu:
                     timer.start(5000)
                 timer.update()
                 if timer.is_finished:
-                    running = False
+                    self.exit_battle()
 
             pygame.display.update()
+
+    def exit_battle(self):
+        self.running = False

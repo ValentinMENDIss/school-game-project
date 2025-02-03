@@ -159,7 +159,6 @@ class NPC_Enemy(NPC):
         self.timer = Timer()
 
     def interact(self, surface, player_center):
-        #if self.health > 0:
         if self.action == None:
             self.battle_menu.draw(surface)
             if self.battle_menu.enemy_health <= 0:
