@@ -169,7 +169,7 @@ class Battle_Menu:
                             action = "Enemy_Fight"                                                                          # after player's fight, set action variable that corresponds to fight for NPC_ENEMY
 
             if action:
-                if action == "Enemy_Fight":
+                if action == "Enemy_Fight" and self.enemy_health > 0:
                     if action_start_time == 0:
                         action_start_time = pygame.time.get_ticks()
                     elif pygame.time.get_ticks() - action_start_time >= action_duration:
