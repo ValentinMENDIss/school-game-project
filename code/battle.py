@@ -140,7 +140,7 @@ class Battle_Menu:
                 if event.type == pygame.QUIT:                                                                               # exit game function
                     running = False
                     self.game.running = False
-                if event.type == pygame.MOUSEBUTTONDOWN and not timer.active:
+                if event.type == pygame.MOUSEBUTTONDOWN and not timer.active and not action:
                     if SURRENDER_BUTTON.checkForInput(MENU_MOUSE_POS):
                         pygame.mixer.Sound.play(MENU_SOUND)
                         running = False
