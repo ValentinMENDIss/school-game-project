@@ -16,14 +16,14 @@ BACKGROUND_IMG = pygame.image.load(os.path.join('..', 'graphics', 'battle-menu-b
 
 class Battle_Menu:
     def __init__(self, enemy_health, game):
-        self.game = game
-        self.attack_type = ["attack", "emotional_attack"]
-        self.get_pressed_keys_action = False
-        self.exit_action = False
-        self.enemy_health = enemy_health
-        self.player_health = 100
-        self.damage = 0
-        self.show_damage_action = False
+        self.game = game                                                                                                                    # declare new variable that stores main.py (Game()) loop's attributes and variables
+        self.attack_type = ["attack", "emotional_attack"]                                                                                   # declare attack types
+        self.get_pressed_keys_action = False                                                                                                # variable that stores Bool value. Checks if action should be called
+        self.exit_action = False                                                                                                            # variable that stores Bool value. Checks if action should be called
+        self.show_damage_action = False                                                                                                     # variable that stores Bool value. Checks if action should be called
+        self.enemy_health = enemy_health                                                                                                    # enemy's health
+        self.player_health = 100                                                                                                            # player's health
+        self.damage = 0                                                                                                                     # variable that stores dealt damage in one round
         # IMAGES
         self.enemy_image = NPC_IDLE.convert_alpha()
         self.enemy_new_size_image = (self.enemy_image.get_width() * 4, self.enemy_image.get_height() * 4)                                 # declare new variable that has 4 times bigger scale than the player's image
@@ -183,5 +183,13 @@ class Battle_Menu:
             else:
                 pass
 
-            print(self.enemy_health)
+            if self.player_health <= 0:
+                self.player_health = 0
+                print("I've won you!")
+                if timer.active == False and not timer.is_finished:
+                    timer.start(5000)
+                timer.update()
+                if timer.is_finished:
+                    running = False
+
             pygame.display.update()

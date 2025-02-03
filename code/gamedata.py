@@ -31,7 +31,7 @@ NPC_ENEMY_INTERACT_DATA = ["Is it all you can do?",
                            "You will not be able to do this. Surrender!",
                            "I like silly things, oh I've forgot, we are fighting, anyways...",
                            "Do you really think that you can beat me?",
-                           "No one has ever won me, so good luck!",
+                           "No one has ever defeated me, so good luck!",
                            "Are you scared?",
                            "Maybe you want to stop?",
                            "Look, behind you!",
@@ -41,12 +41,16 @@ NPC_ENEMY_INTERACT_DATA = ["Is it all you can do?",
                            "...",
                            "... And now see my power!"]
 
-NPC_ENEMY_DEFEATED_INTERACT_DATA = ["You have already won me...",
+NPC_ENEMY_DEFEATED_INTERACT_DATA = ["You have already defeated me...",
                                     "You can't fight with me anymore, sadly...",
                                     "I don't want to fight with you anymore",
                                     "Why are you still here?",
-                                    "Do you really want me to fight with you second time?",
+                                    "Do you really want me to show you my full potential?",
                                     "I am not in the mood to fight anymore..."]
+
+NPC_ENEMY_WON_INTERACT_DATA = ["Do you really want me to fight with you second time?",
+                               "Stop asking me to fight with you again.\nI've already defeated you. That's enough for me",
+                               "Have you forgotten? I defeated you"]
 
 ## ITEM DATA ##
 ITEM_RARITY_DATA_RARE = {"health_mul": 1.2,

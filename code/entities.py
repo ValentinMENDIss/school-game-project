@@ -3,10 +3,10 @@
 import pygame
 
 from settings import *
-from dialog import *
+from dialog import Dialog
 from battle import Battle_Menu
 from timer import Timer
-from gamedata import NPC_ENEMY_DEFEATED_INTERACT_DATA
+from gamedata import NPC_ENEMY_DEFEATED_INTERACT_DATA, NPC_ENEMY_WON_INTERACT_DATA
 
 ######### CLASSes ############
 
@@ -153,20 +153,28 @@ class NPC_Enemy(NPC):
         # ATTRIBUTES
         self.health = 100
         self.text = ""
+        self.action = None
 
         self.battle_menu = Battle_Menu(enemy_health=self.health, game=self.game)
         self.timer = Timer()
 
     def interact(self, surface, player_center):
-        if self.health > 0:
+        #if self.health > 0:
+        if self.action == None:
             self.battle_menu.draw(surface)
             if self.battle_menu.enemy_health <= 0:
-                self.health = 0
+                self.action = "Defeated"
+            if self.battle_menu.player_health <= 0:
+                self.action = "Won"
+            self.health = self.battle_menu.enemy_health
             self.game.action = None
         else:
             if self.timer.active == False and not self.timer.is_finished:
                 self.timer.start(self.game.action_duration)
-                self.text = self.game.get_random_interact_text(NPC_ENEMY_DEFEATED_INTERACT_DATA)
+                if self.action == "Defeated":
+                    self.text = self.game.get_random_interact_text(NPC_ENEMY_DEFEATED_INTERACT_DATA)
+                elif self.action == "Won":
+                    self.text = self.game.get_random_interact_text(NPC_ENEMY_WON_INTERACT_DATA)
             if self.timer.is_finished:
                 self.game.action = None
                 self.timer.is_finished = False
