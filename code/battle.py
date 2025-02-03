@@ -20,7 +20,8 @@ class Battle_Menu:
         self.attack_type = ["attack", "emotional_attack"]                                                                                   # declare attack types
         self.get_pressed_keys_action = False                                                                                                # variable that stores Bool value. Checks if action should be called
         self.exit_action = False                                                                                                            # variable that stores Bool value. Checks if action should be called
-        self.show_damage_action = False                                                                                                     # variable that stores Bool value. Checks if action should be called
+        self.show_player_damage_action = False                                                                                              # variable that stores Bool value. Checks if action should be called
+        self.show_enemy_damage_action = False                                                                                               # variable that stores Bool value. Checks if action should be called
         self.enemy_health = enemy_health                                                                                                    # enemy's health
         self.player_health = 100                                                                                                            # player's health
         self.damage = 0                                                                                                                     # variable that stores dealt damage in one round
@@ -41,38 +42,48 @@ class Battle_Menu:
 
     def attack_enemy(self, attack_type):
         if attack_type == "attack":
-            self.enemy_dmg = random.randint(0, 25)
-            self.enemy_health -= self.enemy_dmg
+            self.player_damage = random.randint(0, 25)
+            self.enemy_health -= self.player_damage
             self.random_text()
         elif attack_type == "emotional_attack":
-            self.enemy_dmg = random.randint(0, 15)
-            self.enemy_health -= self.enemy_dmg
+            self.player_damage = random.randint(0, 15)
+            self.enemy_health -= self.player_damage
             self.random_text()
-        self.show_damage_action = True
+        self.show_player_damage_action = True
 
     # SHOW DEALT DAMAGE ON THE SCREEN
-    def show_damage(self, surface):
+    def show_player_damage(self, surface):
         size = 25
         DAMAGETEXT = pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'), size)
 
-        damagetext = DAMAGETEXT.render(str(self.enemy_dmg), True, (210,39,48)).convert_alpha()        # render an enemy text
+        damagetext = DAMAGETEXT.render(str(self.player_damage), True, (210,39,48)).convert_alpha()        # render an enemy text
         damagetextrect = damagetext.get_rect()
         damagetextrect.center = (WINDOW_WIDTH // 2 + 350, WINDOW_HEIGHT // 2 - 150)
 
         surface.blit(damagetext, damagetextrect)
-        if size >= 35:
-            self.show_damage_action = False
+#        if size >= 35:
+#            self.show_damage_action = False
+
+    def show_enemy_damage(self, surface):
+        size = 25
+        DAMAGETEXT = pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'), size)
+
+        damagetext = DAMAGETEXT.render(str(self.enemy_damage), True, (210,39,48)).convert_alpha()        # render an enemy text
+        damagetextrect = damagetext.get_rect()
+        damagetextrect.center = (450, 450)
+
+        surface.blit(damagetext, damagetextrect)
 
     def attack_player(self):
         index = random.randint(0, len(self.attack_type) - 1)
         attack_type = self.attack_type[index]
-
         if attack_type == "attack":
-            self.damage = random.randint(0, 25)
-            self.player_health -= self.damage
+            self.enemy_damage = random.randint(0, 25)
+            self.player_health -= self.enemy_damage
         if attack_type == "emotional_attack":
-            self.damage = random.randint(0, 15)
-            self.player_health -= self.damage
+            self.enemy_damage = random.randint(0, 15)
+            self.player_health -= self.enemy_damage
+        self.show_enemy_damage_action = True
 
     # DRAWING LOGIC
     def draw(self, surface):
@@ -151,28 +162,28 @@ class Battle_Menu:
                         if EMOTIONAL_ATTACK_BUTTON.checkForInput(MENU_MOUSE_POS):
                             self.attack_enemy(self.attack_type[1])
                             EMOTIONAL_ATTACK_BUTTON.set_image(START_IMG_PRESSED, scale=0.4)
-                            print("EMOTIONAL_ATTACK_BUTTON Pressed")
-                            action = "Fight"
+                            action = "Enemy_Fight"                                                                          # after player's fight, set action variable that corresponds to fight for NPC_ENEMY
                         elif ATTACK_BUTTON.checkForInput(MENU_MOUSE_POS):
                             self.attack_enemy(self.attack_type[0])
                             ATTACK_BUTTON.set_image(START_IMG_PRESSED, scale=0.4)
-                            print("ATTACK_BUTTON Pressed")
-                            action = "Fight"
+                            action = "Enemy_Fight"                                                                          # after player's fight, set action variable that corresponds to fight for NPC_ENEMY
 
             if action:
-                if action == "Fight":
+                if action == "Enemy_Fight":
                     if action_start_time == 0:
                         action_start_time = pygame.time.get_ticks()
                     elif pygame.time.get_ticks() - action_start_time >= action_duration:
                         self.attack_player()
-                        print(f"PLAYER HEALTH: {self.player_health}")
                         action = None
                         action_start_time = 0
                 else:
                     pass
 
-            if self.show_damage_action:
-                self.show_damage(surface)
+            if self.show_player_damage_action:
+                self.show_player_damage(surface)
+            if self.show_enemy_damage_action:
+                self.show_enemy_damage(surface)
+
             if self.enemy_health <= 0:
                 print("You've won me")
                 if timer.active == False and not timer.is_finished:
