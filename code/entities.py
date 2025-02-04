@@ -11,7 +11,10 @@ from gamedata import NPC_ENEMY_DEFEATED_INTERACT_DATA, NPC_ENEMY_WON_INTERACT_DA
 ######### CLASSes ############
 
 class Player(pygame.sprite.Sprite):
+    initiated = False
     def __init__(self, input, pos, groups, collision_sprites, health=100, stamina=100, defence=100, damage=100):
+        global initiated
+        Player.initiated = True
         # ATTRIBUTES
         self.health = health                                                                                            # initialize new variable/attribute for the player (health)
         self.stamina = stamina
@@ -115,11 +118,16 @@ class Player(pygame.sprite.Sprite):
                         self.hitbox.top = sprite.hitbox.bottom
                     self.rect.centery = self.hitbox.centery
 
+    def teleport(self, pos):
+        #self.rect.centerx = pos.x                                                                                               # change player's x coordinates
+        #self.rect.centery = pos.y                                                                                               # change player's y coordinates
+        self.rect = self.image.get_frect(center=pos)
+
     def update(self, dt):
-        self.y_sort = self.rect.centery
-        self.input_logic()
-        self.animation(dt)
-        self.move(dt)
+        self.y_sort = self.rect.centery                                                                                         # variable that stores value for y_sort(position on y-axis)
+        self.input_logic()                                                                                                      # run main input logic for player
+        self.animation(dt)                                                                                                      # run animation method
+        self.move(dt)                                                                                                           # move player to his new position
 
 
 class NPC(pygame.sprite.Sprite):

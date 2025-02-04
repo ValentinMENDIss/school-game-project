@@ -23,7 +23,7 @@ class Battle_Menu:
         self.show_player_damage_action = False                                                                                              # variable that stores Bool value. Checks if action should be called
         self.show_enemy_damage_action = False                                                                                               # variable that stores Bool value. Checks if action should be called
         self.enemy_health = enemy_health                                                                                                    # enemy's health
-        self.player_health = 100                                                                                                            # player's health
+        self.player_health = self.game.player.health                                                                                        # player's health
         self.damage = 0                                                                                                                     # variable that stores dealt damage in one round
         # IMAGES
         self.enemy_image = NPC_IDLE.convert_alpha()
@@ -205,4 +205,6 @@ class Battle_Menu:
             pygame.display.update()
 
     def exit_battle(self):
+        self.game.player.health = self.player_health
+        self.game.npc_enemy.health = self.enemy_health
         self.running = False

@@ -78,7 +78,13 @@ class Game:
         # GET ENTITIES' POSITION
         for obj in tmx_map.get_layer_by_name('Entities'):
             if obj.name == 'Player' and obj.properties['pos'] == player_start_pos:                                      # check whether the object's name is Player and its properties for pos(position). Check also whether it is the same as player_start_pos
-                self.player = Player(self.input,(obj.x, obj.y), self.all_sprites, self.collision_sprites)                                   # create player() instance with object's x and y coordinates that we got from tilemap(tmx). And assign player() instance to AllSprites() group/class
+                if Player.initiated:
+                    self.player.teleport((obj.x, obj.y))
+                    self.all_sprites.add(self.player)
+                    #print("OLD PLAYER")
+                else:
+                    self.player = Player(self.input, (obj.x, obj.y), self.all_sprites, self.collision_sprites)
+                    #print("NEW PLAYER")
             if obj.name == 'Character' and obj.properties['pos'] == 'mid-left':
                 if obj.properties['enemy'] == False:
                     self.npc = NPC((obj.x, obj.y), self.all_sprites, game=self)
@@ -185,6 +191,8 @@ class Game:
 
             ## GET CURRENT FPS ##
             print(self.clock.get_fps())
+
+            #print(self.player.health)
 
             pygame.display.flip()                                                                                     # refresh(update) the screen
 
