@@ -119,9 +119,18 @@ class Player(pygame.sprite.Sprite):
                     self.rect.centery = self.hitbox.centery
 
     def teleport(self, pos):
-        #self.rect.centerx = pos.x                                                                                               # change player's x coordinates
-        #self.rect.centery = pos.y                                                                                               # change player's y coordinates
-        self.rect = self.image.get_frect(center=pos)
+        self.rect.centerx = pos[0]                                                                                               # change player's x coordinates
+        self.hitbox.centerx = self.rect.centerx
+        self.collisions('horizontal')
+
+        self.rect.centery = pos[1]                                                                                               # change player's y coordinates
+        self.hitbox.centery = self.rect.centery
+        self.collisions('vertical')
+        print("$##############")
+        print(pos[0], pos[1])
+        print(self.rect.centerx, self.rect.centery)
+        print("#############$")
+        #self.rect = self.image.get_frect(center=pos)
 
     def update(self, dt):
         self.y_sort = self.rect.centery                                                                                         # variable that stores value for y_sort(position on y-axis)

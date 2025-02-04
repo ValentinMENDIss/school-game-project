@@ -192,8 +192,6 @@ class Game:
             ## GET CURRENT FPS ##
             print(self.clock.get_fps())
 
-            #print(self.player.health)
-
             pygame.display.flip()                                                                                     # refresh(update) the screen
 
 
