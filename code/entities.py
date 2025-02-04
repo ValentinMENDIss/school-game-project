@@ -150,11 +150,29 @@ class NPC(pygame.sprite.Sprite):
         self.pos = pos
         self.z = WORLD_LAYERS['main']
         self.y_sort = self.rect.centery
+        self.show_interact_text = False  
 
+    def draw_interact_text(self, screen):
+        player_distance = pygame.Vector2(self.game.player.rect.center).distance_to(self.rect.center)
+        if player_distance < 200:
+            self.show_interact_text = True
+        else:
+            self.show_interact_text = False
+            
+        if self.show_interact_text:  
+            font = pygame.font.Font(None, 36)
+            text_surface = font.render("Drücke 'E' zum Interagieren", True, (255, 255, 255))
+            text_rect = text_surface.get_rect(center=(self.rect.centerx, self.rect.top - 20))
+            screen.blit(text_surface, text_rect)
+            
+            
     def interact(self, text, player_center):
+        self.show_interact_text = False
         self.player_center = player_center
         dialog = Dialog(self.pos)                                                                                       # initializing dialog class
-        dialog.interact(text, self.player_center, screen=self.game.SCREEN)                                                                       # run dialogs' interact function, to show some tex
+        dialog.interact(text, self.player_center, screen=self.game.SCREEN)                                                                       # run dialogs' interact function, to show some text
+        
+        
 
 class NPC_Enemy(NPC):
     def __init__(self, pos, groups, game, health=100):
