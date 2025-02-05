@@ -21,3 +21,16 @@ class Dialog:
 
         #self.SCREEN.blit(smalltext, smalltextrect)                                                                      # draw a text with its coordinates
         screen.blit(smalltext, smalltextrect)
+
+    def interactInRange(self, text, player_center, screen):
+        font = pygame.font.Font(os.path.join('..', 'font', 'DepartureMonoNerdFont-Regular.otf'), 18)                     # set Font and Size for the Small Text
+        smalltext = font.render(text, True,(0, 0, 0)).convert_alpha()                                                   # render a Small Text
+        smalltextrect = smalltext.get_rect()                                                                            # get a Rectangle of the small Text ( needed, to be able to place the Text precisely )
+
+        self.offset_x = - ((player_center[0] - WINDOW_WIDTH / 2) + 65)                                                  # offset x coordinates which are needed for camera (drawn near the npc even when the camera moves)
+        self.offset_y = - ((player_center[1] - WINDOW_HEIGHT / 2) + 135)                                                # offset y coordinates which are needed for camera (drawn near the npc even when the camera moves)
+
+        smalltextrect.center = (self.pos[0] + self.offset_x, self.pos[1] + self.offset_y)                              # place a text near to the npc's coordinates + offset (needed for camera effect)
+
+        #self.SCREEN.blit(smalltext, smalltextrect)                                                                      # draw a text with its coordinates
+        screen.blit(smalltext, smalltextrect)

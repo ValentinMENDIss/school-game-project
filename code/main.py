@@ -189,8 +189,20 @@ class Game:
                 elif self.action == "npc_enemy":
                     self.npc_enemy.interact(self.SCREEN, self.player.rect)
 
+            #for npc in [self.npc, self.npc_enemy]:
+            try:
+                self.npc.interactInRange(self.SCREEN)
+            except AttributeError:
+                pass
+            try:
+                self.npc_enemy.interactInRange(self.SCREEN)
+            except AttributeError:
+                pass
+
+
+
             ## GET CURRENT FPS ##
-            print(self.clock.get_fps())
+            #print(self.clock.get_fps())
 
             pygame.display.flip()                                                                                     # refresh(update) the screen
 
