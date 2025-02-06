@@ -152,7 +152,7 @@ class NPC(pygame.sprite.Sprite):
         self.y_sort = self.rect.centery
         self.show_interact_text = False
 
-    def interactInRange(self, screen):
+    def interactInRange(self, player_center, screen):
         player_distance = pygame.Vector2(self.game.player.rect.center).distance_to(self.rect.center)
         if player_distance < 200:
             self.show_interact_text = True
@@ -161,13 +161,12 @@ class NPC(pygame.sprite.Sprite):
 
         if self.show_interact_text:
             dialog = Dialog(self.pos)
-            dialog.interactInRange("", self.player_center, screen=self.game.SCREEN)
+            dialog.interactInRange("", player_center, screen=self.game.SCREEN)
 
     def interact(self, text, player_center):
         self.show_interact_text = False
-        self.player_center = player_center
         dialog = Dialog(self.pos)                                                                                       # initializing dialog class
-        dialog.interact(text, self.player_center, screen=self.game.SCREEN)                                                                       # run dialogs' interact function, to show some text
+        dialog.interact(text, player_center, screen=self.game.SCREEN)                                                                       # run dialogs' interact function, to show some text
 
 
 class NPC_Friendly(NPC):
@@ -208,6 +207,5 @@ class NPC_Enemy(NPC):
 
             self.show_interact_text = False
             self.timer.update()
-            self.player_center = player_center
             dialog = Dialog(self.pos)                                                                                       # initializing dialog class
-            dialog.interact(self.text, self.player_center, screen=self.game.SCREEN)                                                                       # run dialogs' interact function, to show some tex
+            dialog.interact(self.text, player_center, screen=self.game.SCREEN)                                                                       # run dialogs' interact function, to show some tex

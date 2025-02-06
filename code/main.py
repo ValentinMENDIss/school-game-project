@@ -191,11 +191,11 @@ class Game:
 
             #for npc in [self.npc, self.npc_enemy]:
             try:
-                self.npc.interactInRange(self.SCREEN)
+                self.npc.interactInRange(self.player.rect, self.SCREEN)
             except AttributeError:
                 pass
             try:
-                self.npc_enemy.interactInRange(self.SCREEN)
+                self.npc_enemy.interactInRange(self.player.rect, self.SCREEN)
             except AttributeError:
                 pass
 
