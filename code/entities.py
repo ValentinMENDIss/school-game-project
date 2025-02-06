@@ -126,10 +126,10 @@ class Player(pygame.sprite.Sprite):
         self.rect.centery = pos[1]                                                                                               # change player's y coordinates
         self.hitbox.centery = self.rect.centery
         self.collisions('vertical')
-        print("$##############")
-        print(pos[0], pos[1])
-        print(self.rect.centerx, self.rect.centery)
-        print("#############$")
+        #print("$##############")
+        #print(pos[0], pos[1])
+        #print(self.rect.centerx, self.rect.centery)
+        #print("#############$")
         #self.rect = self.image.get_frect(center=pos)
 
     def update(self, dt):
@@ -170,18 +170,14 @@ class NPC(pygame.sprite.Sprite):
         dialog.interact(text, self.player_center, screen=self.game.SCREEN)                                                                       # run dialogs' interact function, to show some text
 
 
+class NPC_Friendly(NPC):
+    def __init__(self, pos, groups, game):
+        super().__init__(pos, groups, game)
+
 
 class NPC_Enemy(NPC):
     def __init__(self, pos, groups, game, health=100):
         super().__init__(pos, groups, game)
-        self.game = game
-        self.image = NPC_IDLE.convert_alpha()
-        self.new_size_image = (self.image.get_width() * 4, self.image.get_height() * 4)                                 # declare new variable that has 4 times bigger scale than the player's image
-        self.image = (pygame.transform.scale(self.image, self.new_size_image))
-        self.rect = self.image.get_frect(center=pos)                                                                    # convert image to rectangle (needed for collision in the future), center is position that was provided during construction (__init__())
-        self.pos = pos
-        self.z = WORLD_LAYERS['main']
-        self.y_sort = self.rect.centery
         # ATTRIBUTES
         self.health = 100
         self.text = ""
@@ -210,6 +206,7 @@ class NPC_Enemy(NPC):
                 self.game.action = None
                 self.timer.is_finished = False
 
+            self.show_interact_text = False
             self.timer.update()
             self.player_center = player_center
             dialog = Dialog(self.pos)                                                                                       # initializing dialog class

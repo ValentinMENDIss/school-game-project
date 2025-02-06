@@ -87,7 +87,7 @@ class Game:
                     #print("NEW PLAYER")
             if obj.name == 'Character' and obj.properties['pos'] == 'mid-left':
                 if obj.properties['enemy'] == False:
-                    self.npc = NPC((obj.x, obj.y), self.all_sprites, game=self)
+                    self.npc = NPC_Friendly((obj.x, obj.y), self.all_sprites, game=self)
                 if obj.properties['enemy'] == True:
                     self.npc_enemy = NPC_Enemy((obj.x, obj.y), self.all_sprites, game=self)
         # GET ITEMS' POSITION
