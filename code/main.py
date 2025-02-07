@@ -27,7 +27,7 @@ class Game:
         pygame.font.init()                                                                                              # initialize pygame text/font framework
 
         # INITIALIZE VARIABLES
-        self.running = True
+        self.is_running = True
         self.action = None                                                                                           # declare/initialize self.action variable that has a default value: False
         self.timer = Timer()
         self.menu = Menu(self)
@@ -41,7 +41,7 @@ class Game:
 
         # CONFIGURING PYGAME
         SCREEN_FLAGS = pygame.HWSURFACE | pygame.DOUBLEBUF
-        self.SCREEN = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), SCREEN_FLAGS)                                            # create screen with (x,y) (tuple)
+        self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), SCREEN_FLAGS)                                            # create screen with (x,y) (tuple)
         pygame.display.set_caption("School-Game-Project(11. Grade)")                                                    # set/change title (caption) of the window
         self.clock = pygame.time.Clock()                                                                                # create a clock
         self.ticks = pygame.time.get_ticks()                                                                            # get ticks (needed in order to count how much time is gone)
@@ -73,7 +73,7 @@ class Game:
         for group in (self.all_sprites, self.collision_sprites, self.transition_sprites):
             group.empty()
 
-        self.static_layer = self.create_static_layer(tmx_map=tmx_map, layer_name='Terrain')
+        self.background_layer = self.create_static_layer(tmx_map=tmx_map, layer_name='Terrain')
 
         # GET ENTITIES' POSITION
         for obj in tmx_map.get_layer_by_name('Entities'):
@@ -113,10 +113,10 @@ class Game:
         return layer
 
     # MENU LOGIC
-    def menu_logic(self):
-        self.menu.show(self.SCREEN)                                                                                     # show menu
+    def display_menu(self):
+        self.menu.show(self.display_surface)                                                                                     # show menu
         if self.menu.exit_action:
-            self.running = False
+            self.is_running = False
 
     # GET PRESSED KEYS
     def menu_get_pressed_keys(self, action):
@@ -130,7 +130,7 @@ class Game:
         self.random_interact_text = data[random_number]
         return f"{self.random_interact_text}"
 
-    def transition_check(self):
+    def check_map_transition(self):
         sprites = [sprite for sprite in self.transition_sprites if sprite.rect.colliderect(self.player.hitbox)]
         if sprites:
             self.transition_target = sprites[0].target
@@ -138,77 +138,84 @@ class Game:
 
     # MAIN (RUN) LOGIC
     def run(self):
-        # VARIABLES
-        self.running = True                                                                                             # initializing variable for main loop
-        self.menu_startup = True
-        # PYGAME EVENTS
-        while self.running == True:
-            for event in pygame.event.get():                                                                            # for every single event that is available in pygame do following:
-                if event.type == pygame.QUIT:                                                                           # if event type is 'QUIT' do following:
-                    self.running = False                                                                                    # quit/exit by assigning boolean 'False' to self.run variable
-
-            dt = self.clock.tick() / 1000                                                                               # tick every second  # dt = difference between previous and next frame
-            self.input.run()
-
-            if self.menu_startup == True:
-                self.menu_logic()
+        self.is_running = True
+        self.menu_startup = True  # Added from first implementation
+    
+        while self.is_running:
+            self.handle_game_events()
+            self.update_game_state()
+        
+            # Menu logic
+            if self.menu_startup:
+                self.display_menu()
                 self.menu_startup = False
-
-            # PYGAME LOGIC
-
-            self.transition_check()                                                                                     # check if the player is colliding with transition point (TP)
-            self.all_sprites.update(dt)                                                                                 # update screen (all sprites) by FPS
-            self.SCREEN.fill((173, 216, 230))
-            self.SCREEN.blit(self.static_layer, (-(self.player.rect.center[0] - WINDOW_WIDTH / 2), -(self.player.rect.center[1] - WINDOW_HEIGHT / 2)))
-            self.all_sprites.draw(self.player.rect.center)                                                              # draw all sprites to the center of the rectangle of the player (camera)
-            self.hud.draw(self.SCREEN)
-
-            music_status = self.music.check_status()
-            if music_status == "Paused" and self.music.paused == True:
-                self.music.unpause()
-            elif music_status == "Stopped":
-                #self.music.play(MAIN_MUSIC)
                 self.music.play_random()
             else:
-                pass
+                self.render_game_world()
+                self.handle_music_system()
+                self.process_interactions()
+        
+            pygame.display.flip()
 
-            # INTERACTION/ACTION HANDLING
-            if self.action:                                                                                   # check whether interact condition is true or not (bool check)
-                if self.action == "item_pickup":
-                    for item in [self.item_test, self.item_test2]:
-                        item.pickup_logic(self.player.rect.center)
-                elif self.action == "npc":
-                    if self.timer.active == False and not self.timer.is_finished:
-                        self.timer.start(self.action_duration)
-                        self.get_random_interact_text(NPC_INTERACT_DATA)
-                    if self.timer.is_finished:
-                        self.action = None
-                        self.timer.is_finished = False
-                    self.timer.update()
-                    self.npc.interact(self.random_interact_text, self.player.rect)
-                elif self.action == "npc_enemy":
-                    self.npc_enemy.interact(self.SCREEN, self.player.rect)
+    def handle_game_events(self):
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                self.is_running = False
 
-            #for npc in [self.npc, self.npc_enemy]:
+    def update_game_state(self):
+        dt = self.clock.tick() / 1000
+        self.input.update()  # check user's input
+        self.check_map_transition() # check for map tps (teleport points/transitions)
+        self.all_sprites.update(dt) # update all sprites
+
+    def render_game_world(self):
+        self.display_surface.fill((173, 216, 230))
+        self.display_surface.blit(
+            self.background_layer,
+            (-(self.player.rect.center[0] - WINDOW_WIDTH / 2),
+            -(self.player.rect.center[1] - WINDOW_HEIGHT / 2))
+        )
+        self.all_sprites.draw(self.player.rect.center)
+        self.hud.draw(self.display_surface)
+
+    def handle_music_system(self):
+        music_status = self.music.check_status()
+        if music_status == "Paused" and self.music.paused == True:
+            self.music.unpause()
+        elif music_status == "Stopped":
+            self.music.play_random()
+        else:
+            pass
+
+    def process_interactions(self):
+        # INTERACTION/ACTION HANDLING
+        if self.action:                                                                                   # check whether interact condition is true or not (bool check)
+            if self.action == "item_pickup":
+                for item in [self.item_test, self.item_test2]:
+                    item.pickup_logic(self.player.rect.center)
+            elif self.action == "npc":
+                if self.timer.active == False and not self.timer.is_finished:
+                    self.timer.start(self.action_duration)
+                    self.get_random_interact_text(NPC_INTERACT_DATA)
+                if self.timer.is_finished:
+                    self.action = None
+                    self.timer.is_finished = False
+                self.timer.update()
+                self.npc.interact(self.random_interact_text, self.player.rect)
+            elif self.action == "npc_enemy":
+                self.npc_enemy.interact(self.display_surface, self.player.rect)
+
             try:
-                self.npc.interactInRange(self.player.rect, self.SCREEN)
+                self.npc.interactInRange(self.player.rect, self.display_surface)
             except AttributeError:
                 pass
             try:
-                self.npc_enemy.interactInRange(self.player.rect, self.SCREEN)
+                self.npc_enemy.interactInRange(self.player.rect, self.display_surface)
             except AttributeError:
                 pass
-
-
-
-            ## GET CURRENT FPS ##
-            #print(self.clock.get_fps())
-
-            pygame.display.flip()                                                                                     # refresh(update) the screen
 
 
 ####### MAIN CODE ############
-
 if __name__ == "__main__":                                                                                              # if code is in main.py (__main__) run following
     game = Game()                                                                                                       # initialize game() (class)
     game.run()                                                                                                          # run game (game-logic)

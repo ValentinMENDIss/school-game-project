@@ -95,7 +95,7 @@ class Battle_Menu:
         # LOOP VARIABLES
         self.running = True
 
-        # INITALIZING BUTTONS
+        # INITIALIZING BUTTONS
         SURRENDER_BUTTON = Button(WINDOW_WIDTH - 150, WINDOW_HEIGHT - 100, scale=0.40, image=SURRENDER_IMG, hovered_image=SURRENDER_IMG_PRESSED)                             # create button instance
         FIGHT_BUTTON = Button(150, WINDOW_HEIGHT - 100, scale=0.40, image=START_IMG, hovered_image=START_IMG_PRESSED)
         DEFENSE_BUTTON = Button(400, WINDOW_HEIGHT - 100, scale=0.40, image=START_IMG, hovered_image=START_IMG_PRESSED)

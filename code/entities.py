@@ -161,12 +161,12 @@ class NPC(pygame.sprite.Sprite):
 
         if self.show_interact_text:
             dialog = Dialog(self.pos)
-            dialog.interactInRange("", player_center, screen=self.game.SCREEN)
+            dialog.interactInRange("", player_center, screen=self.game.display_surface)
 
     def interact(self, text, player_center):
         self.show_interact_text = False
         dialog = Dialog(self.pos)                                                                                       # initializing dialog class
-        dialog.interact(text, player_center, screen=self.game.SCREEN)                                                                       # run dialogs' interact function, to show some text
+        dialog.interact(text, player_center, screen=self.game.display_surface)                                                                       # run dialogs' interact function, to show some text
 
 
 class NPC_Friendly(NPC):
@@ -208,4 +208,4 @@ class NPC_Enemy(NPC):
             self.show_interact_text = False
             self.timer.update()
             dialog = Dialog(self.pos)                                                                                       # initializing dialog class
-            dialog.interact(self.text, player_center, screen=self.game.SCREEN)                                                                       # run dialogs' interact function, to show some tex
+            dialog.interact(self.text, player_center, screen=self.game.display_surface)                                                                       # run dialogs' interact function, to show some tex
