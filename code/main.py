@@ -143,6 +143,8 @@ class Game:
     
         while self.is_running:
             self.handle_game_events()
+            if not self.is_running:
+                break
             self.update_game_state()
         
             # Menu logic
