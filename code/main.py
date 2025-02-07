@@ -139,7 +139,7 @@ class Game:
     # MAIN (RUN) LOGIC
     def run(self):
         self.is_running = True
-        self.menu_startup = True  # Added from first implementation
+        self.menu_startup = True 
     
         while self.is_running:
             self.handle_game_events()
@@ -207,17 +207,17 @@ class Game:
             elif self.action == "npc_enemy":
                 self.npc_enemy.interact(self.display_surface, self.player.rect)
 
-            npcs = []
-            if hasattr(self, 'npc'):
-                npcs.append(self.npc)
-            if hasattr(self, 'npc_enemy'):
-                npcs.append(self.npc_enemy)
+        npcs = []
+        if hasattr(self, 'npc'):
+            npcs.append(self.npc)
+        if hasattr(self, 'npc_enemy'):
+            npcs.append(self.npc_enemy)
 
-            for npc in npcs:
-                try:
-                    npc.interactInRange(self.player.rect, self.display_surface)
-                except AttributeError:
-                    pass
+        for npc in npcs:
+            try:
+                npc.interactInRange(self.player.rect, self.display_surface)
+            except AttributeError:
+                pass
 
 
 ####### MAIN CODE ############
