@@ -26,7 +26,6 @@ class GameTime:
         # Convert milliseconds to hours in game time
         game_hours = (elapsed / 1000) * (1 / self.time_scale)
         
-        print(self.game_time) 
         if game_hours > 0:
             self.game_time += timedelta(hours=game_hours)
             self.last_update = current_time
@@ -42,6 +41,7 @@ class GameTime:
             
             # Check time events
             self._check_time_events()
+
     def _check_time_events(self):
         current_time_str = self.get_time_str()
         

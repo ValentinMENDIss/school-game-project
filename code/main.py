@@ -62,9 +62,9 @@ class Game:
         self.import_assets()                                                                                            # import tilesets (assets)
         self.setup(self.tmx_maps['world'], 'spawn')                                                                     # import this one specific tileset (mapset/asset)
 
-        # OTHER VARIABLES
-        self.hud = HUD(self.player)
-
+        # INITIALIZE VARIABLES THAT ARE DEPENDANT ON SETUP METHOD'S VARIABLES
+        self.hud = HUD(self, self.player)
+        
     def import_assets(self):
         self.tmx_maps = {'world': load_pygame(os.path.join('..', 'data', 'maps', 'world.tmx')),                         # load world.tmx file (with given location of it)
                          'world2': load_pygame(os.path.join('..', 'data', 'maps', 'world2.tmx')),
@@ -182,6 +182,7 @@ class Game:
         )
         self.all_sprites.draw(self.player.rect.center)
         self.hud.draw(self.display_surface)
+        self.hud.draw_time(self.display_surface)
 
     def handle_music_system(self):
         music_status = self.music.check_status()

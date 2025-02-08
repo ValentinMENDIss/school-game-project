@@ -4,7 +4,8 @@ from settings import  *
 
 ######### CLASSes ############
 class HUD:
-    def __init__(self, player):
+    def __init__(self, game, player):
+        self.game = game
         self.items = []
         self.player = player
         self.pos_x , self.pos_y = (WINDOW_WIDTH // 2 - 20), (WINDOW_HEIGHT // 2 - 85)
@@ -36,4 +37,15 @@ class HUD:
             self.offset += 35
 
         self.check_player_health(surface, self.player)
+
+    def draw_time(self, surface):
+        time_text = self.game.game_time.get_time_12hr()
+
+        # DEFINING TEXT VARIABLES
+        font = HEADINGTEXT.render(time_text, True, (0, 0, 0)).convert_alpha()                             # render a Heading Text
+        timetextrect = font.get_rect()                                                                    # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
+        timetextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 250)                                      # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+        
+        surface.blit(font, timetextrect)
+
 
