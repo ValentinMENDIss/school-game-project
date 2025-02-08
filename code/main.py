@@ -15,6 +15,7 @@ from gamedata import *
 from input import *
 from timer import Timer
 from music import Music
+from gametime import GameTime
 
 import cProfile
 
@@ -34,6 +35,7 @@ class Game:
         self.input = UserInput(self)
         self.inventory = Inventory(self)
         self.music = Music()
+        self.game_time = GameTime()
         self.time = 0
         self.pressed_start_time = 0
         self.pressed_duration = 5000
@@ -166,6 +168,7 @@ class Game:
 
     def update_game_state(self):
         dt = self.clock.tick() / 1000
+        self.game_time.update()
         self.input.update()  # check user's input
         self.check_map_transition() # check for map tps (teleport points/transitions)
         self.all_sprites.update(dt) # update all sprites

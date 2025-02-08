@@ -162,7 +162,6 @@ class NPC(pygame.sprite.Sprite):
         if self.show_interact_text:
             dialog = Dialog(self.pos)
             dialog.interactInRange("", player_center, screen=self.game.display_surface)
-            print("Hello")
 
     def interact(self, text, player_center):
         self.show_interact_text = False
