@@ -40,6 +40,7 @@ class Game:
         self.pressed_start_time = 0
         self.pressed_duration = 5000
         self.music_paused = False
+        self.current_screen = "menu"
 
         # CONFIGURING PYGAME
         SCREEN_FLAGS = pygame.HWSURFACE | pygame.DOUBLEBUF
@@ -149,15 +150,9 @@ class Game:
                 break
             self.update_game_state()
         
-            # Menu logic
-            if self.menu_startup:
-                self.display_menu()
-                self.menu_startup = False
-                self.music.play_random()
-            else:
-                self.render_game_world()
-                self.handle_music_system()
-                self.process_interactions()
+            self.render_game_world()
+            self.handle_music_system()
+            self.process_interactions()
         
             pygame.display.flip()
 
@@ -174,15 +169,26 @@ class Game:
         self.all_sprites.update(dt) # update all sprites
 
     def render_game_world(self):
-        self.display_surface.fill((173, 216, 230))
-        self.display_surface.blit(
-            self.background_layer,
-            (-(self.player.rect.center[0] - WINDOW_WIDTH / 2),
-            -(self.player.rect.center[1] - WINDOW_HEIGHT / 2))
-        )
-        self.all_sprites.draw(self.player.rect.center)
-        self.hud.draw(self.display_surface)
-        self.hud.draw_time(self.display_surface)
+        if self.current_screen == "game":
+            self.display_surface.fill((173, 216, 230))
+            self.display_surface.blit(
+                self.background_layer,
+                (-(self.player.rect.center[0] - WINDOW_WIDTH / 2),
+                -(self.player.rect.center[1] - WINDOW_HEIGHT / 2))
+            )
+            self.all_sprites.draw(self.player.rect.center)
+            self.hud.draw(self.display_surface)
+            self.hud.draw_time(self.display_surface)
+            #self.game_time.resume_game_time()
+        elif self.current_screen == "menu":
+            # Menu logic
+            if self.menu_startup:
+                self.display_menu()
+                self.music.play_random()
+                self.menu_startup = False
+            else:
+                self.display_menu()
+                self.game_time.pause_game_time(self.clock.tick() / 1000)
 
     def handle_music_system(self):
         music_status = self.music.check_status()

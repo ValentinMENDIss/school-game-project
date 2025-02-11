@@ -44,7 +44,7 @@ class UserInput:
         if self.keys[self.key_bindings["menu_toggle"]] or (self.num_joysticks > 0 and self.button_states[7] == 1 and self.joystick_button_pressed == False):  # if the key that was just pressed on the keyboard is 'ESCAPE', do following:
             if self.game.menu_startup == False:
                 self.button_state()
-                self.game.display_menu()                                                                                      # run menu logic
+                self.game.current_screen = "menu"                                                                       # run menu logic
 
         self.button_state()
 

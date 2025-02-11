@@ -6,10 +6,14 @@ class GameTime:
         # time_scale determines how many real seconds equal one game hour
         # default: 60 seconds real time = 1 hour game time
         self.time_scale = time_scale
-        
+        self.running = True
         # Start at 6:00 AM on 1. September by default (first day of school)
         self.game_time = datetime(2025, 9, 1, 6, 0) # year, month, day, seconds, milliseconds
         self.last_update = pygame.time.get_ticks()
+        
+        #test
+        self.paused_time = 0
+        #####
         
         # Time events storage
         self.time_events = {
@@ -20,11 +24,11 @@ class GameTime:
         }
     
     def update(self):
-        current_time = pygame.time.get_ticks()
-        elapsed = current_time - self.last_update
+        current_time = pygame.time.get_ticks() - self.paused_time                                                       # get current ticks and subtract time when game was paused (e.g: during player is in Menu)
+        elapsed = (current_time - self.last_update)                                                                     # calculate how much time has passed since the last update
         
         # Convert milliseconds to hours in game time
-        game_hours = (elapsed / 1000) * (1 / self.time_scale)
+        game_hours = (elapsed / 1000) * (1 / self.time_scale)                                                           # count/get in-game hours
         
         if game_hours > 0:
             self.game_time += timedelta(hours=game_hours)
@@ -41,6 +45,10 @@ class GameTime:
             
             # Check time events
             self._check_time_events()
+
+    def pause_game_time(self, dt):
+        self.running = False
+        self.paused_time += dt * 1000
 
     def _check_time_events(self):
         current_time_str = self.get_time_str()

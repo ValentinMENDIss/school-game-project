@@ -15,15 +15,17 @@ class Menu:
         self.running = True                                                                                             # loop value
         self.get_pressed_keys_action = False
         self.menu_exit_action = False
+        self.current_screen = "main_menu"
 
     # DRAWING LOGIC
     def show(self, surface):
         self.running = True
         self.exit_action = False
-        while self.running:
+        if self.current_screen == "main_menu":
             self.main_menu(surface)                                                                                     # draw main menu
-            if self.exit_action:                                                                                        # if exit button is pressed, do following:
-                self.running = False                                                                                    # exit (set loop variable 'running' to false)
+            
+        if self.exit_action:                                                                                        # if exit button is pressed, do following:
+            self.game.current_screen = "game"
 
     # GET USER'S INPUT
     def get_input(self):
@@ -71,7 +73,8 @@ class Menu:
 
             # INPUT HANDLING
             if self.menu_exit_action == True:
-                self.running, running = False, False
+                running = False
+                self.game.current_screen = "game"
 
             ## EVENTS ##
             for event in pygame.event.get():
@@ -80,7 +83,8 @@ class Menu:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if START_BUTTON.checkForInput(MENU_MOUSE_POS):
                         pygame.mixer.Sound.play(MENU_SOUND)
-                        self.running, running = False, False                                                                # quit all menus and this specific menu loop
+                        running = False                                                                # quit all menus and this specific menu loop
+                        self.game.current_screen = "game"
                     if SETTINGS_BUTTON.checkForInput(MENU_MOUSE_POS):
                         running = False
                         self.settings(surface)
