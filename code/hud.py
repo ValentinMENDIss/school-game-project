@@ -23,6 +23,12 @@ class HUD:
 
 
     def draw(self, surface):
+        self.draw_items(surface)
+        self.draw_time(surface)
+        self.draw_player_level(surface)
+        
+
+    def draw_items(self, surface):
         self.offset = 0
         for item in self.items:
             if item == "item-test":
@@ -44,8 +50,17 @@ class HUD:
         # DEFINING TEXT VARIABLES
         font = HEADINGTEXT.render(time_text, True, (0, 0, 0)).convert_alpha()                             # render a Heading Text
         timetextrect = font.get_rect()                                                                    # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
-        timetextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 250)                                      # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+        timetextrect.center = (WINDOW_WIDTH // 2, 50)                                      # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
         
         surface.blit(font, timetextrect)
+
+    def draw_player_level(self, surface):
+        level_text = f"Level: {self.player.level}"
+
+        font = HEADINGTEXT.render(level_text, True, (0, 0, 0)).convert_alpha()                             # render a Heading Text
+        leveltextrect = font.get_rect()                                                                    # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
+        leveltextrect.center = (100, WINDOW_HEIGHT - 50)                                      # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+        
+        surface.blit(font, leveltextrect)
 
 

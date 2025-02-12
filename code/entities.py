@@ -12,7 +12,7 @@ from gamedata import NPC_ENEMY_DEFEATED_INTERACT_DATA, NPC_ENEMY_WON_INTERACT_DA
 
 class Player(pygame.sprite.Sprite):
     initiated = False
-    def __init__(self, input, pos, groups, collision_sprites, health=100, stamina=100, defence=100, damage=100):
+    def __init__(self, input, pos, groups, collision_sprites, health=100, stamina=100, defence=100, damage=100, level=0):
         global initiated
         Player.initiated = True
         # ATTRIBUTES
@@ -20,6 +20,7 @@ class Player(pygame.sprite.Sprite):
         self.stamina = stamina
         self.defence = defence
         self.damage = damage
+        self.level = level
         self.z = WORLD_LAYERS['main']
         self.collision_rects = [sprite.rect for sprite in collision_sprites if sprite is not self]
         self.collision_sprites = collision_sprites

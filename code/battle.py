@@ -183,13 +183,13 @@ class Battle_Menu:
             if self.show_enemy_damage_action:
                 self.show_enemy_damage(surface)
 
-            if self.enemy_health <= 0:
-                print("You've won me")
-                if timer.active == False and not timer.is_finished:
-                    timer.start(5000)
-                timer.update()
-                if timer.is_finished:
-                    self.exit_battle()
+            if self.enemy_health <= 0:                                                      # if enemy is defeated:
+                if timer.active == False and not timer.is_finished:                         # if timer hasn't been started yet:
+                    timer.start(5000)                                                       # set timer for 'n' ms
+                timer.update()                                                              # update timer's state
+                if timer.is_finished:                                                       # if timer is finished
+                    self.game.player.level += 1                                             # increment player's level
+                    self.exit_battle()                                                      # exit battle_menu
             else:
                 pass
 
