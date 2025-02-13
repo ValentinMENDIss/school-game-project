@@ -9,6 +9,8 @@ class HUD:
         self.items = []
         self.player = player
         self.pos_x , self.pos_y = (WINDOW_WIDTH // 2 - 20), (WINDOW_HEIGHT // 2 - 85)
+        self.initialized_time_text = False
+        self.initialized_player_level_text = False
 
     def add_item(self, item):
         self.items.append(item)
@@ -27,7 +29,41 @@ class HUD:
         self.draw_time(surface)
         self.draw_player_level(surface)
         
+    def update_time_text(self, new_time_text):
+        if self.initialized_time_text == False:
+            self.old_time_text = self.game.game_time.get_time_12hr()
+            self.timetextfont = HEADINGTEXT.render(self.old_time_text, True, (0, 0, 0)).convert_alpha()                             # render a Heading Text
+            self.timetextrect = self.timetextfont.get_rect()
+            self.timetextrect.center = (WINDOW_WIDTH // 2, 50)
+            self.initialized_time_text = True
 
+        if self.old_time_text != new_time_text:
+            self.old_time_text = new_time_text
+            self.timetextfont = HEADINGTEXT.render(self.old_time_text, True, (0, 0, 0)).convert_alpha()                             # render a Heading Text
+
+            self.timetextrect = self.timetextfont.get_rect()                                                                    # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
+            self.timetextrect.center = (WINDOW_WIDTH // 2, 50)                                      # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+            
+            if self.game.debug:
+                print("NEW_TIME_TEXT")
+
+    def update_player_level_text(self, new_level_text):
+        if self.initialized_player_level_text == False:
+            self.old_level_text = f"Level: {self.player.level}"
+            self.leveltextfont = HEADINGTEXT.render(self.old_level_text, True, (0, 0, 0)).convert_alpha()                             # render a Heading Text
+            self.leveltextrect = self.leveltextfont.get_rect()
+            self.leveltextrect.center = (100, WINDOW_HEIGHT - 50)
+            self.initialized_player_level_text = True
+        
+        if self.old_level_text != new_level_text:
+            self.old_level_text = new_level_text
+            self.leveltextfont = HEADINGTEXT.render(self.old_level_text, True, (0, 0, 0)).convert_alpha()                             # render a Heading Text
+            self.leveltextrect = self.leveltextfont.get_rect()                                                                    # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
+            self.leveltextrect.center = (100, WINDOW_HEIGHT - 50)                                      # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+            
+            if self.game.debug:
+                print("NEW_LEVEL_TEXT")
+        
     def draw_items(self, surface):
         self.offset = 0
         for item in self.items:
@@ -46,21 +82,12 @@ class HUD:
 
     def draw_time(self, surface):
         time_text = self.game.game_time.get_time_12hr()
-
-        # DEFINING TEXT VARIABLES
-        font = HEADINGTEXT.render(time_text, True, (0, 0, 0)).convert_alpha()                             # render a Heading Text
-        timetextrect = font.get_rect()                                                                    # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
-        timetextrect.center = (WINDOW_WIDTH // 2, 50)                                      # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
-        
-        surface.blit(font, timetextrect)
+        self.update_time_text(time_text)
+        surface.blit(self.timetextfont, self.timetextrect)
 
     def draw_player_level(self, surface):
         level_text = f"Level: {self.player.level}"
-
-        font = HEADINGTEXT.render(level_text, True, (0, 0, 0)).convert_alpha()                             # render a Heading Text
-        leveltextrect = font.get_rect()                                                                    # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
-        leveltextrect.center = (100, WINDOW_HEIGHT - 50)                                      # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
-        
-        surface.blit(font, leveltextrect)
+        self.update_player_level_text(level_text)
+        surface.blit(self.leveltextfont, self.leveltextrect)
 
 
