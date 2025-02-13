@@ -66,6 +66,9 @@ class Game:
         # INITIALIZE VARIABLES THAT ARE DEPENDANT ON SETUP METHOD'S VARIABLES
         self.hud = HUD(self, self.player)
         
+        # DEBUGGING VARIABLE
+        self.debug = False
+        
     def import_assets(self):
         self.tmx_maps = {'world': load_pygame(os.path.join('..', 'data', 'maps', 'world.tmx')),                         # load world.tmx file (with given location of it)
                          'world2': load_pygame(os.path.join('..', 'data', 'maps', 'world2.tmx')),
@@ -154,7 +157,13 @@ class Game:
             self.handle_music_system()
             self.process_interactions()
         
+            if self.debug:
+                self.run_debug()
+        
             pygame.display.flip()
+            
+    def run_debug(self):
+        print(self.clock.get_fps())
 
     def handle_game_events(self):
         for event in pygame.event.get():
