@@ -195,7 +195,6 @@ class Battle_Menu:
 
             if self.player_health <= 0:
                 self.player_health = 0
-                print("I've won you!")
                 if timer.active == False and not timer.is_finished:
                     timer.start(5000)
                 timer.update()

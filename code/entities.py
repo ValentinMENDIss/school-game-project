@@ -91,7 +91,6 @@ class Player(pygame.sprite.Sprite):
                 self.index = 0
         else:
             self.index = 0                                                                                              # if the player stops, Frame-Index goes back to default value (0)
-
         self.image = pygame.transform.scale(animation_frames[int(self.index)].convert_alpha(), self.new_size_image)
 
     def move(self, dt):
@@ -127,6 +126,8 @@ class Player(pygame.sprite.Sprite):
         self.rect.centery = pos[1]                                                                                               # change player's y coordinates
         self.hitbox.centery = self.rect.centery
         self.collisions('vertical')
+        
+        #if self.game.debug:
         #print("$##############")
         #print(pos[0], pos[1])
         #print(self.rect.centerx, self.rect.centery)
