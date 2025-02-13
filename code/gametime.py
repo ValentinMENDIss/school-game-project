@@ -2,7 +2,7 @@ from settings import *
 from datetime import datetime, timedelta
 
 class GameTime:
-    def __init__(self, time_scale=60):
+    def __init__(self, time_scale=180):
         # time_scale determines how many real seconds equal one game hour
         # default: 60 seconds real time = 1 hour game time
         self.time_scale = time_scale
