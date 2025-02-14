@@ -13,6 +13,7 @@ class Inventory:
     def add_item(self, item):
         self.hud = self.game.hud
         self.items.append(item)
+
         self.hud.add_item(item)
 #        print(f"Your Inventory: {self.items}")
 #        print(f"Your Health was increased: {self.game.player.health}")

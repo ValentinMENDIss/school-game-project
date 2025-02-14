@@ -1,7 +1,7 @@
 ######### IMPORT ##############
 
 from settings import *
-from entities import Player, NPC
+from items import Items
 
 ######### CLASSes ##############
 class AllSprites(pygame.sprite.Group):
@@ -21,6 +21,9 @@ class AllSprites(pygame.sprite.Group):
 
         for layer in (bg_sprites, main_sprites, fg_sprites):                                                                # return all sprites that are in this class (AllSprites) and in these layers
             for sprite in layer:
-                if isinstance(sprite, Player or NPC):
-                    self.SCREEN.blit(sprite.image, sprite.rect.topleft + self.offset)
+                if isinstance(sprite, Items):
+                    if sprite.is_drawing:
+                        pass
+                    else:
+                        continue        # if Item shouldn't be drawn, skip drawing section of the code
                 self.SCREEN.blit(sprite.image, sprite.rect.topleft + self.offset)
