@@ -12,13 +12,13 @@ from gamedata import NPC_ENEMY_DEFEATED_INTERACT_DATA, NPC_ENEMY_WON_INTERACT_DA
 
 class Player(pygame.sprite.Sprite):
     initiated = False
-    def __init__(self, input, pos, groups, collision_sprites, health=100, stamina=100, defence=100, damage=100, level=0):
+    def __init__(self, input, pos, groups, collision_sprites, health=100, stamina=100, defense=100, damage=100, level=0):
         global initiated
         Player.initiated = True
         # ATTRIBUTES
         self.health = health                                                                                            # initialize new variable/attribute for the player (health)
         self.stamina = stamina
-        self.defence = defence
+        self.defense = defense
         self.damage = damage
         self.level = level
         self.z = WORLD_LAYERS['main']

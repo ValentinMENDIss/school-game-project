@@ -31,28 +31,24 @@ class Items(pygame.sprite.Sprite):
         self.player_center = player_center
         if abs(self.pos[0] - self.player_center[0]) <= 100 and abs(self.pos[1] - self.player_center[1]) <= 100:         # ; [0] = x; [1] = y;
             pygame.mixer.Sound.play(PICKUP_SOUND)                                                                       # play sound
-            self.game.inventory.add_item(self.name)
+            self.game.inventory.add_item(self)
             self.is_drawing = False                                                                                                 # remove the item from all sprites groups atfter pickup, avoiding reprocessing
         self.game.action = None                                                                                         # reset variable that stores action (from action handling)
 
-#    def draw(self):
-#        self.offset.x = -(self.game.player_center[0] - WINDOW_WIDTH / 2)
-#        self.offset.y = -(self.game.player_center[1] - WINDOW_WIDTH / 2)
-#
-#        self.game.SCREEN.blit(sprite.image, self.rect.topleft + self.offset)
-
+    def use_item(self):
+        self.random_abilities()
 
     def random_abilities(self):
-                    #random select of abilities
-                    self.effect, self.multiplier = random.choice(list(item_data.items()))
+                    # random select of abilities
+                    self.effect, self.multiplier = random.choice(list(self.item_data.items()))
                     if self.effect == "health_mul":
                         self.game.player.health *= 1 + self.multiplier
                         print(f"Health increased by {self.multiplier * 100:.1f}%")
                     elif self.effect == "stamina_mul":
                         self.game.player.stamina *= 1 + self.multiplier
                         print(f"Stamina increased by {self.multiplier * 100:.1f}%")
-                    elif self.effect == "attack_mul":
-                        self.game.player.attack *= 1 + self.multiplier
+                    elif self.effect == "damage_mul":
+                        self.game.player.damage *= 1 + self.multiplier
                         print(f"Attack increased by {self.multiplier * 100:.1f}%")
                     elif self.effect == "defence_mul":
                         self.game.player.defense *= 1 + self.multiplier

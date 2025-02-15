@@ -55,20 +55,20 @@ NPC_ENEMY_WON_INTERACT_DATA = ["Do you really want me to fight with you second t
 ## ITEM DATA ##
 ITEM_RARITY_DATA_RARE = {"health_mul": 1.2,
                          "stamina_mul": 1.2,
-                         "attack_mul": 1.2,
+                         "damage_mul": 1.2,
                          "defence_mul": 1.2}
 
 ITEM_RARITY_DATA_EPIC = {"health_mul": 1.3,
                          "stamina_mul": 1.3,
-                         "attack_mul": 1.3,
+                         "damage_mul": 1.3,
                          "defence_mul": 1.3}
 
 ITEM_RARITY_DATA_MYTHIC = {"health_mul": 1.4,
                            "stamina_mul": 1.4,
-                           "attack_mul": 1.4,
+                           "damage_mul": 1.4,
                            "defence_mul": 1.4}
 
 ITEM_RARITY_DATA_LEGENDERY = {"health_mul": 1.5,
                               "stamina_mul": 1.5,
-                              "attack_mul": 1.5,
+                              "damage_mul": 1.5,
                               "defence_mul": 1.5}

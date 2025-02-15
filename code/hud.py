@@ -67,9 +67,9 @@ class HUD:
     def draw_items(self, surface):
         self.offset = 0
         for item in self.items:
-            if item == "item-test":
+            if item.name == "item-test":
                 self.image = ITEM_TEST.convert_alpha()
-            elif item == "item-test2":
+            elif item.name == "item-test2":
                 self.image = ITEM_TEST2.convert_alpha()
 
             self.get_x_coords = WINDOW_WIDTH // 2 - (16 * len(self.items))

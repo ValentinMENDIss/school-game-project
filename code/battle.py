@@ -155,9 +155,24 @@ class Battle_Menu:
                     if SURRENDER_BUTTON.checkForInput(MENU_MOUSE_POS):
                         pygame.mixer.Sound.play(MENU_SOUND)
                         self.exit_battle()
-#                    if ITEMS_BUTTON.checkForInput(MENU_MOUSE_POS):
-#                        random_index = random.randint(0, (len(self.game.inventory.items[]) - 1))
-#                        self.game.
+                    if ITEMS_BUTTON.checkForInput(MENU_MOUSE_POS):
+                        items_count = len(self.game.inventory.items)
+                        if items_count > 0:
+                            random_index = random.randint(0, (items_count) - 1)
+                        else:
+                            random_index = None
+                        if random_index != None:
+#                            item = self.game.hud.items[random_index]
+                            #random_item_name = random.choice(self.game.hud.items)
+                            random_item = self.game.hud.items[random_index]
+                            random_item_name = random_item.name
+
+                            random_item.random_abilities()
+
+                            if self.game.debug:
+                                print(f"Item used: {random_item_name}")
+
+
                     if FIGHT_BUTTON.checkForInput(MENU_MOUSE_POS):
                         FightButtonMenu = True
                     if FightButtonMenu:
