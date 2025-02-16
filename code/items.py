@@ -1,4 +1,3 @@
-from os import execle
 ######### IMPORT ##############
 
 from settings import *
