@@ -20,6 +20,7 @@ class Items(pygame.sprite.Sprite):
         self.effect = None
         self.multiplier = None
         self.is_drawing = True
+        self.IsTakeable = True
 
         if self.rarity == "RARE":
             self.item_data = ITEM_RARITY_DATA_RARE
@@ -28,12 +29,14 @@ class Items(pygame.sprite.Sprite):
 
 
     def pickup_logic(self, player_center):
-        self.player_center = player_center
-        if abs(self.pos[0] - self.player_center[0]) <= 100 and abs(self.pos[1] - self.player_center[1]) <= 100:         # ; [0] = x; [1] = y;
-            pygame.mixer.Sound.play(PICKUP_SOUND)                                                                       # play sound
-            self.game.inventory.add_item(self)
-            self.is_drawing = False                                                                                                 # remove the item from all sprites groups atfter pickup, avoiding reprocessing
-        self.game.action = None                                                                                         # reset variable that stores action (from action handling)
+        if self.IsTakeable:
+            self.player_center = player_center
+            if abs(self.pos[0] - self.player_center[0]) <= 100 and abs(self.pos[1] - self.player_center[1]) <= 100:         # ; [0] = x; [1] = y;
+                pygame.mixer.Sound.play(PICKUP_SOUND)                                                                       # play sound
+                self.game.inventory.add_item(self)
+                self.is_drawing = False                                                                                                 # remove the item from all sprites groups atfter pickup, avoiding reprocessing
+                self.IsTakeable = False
+            self.game.action = None                                                                                         # reset variable that stores action (from action handling)
 
     def use_item(self):
         self.random_abilities()
