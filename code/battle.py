@@ -161,9 +161,7 @@ class Battle_Menu:
                     pygame.mixer.Sound.play(MENU_SOUND)
                     self.exit_battle()
                 if ITEMS_BUTTON.checkForInput(MENU_MOUSE_POS):
-                    self.current_display = "items_menu"    
-
-
+                    self.current_display = "items_menu"
 #                        items_count = len(self.game.inventory.items)
 #                        if items_count > 0:
 #                            random_index = random.randint(0, (items_count) - 1)
@@ -178,8 +176,6 @@ class Battle_Menu:
 #
 #                            if self.game.debug:
 #                                print(f"Item used: {random_item_name}")
-
-
                 if FIGHT_BUTTON.checkForInput(MENU_MOUSE_POS):
                     self.FightButtonMenu = True
 
@@ -187,11 +183,11 @@ class Battle_Menu:
                     if EMOTIONAL_ATTACK_BUTTON.checkForInput(MENU_MOUSE_POS):
                         self.attack_enemy(self.attack_type[1])
                         EMOTIONAL_ATTACK_BUTTON.set_image(START_IMG_PRESSED, scale=0.4)
-                        action = "Enemy_Fight"                                                                          # after player's fight, set action variable that corresponds to fight for NPC_ENEMY
+                        self.action = "Enemy_Fight"                                                                          # after player's fight, set action variable that corresponds to fight for NPC_ENEMY
                     elif ATTACK_BUTTON.checkForInput(MENU_MOUSE_POS):
                         self.attack_enemy(self.attack_type[0])
                         ATTACK_BUTTON.set_image(START_IMG_PRESSED, scale=0.4)
-                        action = "Enemy_Fight"                                                                          # after player's fight, set action variable that corresponds to fight for NPC_ENEMY
+                        self.action = "Enemy_Fight"                                                                          # after player's fight, set action variable that corresponds to fight for NPC_ENEMY
 
         if self.action:
             if self.action == "Enemy_Fight" and self.enemy_health > 0:
