@@ -15,6 +15,9 @@ class HUD:
     def add_item(self, item):
         self.items.append(item)
 
+    def remove_item(self, item):
+        self.items.remove(item)
+
     def check_player_health(self, surface, player):
         if player.health == 0:
             surface.blit(HEALTH_0, (self.pos_x, self.pos_y))

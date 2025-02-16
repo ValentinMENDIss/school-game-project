@@ -96,6 +96,7 @@ class Battle_Menu:
 
     # DRAWING LOGIC
     def draw(self, surface):
+        self.is_running = True
         self.game.music.pause()
         while self.is_running:
             if self.current_display == "battle_menu":

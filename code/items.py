@@ -1,3 +1,4 @@
+from os import execle
 ######### IMPORT ##############
 
 from settings import *
@@ -40,6 +41,7 @@ class Items(pygame.sprite.Sprite):
 
     def use_item(self):
         self.random_abilities()
+        self.destroy_item()
 
     def random_abilities(self):
                     # random select of abilities
@@ -57,6 +59,9 @@ class Items(pygame.sprite.Sprite):
                         self.game.player.defense *= 1 + self.multiplier
                         print(f"Defense increased by {self.multiplier * 100:.1f}%")
 
+    def destroy_item(self):
+        self.game.hud.remove_item(item=self)
+        self.kill()
 #####################################################################################################
 
 #                    if key == "item-test" or key == "item-test2": # Überprüfen, ob das Item ein "Health"-Item ist und den Multiplikator anwenden
