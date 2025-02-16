@@ -10,7 +10,7 @@ from timer import Timer
 
 ######### SPRITES ##############
 
-BACKGROUND_IMG = pygame.image.load(os.path.join('..', 'graphics', 'battle-menu-background.png'))
+BACKGROUND_IMG = pygame.image.load(os.path.join('..', 'graphics', 'background', 'battle-menu-background.png'))
 
 ######### CLASSes ##############
 

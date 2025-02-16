@@ -4,7 +4,7 @@ from button import Button, Slider
 from input import *
 
 # LOADING IMAGE            if hasattr(self.game.npc_enemy):S
-BACKGROUND_IMG = pygame.image.load(os.path.join('..', 'graphics', 'background.png'))		                            # load image and use it as a menu background
+BACKGROUND_IMG = pygame.image.load(os.path.join('..', 'graphics', 'background', 'background.png'))		                            # load image and use it as a menu background
 
 ######### CLASSES #############
 class Menu:
