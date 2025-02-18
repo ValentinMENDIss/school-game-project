@@ -163,20 +163,6 @@ class Battle_Menu:
                     self.exit_battle()
                 if ITEMS_BUTTON.checkForInput(MENU_MOUSE_POS):
                     self.current_display = "items_menu"
-#                        items_count = len(self.game.inventory.items)
-#                        if items_count > 0:
-#                            random_index = random.randint(0, (items_count) - 1)
-#                        else:
-#                            random_index = None
-#                        if random_index != None:
-#                            #random_item = random.choice(self.game.hud.items)
-#                            random_item = self.game.hud.items[random_index]
-#                            random_item_name = random_item.name
-#
-#                            random_item.random_abilities()
-#
-#                            if self.game.debug:
-#                                print(f"Item used: {random_item_name}")
                 if FIGHT_BUTTON.checkForInput(MENU_MOUSE_POS):
                     self.FightButtonMenu = True
 
@@ -244,6 +230,7 @@ class Battle_Menu:
         surface.blit(headingtext, headingtextrect)
 
         ## DRAWING BUTTONS ##
+        self.__draw_items(surface, items_pos_init_x=300, items_pos_init_y=200)
         for button in [EXIT_BUTTON]:                     # iterate through every single button instance and draw it to the screen
             button.draw(surface)
 
@@ -255,7 +242,43 @@ class Battle_Menu:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if EXIT_BUTTON.checkForInput(MENU_MOUSE_POS):
                     self.current_display = "battle_menu"
+
+#                        items_count = len(self.game.inventory.items)
+#                        if items_count > 0:
+#                            random_index = random.randint(0, (items_count) - 1)
+#                        else:
+#                            random_index = None
+#                        if random_index != None:
+#                            #random_item = random.choice(self.game.hud.items)
+#                            random_item = self.game.hud.items[random_index]
+#                            random_item_name = random_item.name
+#
+#                            random_item.random_abilities()
+#
+#                            if self.game.debug:
+#                                print(f"Item used: {random_item_name}")
+
+
         pygame.display.update()
+
+    def __draw_items(self, surface, items_pos_init_x, items_pos_init_y, max_length=(WINDOW_WIDTH - 200)):
+        items_pos_x = items_pos_init_x
+        items_pos_y = items_pos_init_y
+        for item in self.game.inventory.items:
+            item_name = item.name
+            if item.name == "item-test":
+                item_image = ITEM_TEST.convert_alpha()
+            elif item.name == "item-test2":
+                item_image = ITEM_TEST2.convert_alpha()
+            item_name_button = f"{item.name}"
+            item_name_button = Button(items_pos_x , items_pos_y, scale=1, image=item_image)
+            item_name_button.draw(surface)
+            items_pos_x += 100
+            if items_pos_x >= max_length:
+                items_pos_y += 100 
+                items_pos_x = items_pos_init_x
+
+
 
     def exit_battle(self):
         self.game.player.health = self.player_health
