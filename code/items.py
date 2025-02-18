@@ -59,7 +59,7 @@ class Items(pygame.sprite.Sprite):
                         print(f"Defense increased by {self.multiplier * 100:.1f}%")
 
     def destroy_item(self):
-        self.game.hud.remove_item(item=self)
+        self.game.inventory.remove_item(item=self)
         self.kill()
 #####################################################################################################
 

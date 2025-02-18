@@ -18,7 +18,9 @@ class Battle_Menu:
     def __init__(self, enemy_health, game):
         self.game = game                                                                                                                    # declare new variable that stores main.py (Game()) loop's attributes and variables
         self.attack_type = ["attack", "emotional_attack"]                                                                                   # declare attack types
+        self.items_dict = {}
         self.current_display = "battle_menu"
+        self.items_menu_initialized = False
         self.get_pressed_keys_action = False                                                                                                # variable that stores Bool value. Checks if action should be called
         self.exit_action = False                                                                                                            # variable that stores Bool value. Checks if action should be called
         self.show_player_damage_action = False                                                                                              # variable that stores Bool value. Checks if action should be called
@@ -101,8 +103,10 @@ class Battle_Menu:
         while self.is_running:
             if self.current_display == "battle_menu":
                 self.battle_menu(surface)
+                self.items_menu_initialized = False
             elif self.current_display == "items_menu":
                 self.items_menu(surface)
+                self.items_menu_initialized = True
 
     def battle_menu(self, surface):
         # INITIALIZING BUTTONS
@@ -242,23 +246,9 @@ class Battle_Menu:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if EXIT_BUTTON.checkForInput(MENU_MOUSE_POS):
                     self.current_display = "battle_menu"
-
-#                        items_count = len(self.game.inventory.items)
-#                        if items_count > 0:
-#                            random_index = random.randint(0, (items_count) - 1)
-#                        else:
-#                            random_index = None
-#                        if random_index != None:
-#                            #random_item = random.choice(self.game.hud.items)
-#                            random_item = self.game.hud.items[random_index]
-#                            random_item_name = random_item.name
-#
-#                            random_item.random_abilities()
-#
-#                            if self.game.debug:
-#                                print(f"Item used: {random_item_name}")
-
-
+                for item in self.items_dict:
+                    if item.checkForInput(MENU_MOUSE_POS):
+                        self.use_item(item)
         pygame.display.update()
 
     def __draw_items(self, surface, items_pos_init_x, items_pos_init_y, max_length=(WINDOW_WIDTH - 200)):
@@ -270,15 +260,23 @@ class Battle_Menu:
                 item_image = ITEM_TEST.convert_alpha()
             elif item.name == "item-test2":
                 item_image = ITEM_TEST2.convert_alpha()
-            item_name_button = f"{item.name}"
-            item_name_button = Button(items_pos_x , items_pos_y, scale=1, image=item_image)
-            item_name_button.draw(surface)
+            button = Button(items_pos_x , items_pos_y, scale=1, image=item_image)
             items_pos_x += 100
             if items_pos_x >= max_length:
                 items_pos_y += 100 
                 items_pos_x = items_pos_init_x
+            button.draw(surface)
+            if self.items_menu_initialized == False:
+                item_name = f"{item.name}"
+                new_item_info = {button : {'name': item_name}}
+                self.items_dict.update(new_item_info)
 
-
+    def use_item(self, item):
+        item_name = str(self.items_dict[item]['name']).strip()
+        for item in self.game.inventory.items:
+            if item.name == item_name:
+                item.random_abilities()
+                item.destroy_item()
 
     def exit_battle(self):
         self.game.player.health = self.player_health
