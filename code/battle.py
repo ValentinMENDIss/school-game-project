@@ -20,7 +20,7 @@ class Battle_Menu:
         self.attack_type = ["attack", "emotional_attack"]                                                                                   # declare attack types
         self.items_dict = {}
         self.current_display = "battle_menu"
-        self.items_menu_initialized = False
+        self.items_menu_dict_update = False
         self.get_pressed_keys_action = False                                                                                                # variable that stores Bool value. Checks if action should be called
         self.exit_action = False                                                                                                            # variable that stores Bool value. Checks if action should be called
         self.show_player_damage_action = False                                                                                              # variable that stores Bool value. Checks if action should be called
@@ -99,14 +99,16 @@ class Battle_Menu:
     # DRAWING LOGIC
     def draw(self, surface):
         self.is_running = True
+        self.items_menu_dict_update = False
         self.game.music.pause()
         while self.is_running:
             if self.current_display == "battle_menu":
                 self.battle_menu(surface)
-                self.items_menu_initialized = False
+                self.items_menu_dict_update = True
             elif self.current_display == "items_menu":
                 self.items_menu(surface)
-                self.items_menu_initialized = True
+            else:
+                self.items_menu_dict_update = False
 
     def battle_menu(self, surface):
         # INITIALIZING BUTTONS
@@ -249,6 +251,7 @@ class Battle_Menu:
                 for item in self.items_dict:
                     if item.checkForInput(MENU_MOUSE_POS):
                         self.use_item(item)
+                        self.items_menu_dict_update = True
         pygame.display.update()
 
     def __draw_items(self, surface, items_pos_init_x, items_pos_init_y, max_length=(WINDOW_WIDTH - 200)):
@@ -266,10 +269,11 @@ class Battle_Menu:
                 items_pos_y += 100 
                 items_pos_x = items_pos_init_x
             button.draw(surface)
-            if self.items_menu_initialized == False:
+            if self.items_menu_dict_update:
                 item_name = f"{item.name}"
                 new_item_info = {button : {'name': item_name}}
                 self.items_dict.update(new_item_info)
+                self.items_menu_dict_update = False
 
     def use_item(self, item):
         item_name = str(self.items_dict[item]['name']).strip()
