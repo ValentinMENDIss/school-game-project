@@ -140,7 +140,6 @@ class Player(pygame.sprite.Sprite):
         self.input_logic()                                                                                                      # run main input logic for player
         self.animation(dt)                                                                                                      # run animation method
         self.move(dt)                                                                                                           # move player to his new position
-        print(self.health)
 
     def change_health(self, multiplier):
         new_health = self.health * multiplier

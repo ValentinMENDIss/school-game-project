@@ -25,6 +25,7 @@ def load_saved_data():
             return DEFAULT_PLAYER_DATA
     else:
         print("No saved data found. Using default values.")
+        save_data(DEFAULT_PLAYER_DATA)
         return DEFAULT_PLAYER_DATA
 
 # Function to save player data to the JSON file
