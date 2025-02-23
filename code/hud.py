@@ -19,23 +19,10 @@ class HUD:
         self.items.remove(item)
 
     def check_player_health(self, surface, player):
-        if player.health == 0:
-            surface.blit(HEALTH_0, (self.pos_x, self.pos_y))
-        elif player.health > 0 and player.health <= 10:
-            surface.blit(HEALTH_10, (self.pos_x, self.pos_y))
-        elif player.health > 10 and player.health <= 20:
-            surface.blit(HEALTH_20, (self.pos_x, self.pos_y))
-        elif player.health > 20 and player.health <= 36:
-            surface.blit(HEALTH_36, (self.pos_x, self.pos_y))
-        elif player.health > 36 and player.health <= 52:
-            surface.blit(HEALTH_52, (self.pos_x, self.pos_y))
-        elif player.health > 52 and player.health <= 60:
-            surface.blit(HEALTH_60, (self.pos_x, self.pos_y))
-        elif player.health > 60 and player.health <= 68:
-            surface.blit(HEALTH_68, (self.pos_x, self.pos_y))
-        else:
-            surface.blit(HEALTH_100, (self.pos_x, self.pos_y))
-
+        for max_health, image in HEALTH_THRESHOLDS:
+            if player.health <= max_health:
+                surface.blit(image, (self.pos_x, self.pos_y))
+                break
 
     def draw(self, surface):
         self.draw_items(surface)

@@ -106,3 +106,13 @@ HEALTH_52 = pygame.image.load(os.path.join('..', 'graphics', 'healthbar', '52%.p
 HEALTH_60 = pygame.image.load(os.path.join('..', 'graphics', 'healthbar', '60%.png'))
 HEALTH_68 = pygame.image.load(os.path.join('..', 'graphics', 'healthbar', '68%.png'))
 HEALTH_100 = pygame.image.load(os.path.join('..', 'graphics', 'healthbar', '100%.png'))
+HEALTH_THRESHOLDS = [
+    (0, HEALTH_0),
+    (10, HEALTH_10),
+    (20, HEALTH_20),
+    (36, HEALTH_36),
+    (52, HEALTH_52),
+    (60, HEALTH_60),
+    (68, HEALTH_68),
+    (100, HEALTH_100)
+]
