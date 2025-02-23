@@ -269,7 +269,7 @@ class Battle_Menu:
             button = Button(items_pos_x , items_pos_y, scale=1, image=item_image)
             items_pos_x += 100
             if items_pos_x >= max_length:
-                items_pos_y += 100 
+                items_pos_y += 100
                 items_pos_x = items_pos_init_x
             button.draw(surface)
             if self.items_menu_dict_update:

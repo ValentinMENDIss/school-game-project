@@ -16,6 +16,7 @@ from input import *
 from timer import Timer
 from music import Music
 from gametime import GameTime
+from cutscenes import play_cutscene
 
 import cProfile
 
@@ -41,6 +42,8 @@ class Game:
         self.pressed_duration = 5000
         self.music_paused = False
         self.current_screen = "menu"
+        
+        self.show_cutscene = True
 
         # CONFIGURING PYGAME
         SCREEN_FLAGS = pygame.HWSURFACE | pygame.DOUBLEBUF
@@ -146,7 +149,6 @@ class Game:
     def run(self):
         self.is_running = True
         self.menu_startup = True 
-    
         while self.is_running:
             self.handle_game_events()
             if not self.is_running:
@@ -189,6 +191,8 @@ class Game:
             self.hud.draw(self.display_surface)
             self.hud.draw_time(self.display_surface)
             #self.game_time.resume_game_time()
+            if self.show_cutscene:
+                self.current_screen = "cutscene"
         elif self.current_screen == "menu":
             # Menu logic
             if self.menu_startup:
@@ -198,6 +202,10 @@ class Game:
             else:
                 self.display_menu()
                 self.game_time.pause_game_time(self.clock.tick() / 1000)
+        elif self.current_screen == "cutscene":
+            play_cutscene(self.display_surface, "intro")
+            self.show_cutscene = False
+            self.current_screen = "game"
 
     def handle_music_system(self):
         music_status = self.music.check_status()

@@ -6,10 +6,12 @@ class Timer:
         self.active = False
         self.is_finished = False
 
-    def start(self, duration_time):
+    def start(self, duration_time, loop=False):
         self.duration_time = duration_time
         self.start_time = get_ticks()
         self.active = True
+        if loop:
+            self.is_finished = False
 
     def stop(self):
         self.active = False
