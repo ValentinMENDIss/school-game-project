@@ -7,19 +7,20 @@ from dialog import Dialog
 from battle import Battle_Menu
 from timer import Timer
 from gamedata import NPC_ENEMY_DEFEATED_INTERACT_DATA, NPC_ENEMY_WON_INTERACT_DATA
-
+from savedata import load_saved_data, change_attribute
 ######### CLASSes ############
 
 class Player(pygame.sprite.Sprite):
     initiated = False
-    def __init__(self, input, pos, groups, collision_sprites, health=100, stamina=100, defense=100, damage=100, level=0):
+    def __init__(self, input, pos, groups, collision_sprites, level=0):
         global initiated
         Player.initiated = True
         # ATTRIBUTES
-        self.health = health                                                                                            # initialize new variable/attribute for the player (health)
-        self.stamina = stamina
-        self.defense = defense
-        self.damage = damage
+        self.player_data = load_saved_data()
+        self.health = self.player_data['health']                                                                                            # initialize new variable/attribute for the player (health)
+        self.stamina = self.player_data['stamina']
+        self.defence = self.player_data['defence']
+        self.damage = self.player_data['damage']
         self.level = level
         self.z = WORLD_LAYERS['main']
         self.collision_rects = [sprite.rect for sprite in collision_sprites if sprite is not self]
@@ -139,6 +140,39 @@ class Player(pygame.sprite.Sprite):
         self.input_logic()                                                                                                      # run main input logic for player
         self.animation(dt)                                                                                                      # run animation method
         self.move(dt)                                                                                                           # move player to his new position
+        print(self.health)
+
+    def change_health(self, multiplier):
+        new_health = self.health * multiplier
+        self.health = new_health
+        self.player_data['health'] = self.health                                                                        # Save the new value to savedata
+        change_attribute('health', new_health, self.player_data)  # Persist the change
+
+    def change_stamina(self, multiplier):
+        new_stamina = self.stamina * multiplier
+        self.stamina = new_stamina
+        self.player_data['stamina'] = self.stamina
+        change_attribute('stamina', new_stamina, self.player_data)
+
+    def change_damage(self, multiplier):
+        new_damage = self.damage * multiplier
+        self.damage = new_damage
+        self.player_data['damage'] = self.damage
+        change_attribute('damage', new_damage, self.player_data)
+
+    def change_defence(self, multiplier):
+        new_defence = self.defence * multiplier
+        self.defence = new_defence
+        self.player_data['defence'] = self.defence
+        change_attribute('defence', new_defence, self.player_data)
+
+    def get_status(self):
+        return {
+            'health': self.health,
+            'stamina': self.stamina,
+            'damage': self.damage,
+            'defence': self.defence
+        }
 
 
 class NPC(pygame.sprite.Sprite):

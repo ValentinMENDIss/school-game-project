@@ -7,6 +7,7 @@ from settings import *
 from gamedata import NPC_ENEMY_INTERACT_DATA
 from button import Button
 from timer import Timer
+from savedata import load_saved_data
 
 ######### SPRITES ##############
 
@@ -26,7 +27,9 @@ class Battle_Menu:
         self.show_player_damage_action = False                                                                                              # variable that stores Bool value. Checks if action should be called
         self.show_enemy_damage_action = False                                                                                               # variable that stores Bool value. Checks if action should be called
         self.enemy_health = enemy_health                                                                                                    # enemy's health
-        self.player_health = self.game.player.health                                                                                        # player's health
+        self.player_data = load_saved_data()
+        self.player_health = self.player_data['health']                                                                                        # player's health
+        
         self.damage = 0                                                                                                                     # variable that stores dealt damage in one round
         self.is_running = True
         self.FightButtonMenu = False
@@ -279,8 +282,12 @@ class Battle_Menu:
         item_name = str(self.items_dict[item]['name']).strip()
         for item in self.game.inventory.items:
             if item.name == item_name:
-                item.random_abilities()
-                item.destroy_item()
+                item.use_item()
+                self.update_player_health()
+                
+    def update_player_health(self):
+        self.player_data = load_saved_data()
+        self.player_health = self.player_data['health']
 
     def exit_battle(self):
         self.game.player.health = self.player_health

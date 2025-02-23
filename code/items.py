@@ -43,20 +43,24 @@ class Items(pygame.sprite.Sprite):
         self.destroy_item()
 
     def random_abilities(self):
-                    # random select of abilities
-                    self.effect, self.multiplier = random.choice(list(self.item_data.items()))
-                    if self.effect == "health_mul":
-                        self.game.player.health *= 1 + self.multiplier
-                        print(f"Health increased by {self.multiplier * 100:.1f}%")
-                    elif self.effect == "stamina_mul":
-                        self.game.player.stamina *= 1 + self.multiplier
-                        print(f"Stamina increased by {self.multiplier * 100:.1f}%")
-                    elif self.effect == "damage_mul":
-                        self.game.player.damage *= 1 + self.multiplier
-                        print(f"Attack increased by {self.multiplier * 100:.1f}%")
-                    elif self.effect == "defence_mul":
-                        self.game.player.defense *= 1 + self.multiplier
-                        print(f"Defense increased by {self.multiplier * 100:.1f}%")
+        # random select of abilities
+        self.effect, self.multiplier = random.choice(list(self.item_data.items()))
+        if self.effect == "health_mul":
+            self.game.player.health *= self.multiplier
+            self.game.player.change_health(self.multiplier)
+            print(f"Health increased by {self.multiplier * 100:.1f}%")
+        elif self.effect == "stamina_mul":
+            self.game.player.stamina *= self.multiplier
+            self.game.player.change_stamina(self.multiplier)
+            print(f"Stamina increased by {self.multiplier * 100:.1f}%")
+        elif self.effect == "damage_mul":
+            self.game.player.damage *= self.multiplier
+            self.game.player.change_damage(self.multiplier)
+            print(f"Attack increased by {self.multiplier * 100:.1f}%")
+        elif self.effect == "defence_mul":
+            self.game.player.defence *= self.multiplier
+            self.game.player.change_defence(self.multiplier)
+            print(f"Defence increased by {self.multiplier * 100:.1f}%")
 
     def destroy_item(self):
         self.game.inventory.remove_item(item=self)
