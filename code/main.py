@@ -201,12 +201,12 @@ class Game:
                 self.menu_startup = False
             else:
                 self.display_menu()
-                self.game_time.pause_game_time(self.clock.tick() / 1000)
+            self.game_time.pause_game_time(self.clock.tick() / 1000)
         elif self.current_screen == "cutscene":
             play_cutscene(self.display_surface, "intro")
             self.show_cutscene = False
             self.current_screen = "game"
-
+            self.game_time.pause_game_time(self.clock.tick() / 1000)
     def handle_music_system(self):
         music_status = self.music.check_status()
         if music_status == "Paused" and self.music.paused == True:
