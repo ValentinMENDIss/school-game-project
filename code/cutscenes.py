@@ -1,13 +1,10 @@
 import pygame
-
-
 from settings import *
 from timer import Timer
 from music import Music
 from entities import *
 music_player = Music()
 timer = Timer()
-#tut_Player = Player(pos, groups, collision_sprites, level=0)
 
 cutscene_data = {
     "intro": {
@@ -86,8 +83,8 @@ def play_cutscene(screen, location):
                     if event.type == pygame.QUIT:
                         pygame.quit()
                     if event.type == pygame.KEYDOWN:
-                        if event.key ==  pygame.K_SPACE:
-                            pass
+                        if event.key ==  pygame.K_ENTER:
+                            timer.is_finished = True
         music_player.stop_music()
 
     if location == "tutorial":
