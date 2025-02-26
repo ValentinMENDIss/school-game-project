@@ -154,14 +154,12 @@ class Game:
             if not self.is_running:
                 break
             self.update_game_state()
-        
             self.render_game_world()
-            self.handle_music_system()
-            self.process_interactions()
-        
+            if self.current_screen == "game":
+                self.process_interactions()
+                self.handle_music_system()
             if self.debug:
                 self.run_debug()
-        
             pygame.display.flip()
             
     def run_debug(self):
@@ -190,7 +188,6 @@ class Game:
             self.all_sprites.draw(self.player.rect.center)
             self.hud.draw(self.display_surface)
             self.hud.draw_time(self.display_surface)
-            #self.game_time.resume_game_time()
             if self.show_cutscene:
                 self.current_screen = "cutscene"
         elif self.current_screen == "menu":
@@ -203,10 +200,13 @@ class Game:
                 self.display_menu()
             self.game_time.pause_game_time(self.clock.tick() / 1000)
         elif self.current_screen == "cutscene":
+            self.music.pause()
             play_cutscene(self.display_surface, "intro")
             self.show_cutscene = False
             self.current_screen = "game"
             self.game_time.pause_game_time(self.clock.tick() / 1000)
+            self.music.unpause()
+
     def handle_music_system(self):
         music_status = self.music.check_status()
         if music_status == "Paused" and self.music.paused == True:
