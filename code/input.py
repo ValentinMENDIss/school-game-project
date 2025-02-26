@@ -14,7 +14,8 @@ class UserInput:
             "move_right": pygame.K_RIGHT,
             "move_up": pygame.K_UP,
             "move_down": pygame.K_DOWN,
-            "menu_toggle": pygame.K_ESCAPE
+            "menu_toggle": pygame.K_ESCAPE,
+            "shop_toggle": pygame.K_TAB
         }
 
     # GET USER INPUT
@@ -47,6 +48,9 @@ class UserInput:
                 self.game.current_screen = "menu"                                                                       # run menu logic
 
         self.button_state()
+
+        if self.keys[self.key_bindings["shop_toggle"]]:
+            self.game.current_screen = "shop"
 
     # BUTTON STATE/PRESSED CHECKING                                                                                     # checking if the button is still pressed(hold) or not
     def button_state(self):

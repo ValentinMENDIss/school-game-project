@@ -17,6 +17,7 @@ from timer import Timer
 from music import Music
 from gametime import GameTime
 from cutscenes import play_cutscene
+from shop import *
 
 import cProfile
 
@@ -33,6 +34,7 @@ class Game:
         self.action = None                                                                                           # declare/initialize self.action variable that has a default value: False
         self.timer = Timer()
         self.menu = Menu(self)
+        self.shop = Shop(self)
         self.input = UserInput(self)
         self.inventory = Inventory(self)
         self.music = Music()
@@ -209,6 +211,8 @@ class Game:
             self.current_screen = "game"
             self.game_time.pause_game_time(self.clock.tick() / 1000)
             self.music.unpause()
+        elif self.current_screen == "shop":
+            self.shop.display_shop(self.display_surface)
 
     def handle_music_system(self):
         music_status = self.music.check_status()
