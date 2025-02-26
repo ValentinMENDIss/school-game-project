@@ -34,9 +34,6 @@ def save_data(player_data):
     with open(SAVE_FILE, 'w') as file:
         json.dump(player_data, file, indent=4)
 
-def default_data():
-    save_data(DEFAULT_PLAYER_DATA)
-
 # Function to change an attribute
 def change_attribute(attribute, value, player_data):
     if attribute in player_data:

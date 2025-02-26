@@ -116,3 +116,4 @@ HEALTH_THRESHOLDS = [
     (68, HEALTH_68),
     (100, HEALTH_100)
 ]
+

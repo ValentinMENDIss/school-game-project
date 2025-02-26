@@ -2,7 +2,6 @@
 from settings import *
 from button import Button, Slider
 from input import *
-from savedata import save_data, default_data, load_saved_data
 
 # LOADING IMAGE            if hasattr(self.game.npc_enemy):S
 BACKGROUND_IMG = pygame.image.load(os.path.join('..', 'graphics', 'background', 'background.png'))		                            # load image and use it as a menu background
@@ -17,15 +16,14 @@ class Menu:
         self.get_pressed_keys_action = False
         self.menu_exit_action = False
         self.current_screen = "main_menu"
-        self.startup = None
 
     # DRAWING LOGIC
-    def show(self, surface, startup=False):
-        self.startup = startup
+    def show(self, surface):
         self.running = True
         self.exit_action = False
         if self.current_screen == "main_menu":
             self.main_menu(surface)                                                                                     # draw main menu
+            
         if self.exit_action:                                                                                        # if exit button is pressed, do following:
             self.game.current_screen = "game"
 
@@ -84,8 +82,6 @@ class Menu:
                     self.exit_action = True
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if START_BUTTON.checkForInput(MENU_MOUSE_POS):
-                        if self.startup:
-                            self.session_manager(surface)
                         pygame.mixer.Sound.play(MENU_SOUND)
                         running = False                                                                # quit all menus and this specific menu loop
                         self.game.current_screen = "game"
@@ -98,71 +94,17 @@ class Menu:
             if self.exit_action == True:
                 return self.exit_action
 
-            # DISPLAY UPDATE
-            pygame.display.update()                                                                                         # update the screen
-
-    def session_manager(self, surface):
-        NEW_SAVE_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, scale=0.8, image=INPUT_IMG, hovered_image=INPUT_IMG_PRESSED)
-        LOAD_SAVE_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 125, scale=0.8, image=INPUT_IMG, hovered_image=INPUT_IMG_PRESSED)
-        running = True
-        while running:
-            # DEFINING CONSTANT VARIABLES
-            MENU_MOUSE_POS = pygame.mouse.get_pos()
-            # SETTING TEXT FOR SETTINGS MENU
-            heading_text = "Session Manager"
-
-            # DEFINING TEXT VARIABLES
-            headingtext = HEADINGTEXT.render(heading_text, True, (0, 0, 0)).convert_alpha()  # render a Small Text
-            headingtextrect = headingtext.get_rect()                                                              # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
-            headingtextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 250)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
-
-            # DRAWING ON THE SURFACE
-            surface.blit(BACKGROUND_IMG)
-            surface.blit(headingtext, headingtextrect)
-
-            ## DRAWING BUTTONS ##
-            for button in [NEW_SAVE_BUTTON, LOAD_SAVE_BUTTON]:
-                button.draw(surface)
-
-            # INPUT HANDLING
-            if self.menu_exit_action == True:
-                self.running, running = False, False
-
-            # EVENTS
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    self.exit_action = True
-                if event.type == pygame.MOUSEBUTTONDOWN:
-                    if NEW_SAVE_BUTTON.checkForInput(MENU_MOUSE_POS):
-                        self.new_save()
-                        running = False
-                        self.game.current_screen = "game"
-                    if LOAD_SAVE_BUTTON.checkForInput(MENU_MOUSE_POS):
-                        self.load_save()
-                        running = False
-                        self.game.current_screen = "game"
-
-            if self.exit_action == True:
-                return self.exit_action
-
-            # INPUT
+            ## INPUT ##
             self.get_input()
 
             # DISPLAY UPDATE
-            pygame.display.update()
-
-
-    def new_save(self):
-        default_data()
-
-    def load_save(self):
-        load_saved_data()
+            pygame.display.update()                                                                                         # update the screen
 
     # SETTINGS MENU
     def settings(self, surface):
         ## INITIALIZING BUTTONS ##
         SETTINGS_INPUT_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, scale=0.8, image=INPUT_IMG, hovered_image=INPUT_IMG_PRESSED)
-        SETTINGS_SOUND_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 125, scale=0.8, image=SOUNDS_IMG, hovered_image=SOUNDS_IMG_PRESSED)
+        SETTINGS_SOUND_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 +125, scale=0.8, image=SOUNDS_IMG, hovered_image=SOUNDS_IMG_PRESSED)
         RETURN_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, scale=0.8,  image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
         running = True
         while running:

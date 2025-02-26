@@ -17,7 +17,6 @@ from timer import Timer
 from music import Music
 from gametime import GameTime
 from cutscenes import play_cutscene
-from shop import *
 
 import cProfile
 
@@ -34,7 +33,6 @@ class Game:
         self.action = None                                                                                           # declare/initialize self.action variable that has a default value: False
         self.timer = Timer()
         self.menu = Menu(self)
-        self.shop = Shop(self)
         self.input = UserInput(self)
         self.inventory = Inventory(self)
         self.music = Music()
@@ -44,7 +42,6 @@ class Game:
         self.pressed_duration = 5000
         self.music_paused = False
         self.current_screen = "menu"
-        self.initialized = False
         
         self.show_cutscene = True
 
@@ -66,7 +63,12 @@ class Game:
 
         self.transition_target = 0
 
-        self.import_assets()                                                                                            # import tilesets (assets)       
+        self.import_assets()                                                                                            # import tilesets (assets)
+        self.setup(self.tmx_maps['world'], 'spawn')                                                                     # import this one specific tileset (mapset/asset)
+
+        # INITIALIZE VARIABLES THAT ARE DEPENDANT ON SETUP METHOD'S VARIABLES
+        self.hud = HUD(self, self.player)
+        
         # DEBUGGING VARIABLE
         self.debug = False
         
@@ -120,11 +122,8 @@ class Game:
         return layer
 
     # MENU LOGIC
-    def display_menu(self, startup=False):
-        if startup:
-            self.menu.show(self.display_surface, startup=True)
-        else:
-            self.menu.show(self.display_surface)                                                                                     # show menu
+    def display_menu(self):
+        self.menu.show(self.display_surface)                                                                                     # show menu
         if self.menu.exit_action:
             self.is_running = False
 
@@ -155,16 +154,14 @@ class Game:
             if not self.is_running:
                 break
             self.update_game_state()
+        
             self.render_game_world()
-            if self.current_screen == "game":
-                if self.initialized == False:
-                    self.setup(self.tmx_maps['world'], 'spawn')                                                                     # import this one specific tileset (mapset/asset)
-                    self.hud = HUD(self, self.player)                                                                               # initializing HUD Class which is dependant on setup's method variables
-                    self.initialized = True
-                self.process_interactions()
-                self.handle_music_system()
+            self.handle_music_system()
+            self.process_interactions()
+        
             if self.debug:
                 self.run_debug()
+        
             pygame.display.flip()
             
     def run_debug(self):
@@ -193,27 +190,24 @@ class Game:
             self.all_sprites.draw(self.player.rect.center)
             self.hud.draw(self.display_surface)
             self.hud.draw_time(self.display_surface)
+            #self.game_time.resume_game_time()
             if self.show_cutscene:
                 self.current_screen = "cutscene"
         elif self.current_screen == "menu":
             # Menu logic
             if self.menu_startup:
-                self.display_menu(startup=True)
+                self.display_menu()
                 self.music.play_random()
                 self.menu_startup = False
             else:
                 self.display_menu()
             self.game_time.pause_game_time(self.clock.tick() / 1000)
         elif self.current_screen == "cutscene":
-            self.music.pause()
             play_cutscene(self.display_surface, "intro")
+#             play_cutscene(self.display_surface, "tutorial")
             self.show_cutscene = False
             self.current_screen = "game"
             self.game_time.pause_game_time(self.clock.tick() / 1000)
-            self.music.unpause()
-        elif self.current_screen == "shop":
-            self.shop.display_shop(self.display_surface)
-
     def handle_music_system(self):
         music_status = self.music.check_status()
         if music_status == "Paused" and self.music.paused == True:

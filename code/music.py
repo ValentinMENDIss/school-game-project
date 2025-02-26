@@ -39,14 +39,8 @@ class Music:
         self.paused = True
 
     def unpause(self):
-        if self.timer.active == False and not self.timer.is_finished:
-            self.timer.start(self.fade)
-        if self.timer.is_finished:
-            self.timer.is_finished = False
-            pygame.mixer.music.unpause()
-            self.paused = False
-        self.timer.update()
-        
+        pygame.mixer.music.unpause()
+        self.paused = False
 
     def set_volume(self, volume):
         self.volume = volume

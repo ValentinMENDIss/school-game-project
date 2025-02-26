@@ -14,8 +14,7 @@ class UserInput:
             "move_right": pygame.K_RIGHT,
             "move_up": pygame.K_UP,
             "move_down": pygame.K_DOWN,
-            "menu_toggle": pygame.K_ESCAPE,
-            "shop_toggle": pygame.K_TAB
+            "menu_toggle": pygame.K_ESCAPE
         }
 
     # GET USER INPUT
@@ -48,9 +47,6 @@ class UserInput:
                 self.game.current_screen = "menu"                                                                       # run menu logic
 
         self.button_state()
-
-        if self.keys[self.key_bindings["shop_toggle"]]:
-            self.game.current_screen = "shop"
 
     # BUTTON STATE/PRESSED CHECKING                                                                                     # checking if the button is still pressed(hold) or not
     def button_state(self):
@@ -87,6 +83,7 @@ class UserInput:
         self.get_input()                                                                                                # get user's input
 
         if self.keys[self.key_bindings["menu_toggle"]] or (self.num_joysticks > 0 and self.button_states[7] == 1 and self.joystick_button_pressed == False):  # if the key that was just pressed on the keyboard is 'ESCAPE', or "A" button on the joystick do following:
+            pygame.mixer.Sound.play(MENU_SOUND)
             self.menu_running = False                                                                                   # set value: False(bool) to the menu_running variable. The menu should be quited
         self.button_state()
 
