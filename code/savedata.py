@@ -28,6 +28,9 @@ def load_saved_data():
         save_data(DEFAULT_PLAYER_DATA)
         return DEFAULT_PLAYER_DATA
 
+def default_data():
+    save_data(DEFAULT_PLAYER_DATA)
+
 # Function to save player data to the JSON file
 def save_data(player_data):
     # Save the current player data to the JSON file

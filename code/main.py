@@ -42,6 +42,7 @@ class Game:
         self.pressed_duration = 5000
         self.music_paused = False
         self.current_screen = "menu"
+        self.initialized = False
         
         self.show_cutscene = True
 
@@ -64,11 +65,6 @@ class Game:
         self.transition_target = 0
 
         self.import_assets()                                                                                            # import tilesets (assets)
-        self.setup(self.tmx_maps['world'], 'spawn')                                                                     # import this one specific tileset (mapset/asset)
-
-        # INITIALIZE VARIABLES THAT ARE DEPENDANT ON SETUP METHOD'S VARIABLES
-        self.hud = HUD(self, self.player)
-        
         # DEBUGGING VARIABLE
         self.debug = False
         
@@ -122,8 +118,11 @@ class Game:
         return layer
 
     # MENU LOGIC
-    def display_menu(self):
-        self.menu.show(self.display_surface)                                                                                     # show menu
+    def display_menu(self, startup=False):
+        if startup:
+            self.menu.show(self.display_surface, startup=True)
+        else:
+            self.menu.show(self.display_surface)                                                                                     # show menu
         if self.menu.exit_action:
             self.is_running = False
 
@@ -154,16 +153,18 @@ class Game:
             if not self.is_running:
                 break
             self.update_game_state()
-        
             self.render_game_world()
-            self.handle_music_system()
-            self.process_interactions()
-        
+            if self.current_screen == "game":
+                if self.initialized == False:
+                    self.setup(self.tmx_maps['world'], 'spawn')                                                                     # import this one specific tileset (mapset/asset)
+                    self.hud = HUD(self, self.player)                                                                               # initializing HUD Class which is dependant on setup's method variables
+                    self.initialized = True
+                self.process_interactions()
+                self.handle_music_system()
             if self.debug:
                 self.run_debug()
-        
             pygame.display.flip()
-            
+                        
     def run_debug(self):
         print(self.clock.get_fps())
 
@@ -181,6 +182,10 @@ class Game:
 
     def render_game_world(self):
         if self.current_screen == "game":
+            if self.initialized == False:
+                self.setup(self.tmx_maps['world'], 'spawn')                                                                     # import this one specific tileset (mapset/asset)
+                self.hud = HUD(self, self.player)                                                                               # initializing HUD Class which is dependant on setup's method variables
+                self.initialized = True
             self.display_surface.fill((173, 216, 230))
             self.display_surface.blit(
                 self.background_layer,
@@ -196,7 +201,7 @@ class Game:
         elif self.current_screen == "menu":
             # Menu logic
             if self.menu_startup:
-                self.display_menu()
+                self.display_menu(startup=True)
                 self.music.play_random()
                 self.menu_startup = False
             else:
