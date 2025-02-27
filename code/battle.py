@@ -70,7 +70,7 @@ class Battle_Menu:
         size = 25
         DAMAGETEXT = pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'), size)
 
-        damagetext = DAMAGETEXT.render(str(self.player_damage), True, (210,39,48)).convert_alpha()        # render an enemy text
+        damagetext = DAMAGETEXT.render(str(f"-{self.player_damage}"), True, (210,39,48)).convert_alpha()        # render an enemy text
         damagetextrect = damagetext.get_rect()
         damagetextrect.center = (WINDOW_WIDTH // 2 + 350, WINDOW_HEIGHT // 2 - 150)
 
@@ -82,7 +82,7 @@ class Battle_Menu:
         size = 25
         DAMAGETEXT = pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'), size)
 
-        damagetext = DAMAGETEXT.render(str(self.enemy_damage), True, (210,39,48)).convert_alpha()        # render an enemy text
+        damagetext = DAMAGETEXT.render(str(f"-{self.enemy_damage}"), True, (210,39,48)).convert_alpha()        # render an enemy text
         damagetextrect = damagetext.get_rect()
         damagetextrect.center = (450, 450)
 
@@ -120,7 +120,7 @@ class Battle_Menu:
     def show_player_health(self, surface):
         size = 35
         HEALTHTEXT = pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'), size)
-        health = self.game.player.health
+        health = self.player_health
         healthtext = HEALTHTEXT.render(str(health), True, (4,106,56)).convert_alpha()
         healthtextrect = healthtext.get_rect()
         healthtextrect.center = (450, 500)
