@@ -99,6 +99,34 @@ class Battle_Menu:
             self.player_health -= self.enemy_damage
         self.show_enemy_damage_action = True
 
+    def show_player_stamina(self, surface):
+        size = 35
+        STAMINATEXT = pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'), size)
+        stamina = self.game.player.stamina
+        staminatext = STAMINATEXT.render(str(stamina), True, (255,215,0)).convert_alpha()
+        staminatextrect = staminatext.get_rect()
+        staminatextrect.center = (500, 500)
+        surface.blit(staminatext, staminatextrect)
+
+    def show_player_defence(self, surface):
+        size = 35
+        DEFENCETEXT = pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'), size)
+        defence = self.game.player.defence
+        defencetext = DEFENCETEXT.render(str(defence), True, (0,181,226)).convert_alpha()
+        defencetextrect = defencetext.get_rect()
+        defencetextrect.center = (550, 500)
+        surface.blit(defencetext, defencetextrect)
+
+    def show_player_health(self, surface):
+        size = 35
+        HEALTHTEXT = pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'), size)
+        health = self.game.player.health
+        healthtext = HEALTHTEXT.render(str(health), True, (4,106,56)).convert_alpha()
+        healthtextrect = healthtext.get_rect()
+        healthtextrect.center = (450, 500)
+        surface.blit(healthtext, healthtextrect)
+
+
     # DRAWING LOGIC
     def draw(self, surface):
         self.is_running = True
@@ -134,10 +162,6 @@ class Battle_Menu:
         enemytextrect = enemytext.get_rect()
         enemytextrect.center = (WINDOW_WIDTH // 2 + 350, WINDOW_HEIGHT // 2 - 100)
 
-        playerhealthtext = HEADINGTEXT.render(str(self.player_health), True, (4,106,56)).convert_alpha()        # render an enemy text
-        playerhealthtextrect = playerhealthtext.get_rect()
-        playerhealthtextrect.center = (450, 500)
-
         enemyhealthtext = HEADINGTEXT.render(str(self.enemy_health), True, (4,106,56)).convert_alpha()        # render an enemy text
         enemyhealthtextrect = enemyhealthtext.get_rect()
         enemyhealthtextrect.center = (WINDOW_WIDTH // 2 + 350, 150)
@@ -149,7 +173,6 @@ class Battle_Menu:
         surface.blit(BACKGROUND_IMG)
         surface.blit(headingtext, headingtextrect)
         surface.blit(enemytext, enemytextrect)
-        surface.blit(playerhealthtext, playerhealthtextrect)
         surface.blit(enemyhealthtext, enemyhealthtextrect)
         surface.blit(self.enemy_image, (WINDOW_WIDTH // 2 + 280, WINDOW_HEIGHT // 2 - 70))
 
@@ -196,6 +219,9 @@ class Battle_Menu:
             else:
                 pass
 
+        self.show_player_health(surface)
+        self.show_player_stamina(surface)
+        self.show_player_defence(surface)
         if self.show_player_damage_action:
             self.show_player_damage(surface)
         if self.show_enemy_damage_action:
