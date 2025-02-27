@@ -83,7 +83,7 @@ def play_cutscene(screen, location):
                     if event.type == pygame.QUIT:
                         pygame.quit()
                     if event.type == pygame.KEYDOWN:
-                        if event.key ==  pygame.K_ENTER:
+                        if event.key ==  pygame.K_e:
                             timer.is_finished = True
         music_player.stop_music()
 

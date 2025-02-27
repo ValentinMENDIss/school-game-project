@@ -14,7 +14,8 @@ class UserInput:
             "move_right": pygame.K_RIGHT,
             "move_up": pygame.K_UP,
             "move_down": pygame.K_DOWN,
-            "menu_toggle": pygame.K_ESCAPE
+            "menu_toggle": pygame.K_ESCAPE,
+            "shop_toggle": pygame.K_TAB
         }
 
     # GET USER INPUT
@@ -45,6 +46,9 @@ class UserInput:
             if self.game.menu_startup == False:
                 self.button_state()
                 self.game.current_screen = "menu"                                                                       # run menu logic
+
+        if self.keys[self.key_bindings["shop_toggle"]]:
+            self.game.current_screen = "shop"
 
         self.button_state()
 
