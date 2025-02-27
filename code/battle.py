@@ -34,6 +34,7 @@ class Battle_Menu:
         self.is_running = True
         self.FightButtonMenu = False
         # ACTION
+        self.defence_action = False
         self.action = None
         self.action_start_time = 0
         self.action_duration = 2000
@@ -55,15 +56,30 @@ class Battle_Menu:
             self.enemytext = NPC_ENEMY_INTERACT_DATA[index]
 
     def attack_enemy(self, attack_type):
-        if attack_type == "attack":
+        if attack_type == "attack" and self.game.player.stamina >= 10:
             self.player_damage = random.randint(0, 25)
             self.enemy_health -= self.player_damage
             self.random_text()
-        elif attack_type == "emotional_attack":
+            self.game.player.stamina -= 10
+            self.game.player.defence -= 0.5
+        elif attack_type == "emotional_attack" and self.game.player.stamina >= 5:
             self.player_damage = random.randint(0, 15)
             self.enemy_health -= self.player_damage
             self.random_text()
+            self.game.player.stamina -= 5
+            self.game.player.defence -= 0.25
         self.show_player_damage_action = True
+        self.defence_action = False
+        self.action = "Enemy_Fight"                                                                          # after player's fight, set action variable that corresponds to fight for NPC_ENEMY
+
+    def defence(self):
+        self.game.player.stamina += 10 
+        self.defence_action = True
+        if self.game.player.stamina > 100:
+            self.game.player.stamina = 100
+        if self.game.player.defence < 25:
+            self.game.player.defence += 1
+        self.action = "Enemy_Fight"                                                                          # after player's fight, set action variable that corresponds to fight for NPC_ENEMY
 
     # SHOW DEALT DAMAGE ON THE SCREEN
     def show_player_damage(self, surface):
@@ -93,10 +109,29 @@ class Battle_Menu:
         attack_type = self.attack_type[index]
         if attack_type == "attack":
             self.enemy_damage = random.randint(0, 25)
-            self.player_health -= self.enemy_damage
         if attack_type == "emotional_attack":
             self.enemy_damage = random.randint(0, 15)
-            self.player_health -= self.enemy_damage
+        if self.defence_action:
+            player_defence_chance = random.randint(0, 3)
+            if player_defence_chance == 2:
+                self.enemy_damage -= self.game.player.defence
+                if self.enemy_damage < 0:
+                    self.enemy_damage = 0
+                print("Player's defence worked out!")
+            else:
+                print("Player's defence didn't worked out!")
+        else:
+            player_defence_chance = random.randint(0, 10)
+            if player_defence_chance == 5:
+                self.enemy_damage -= self.game.player.defence
+                if self.enemy_damage < 0:
+                    self.enemy_damage = 0
+                print("Player's defence worked out!")
+            else:
+                print("Player's defence didn't worked out!")
+               
+
+        self.player_health -= self.enemy_damage
         self.show_enemy_damage_action = True
 
     def show_player_stamina(self, surface):
@@ -193,20 +228,20 @@ class Battle_Menu:
                 if SURRENDER_BUTTON.checkForInput(MENU_MOUSE_POS):
                     pygame.mixer.Sound.play(MENU_SOUND)
                     self.exit_battle()
-                if ITEMS_BUTTON.checkForInput(MENU_MOUSE_POS):
-                    self.current_display = "items_menu"
                 if FIGHT_BUTTON.checkForInput(MENU_MOUSE_POS):
                     self.FightButtonMenu = True
+                if DEFENSE_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    self.defence()
+                if ITEMS_BUTTON.checkForInput(MENU_MOUSE_POS):
+                    self.current_display = "items_menu"
 
                 if self.FightButtonMenu:
                     if EMOTIONAL_ATTACK_BUTTON.checkForInput(MENU_MOUSE_POS):
                         self.attack_enemy(self.attack_type[1])
                         EMOTIONAL_ATTACK_BUTTON.set_image(START_IMG_PRESSED, scale=0.4)
-                        self.action = "Enemy_Fight"                                                                          # after player's fight, set action variable that corresponds to fight for NPC_ENEMY
                     elif ATTACK_BUTTON.checkForInput(MENU_MOUSE_POS):
                         self.attack_enemy(self.attack_type[0])
                         ATTACK_BUTTON.set_image(START_IMG_PRESSED, scale=0.4)
-                        self.action = "Enemy_Fight"                                                                          # after player's fight, set action variable that corresponds to fight for NPC_ENEMY
 
         if self.action:
             if self.action == "Enemy_Fight" and self.enemy_health > 0:
