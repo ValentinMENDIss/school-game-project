@@ -7,7 +7,7 @@ from settings import *
 from gamedata import NPC_ENEMY_INTERACT_DATA
 from button import Button
 from timer import Timer
-from savedata import load_saved_data
+from savedata import change_player_data, load_saved_data
 
 ######### SPRITES ##############
 
@@ -29,6 +29,9 @@ class Battle_Menu:
         self.enemy_health = enemy_health                                                                                                    # enemy's health
         self.player_data = load_saved_data()
         self.player_health = self.player_data['health']                                                                                        # player's health
+        self.player_stamina = self.player_data['stamina']
+        self.player_damage = self.player_data['damage']
+        self.player_defence = self.player_data['defence']
         
         self.damage = 0                                                                                                                     # variable that stores dealt damage in one round
         self.is_running = True
@@ -56,29 +59,29 @@ class Battle_Menu:
             self.enemytext = NPC_ENEMY_INTERACT_DATA[index]
 
     def attack_enemy(self, attack_type):
-        if attack_type == "attack" and self.game.player.stamina >= 10:
+        if attack_type == "attack" and self.player_stamina >= 10:
             self.player_damage = random.randint(0, 25)
             self.enemy_health -= self.player_damage
             self.random_text()
-            self.game.player.stamina -= 10
-            self.game.player.defence -= 0.5
-        elif attack_type == "emotional_attack" and self.game.player.stamina >= 5:
+            self.player_stamina -= 10
+            self.player_defence -= 0.5
+        elif attack_type == "emotional_attack" and self.player_stamina >= 5:
             self.player_damage = random.randint(0, 15)
             self.enemy_health -= self.player_damage
             self.random_text()
-            self.game.player.stamina -= 5
-            self.game.player.defence -= 0.25
+            self.player_stamina -= 5
+            self.player_defence -= 0.25
         self.show_player_damage_action = True
         self.defence_action = False
         self.action = "Enemy_Fight"                                                                          # after player's fight, set action variable that corresponds to fight for NPC_ENEMY
 
     def defence(self):
-        self.game.player.stamina += 10 
+        self.player_stamina += 10 
         self.defence_action = True
-        if self.game.player.stamina > 100:
-            self.game.player.stamina = 100
-        if self.game.player.defence < 25:
-            self.game.player.defence += 1
+        if self.player_stamina > 100:
+            self.player_stamina = 100
+        if self.player_defence < 25:
+            self.player_defence += 1
         self.action = "Enemy_Fight"                                                                          # after player's fight, set action variable that corresponds to fight for NPC_ENEMY
 
     # SHOW DEALT DAMAGE ON THE SCREEN
@@ -114,7 +117,7 @@ class Battle_Menu:
         if self.defence_action:
             player_defence_chance = random.randint(0, 3)
             if player_defence_chance == 2:
-                self.enemy_damage -= self.game.player.defence
+                self.enemy_damage -= self.player_defence
                 if self.enemy_damage < 0:
                     self.enemy_damage = 0
                 print("Player's defence worked out!")
@@ -123,7 +126,7 @@ class Battle_Menu:
         else:
             player_defence_chance = random.randint(0, 10)
             if player_defence_chance == 5:
-                self.enemy_damage -= self.game.player.defence
+                self.enemy_damage -= self.player_defence
                 if self.enemy_damage < 0:
                     self.enemy_damage = 0
                 print("Player's defence worked out!")
@@ -137,7 +140,7 @@ class Battle_Menu:
     def show_player_stamina(self, surface):
         size = 35
         STAMINATEXT = pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'), size)
-        stamina = self.game.player.stamina
+        stamina = self.player_stamina
         staminatext = STAMINATEXT.render(str(stamina), True, (255,215,0)).convert_alpha()
         staminatextrect = staminatext.get_rect()
         staminatextrect.center = (500, 500)
@@ -146,7 +149,7 @@ class Battle_Menu:
     def show_player_defence(self, surface):
         size = 35
         DEFENCETEXT = pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'), size)
-        defence = self.game.player.defence
+        defence = self.player_defence
         defencetext = DEFENCETEXT.render(str(defence), True, (0,181,226)).convert_alpha()
         defencetextrect = defencetext.get_rect()
         defencetextrect.center = (550, 500)
@@ -344,13 +347,13 @@ class Battle_Menu:
         for item in self.game.inventory.items:
             if item.name == item_name:
                 item.use_item()
-                self.update_player_health()
-                
-    def update_player_health(self):
-        self.player_data = load_saved_data()
-        self.player_health = self.player_data['health']
+                self.update_player_data()
+
+    def update_player_data(self):
+        change_player_data(health=self.player_health, stamina=self.player_stamina, damage=self.player_damage, defence=self.player_defence)
 
     def exit_battle(self):
         self.game.player.health = self.player_health
         self.game.npc_enemy.health = self.enemy_health
+        self.update_player_data()
         self.is_running = False

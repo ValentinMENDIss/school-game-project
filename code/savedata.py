@@ -37,6 +37,17 @@ def save_data(player_data):
     with open(SAVE_FILE, 'w') as file:
         json.dump(player_data, file, indent=4)
 
+def change_player_data(health=None, stamina=None, damage=None, defence=None):
+    if health:
+        DEFAULT_PLAYER_DATA['health'] = health
+    if stamina:
+        DEFAULT_PLAYER_DATA['stamina'] = stamina
+    if damage:
+        DEFAULT_PLAYER_DATA['damage'] = damage
+    if defence:
+        DEFAULT_PLAYER_DATA['defence'] = defence
+    save_data(DEFAULT_PLAYER_DATA)
+
 # Function to change an attribute
 def change_attribute(attribute, value, player_data):
     if attribute in player_data:
