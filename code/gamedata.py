@@ -68,7 +68,7 @@ ITEM_RARITY_DATA_MYTHIC = {"health_mul": 1.4,
                            "damage_mul": 1.4,
                            "defence_mul": 1.4}
 
-ITEM_RARITY_DATA_LEGENDERY = {"health_mul": 1.5,
+ITEM_RARITY_DATA_LEGENDARY = {"health_mul": 1.5,
                               "stamina_mul": 1.5,
                               "damage_mul": 1.5,
                               "defence_mul": 1.5}

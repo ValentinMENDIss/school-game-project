@@ -32,6 +32,7 @@ class Game:
         # INITIALIZE VARIABLES
         self.is_running = True
         self.action = None                                                                                           # declare/initialize self.action variable that has a default value: False
+        self.npc_action = None
         self.timer = Timer()
         self.menu = Menu(self)
         self.shop = Shop(self)
@@ -45,7 +46,9 @@ class Game:
         self.music_paused = False
         self.current_screen = "menu"
         self.initialized = False
-        
+
+        self.npcs_on_current_screen = []
+
         self.show_cutscene = True
 
         # CONFIGURING PYGAME
@@ -92,11 +95,14 @@ class Game:
                 else:
                     self.player = Player(self.input, (obj.x, obj.y), self.all_sprites, self.collision_sprites)
                     #print("NEW PLAYER")
-            if obj.name == 'Character' and obj.properties['pos'] == 'mid-left':
+            if obj.name == 'Character':
                 if obj.properties['enemy'] == False:
                     self.npc = NPC_Friendly((obj.x, obj.y), self.all_sprites, game=self)
+                    self.npcs_on_current_screen.append(self.npc)
                 if obj.properties['enemy'] == True:
                     self.npc_enemy = NPC_Enemy((obj.x, obj.y), self.all_sprites, game=self)
+                    self.npcs_on_current_screen.append(self.npc_enemy)
+
         # GET ITEMS' POSITION
         for obj in tmx_map.get_layer_by_name('Items'):
             if obj.name == 'Item' and obj.properties['item-name'] == 'item-test':
@@ -240,22 +246,24 @@ class Game:
                 if self.timer.is_finished:
                     self.action = None
                     self.timer.is_finished = False
+                self.npc_interact(self.npc_action)
                 self.timer.update()
-                self.npc.interact(self.random_interact_text, self.player.rect)
             elif self.action == "npc_enemy":
                 self.npc_enemy.interact(self.display_surface, self.player.rect)
 
-        npcs = []
-        if hasattr(self, 'npc'):
-            npcs.append(self.npc)
-        if hasattr(self, 'npc_enemy'):
-            npcs.append(self.npc_enemy)
+    def npc_interact(self, npc):
+        npc.interact(self.random_interact_text, self.player.rect)
 
-        for npc in npcs:
-            try:
-                npc.interactInRange(self.player.rect, self.display_surface)
-            except AttributeError:
-                pass
+#        if hasattr(self, 'npc'):
+#            npcs.append(self.npc)
+#        if hasattr(self, 'npc_enemy'):
+#            npcs.append(self.npc_enemy)
+#
+#        for npc in npcs:
+#            try:
+#                npc.interactInRange(self.player.rect, self.display_surface)
+#            except AttributeError:
+#                pass
 
 
 ####### MAIN CODE ############
