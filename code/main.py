@@ -54,6 +54,8 @@ class Game:
         # CONFIGURING PYGAME
         SCREEN_FLAGS = pygame.HWSURFACE | pygame.DOUBLEBUF
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), SCREEN_FLAGS)                                            # create screen with (x,y) (tuple)
+        # Create a black surface for fading (same size as screen/display_surface)
+        self.fade_surface = pygame.Surface(self.display_surface.get_size())
         pygame.display.set_caption("School-Game-Project(11. Grade)")                                                    # set/change title (caption) of the window
         self.clock = pygame.time.Clock()                                                                                # create a clock
         self.ticks = pygame.time.get_ticks()                                                                            # get ticks (needed in order to count how much time is gone)
@@ -147,11 +149,34 @@ class Game:
         self.random_interact_text = data[random_number]
         return f"{self.random_interact_text}"
 
-    def check_map_transition(self):
+    def check_map_transition(self):                                                                                                           # check whether player is colliding with transition points
         sprites = [sprite for sprite in self.transition_sprites if sprite.rect.colliderect(self.player.hitbox)]
         if sprites:
+            self.transition_fade_in()
             self.transition_target = sprites[0].target
             self.setup(self.tmx_maps[self.transition_target[0]], self.transition_target[1])                                                   # import this one specific tileset (mapset/asset)
+            self.transition_fade_out()
+            
+    def transition_fade_in(self):
+        alpha = 0
+        while alpha < 255:
+            self.handle_game_events()
+            self.fade_surface.set_alpha(alpha)
+            self.display_surface.blit(self.fade_surface, (0, 0))
+            pygame.display.flip()
+            self.clock.tick(60)
+            alpha += 5
+
+    def transition_fade_out(self):
+        alpha = 255
+        while alpha > 0:
+            self.handle_game_events()
+            self.render_new_game_world()
+            self.fade_surface.set_alpha(alpha)
+            self.display_surface.blit(self.fade_surface, (0, 0))
+            pygame.display.flip()
+            self.clock.tick(60) 
+            alpha -= 5
 
     # MAIN (RUN) LOGIC
     def run(self):
@@ -164,10 +189,6 @@ class Game:
             self.update_game_state()
             self.render_game_world()
             if self.current_screen == "game":
-                if self.initialized == False:
-                    self.setup(self.tmx_maps['world'], 'spawn')                                                                     # import this one specific tileset (mapset/asset)
-                    self.hud = HUD(self, self.player)                                                                               # initializing HUD Class which is dependant on setup's method variables
-                    self.initialized = True
                 self.process_interactions()
                 self.handle_music_system()
             if self.debug:
@@ -188,6 +209,17 @@ class Game:
         self.input.update()  # check user's input
         self.check_map_transition() # check for map tps (teleport points/transitions)
         self.all_sprites.update(dt) # update all sprites
+
+    def render_new_game_world(self):
+        self.display_surface.fill((173, 216, 230))
+        self.display_surface.blit(
+            self.background_layer,
+            (-(self.player.rect.center[0] - WINDOW_WIDTH / 2),
+            -(self.player.rect.center[1] - WINDOW_HEIGHT / 2))
+        )
+        self.all_sprites.draw(self.player.rect.center)
+        self.hud.draw(self.display_surface)
+        self.hud.draw_time(self.display_surface)
 
     def render_game_world(self):
         if self.current_screen == "game":
@@ -218,7 +250,6 @@ class Game:
             self.game_time.pause_game_time(self.clock.tick() / 1000)
         elif self.current_screen == "cutscene":
             play_cutscene(self.display_surface, "intro")
-#             play_cutscene(self.display_surface, "tutorial")
             self.show_cutscene = False
             self.current_screen = "game"
             self.game_time.pause_game_time(self.clock.tick() / 1000)
