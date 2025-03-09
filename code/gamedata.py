@@ -20,6 +20,12 @@ NPC_INTERACT_DATA = ["Oh... also try to get near these Items and to press E. See
                      "I've heard that you can find items in this area. Maybe it's just a legend...",
                      "This school looks awesome :)"]
 
+NPC_DIALOG_1 = ["Hello...", 
+                "I love watermelons",
+                "So, I am capybara :3",
+                "...",
+                "Okay, bye :)"]
+
 NPC_ENEMY_INTERACT_DATA = ["Is it all you can do?",
                            "Well done...",
                            "Write your exam faster",

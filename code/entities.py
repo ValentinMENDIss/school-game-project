@@ -6,7 +6,7 @@ from settings import *
 from dialog import Dialog
 from battle import Battle_Menu
 from timer import Timer
-from gamedata import NPC_ENEMY_DEFEATED_INTERACT_DATA, NPC_ENEMY_WON_INTERACT_DATA
+from gamedata import NPC_ENEMY_DEFEATED_INTERACT_DATA, NPC_ENEMY_WON_INTERACT_DATA, NPC_DIALOG_1
 from savedata import load_saved_data, change_attribute
 ######### CLASSes ############
 
@@ -175,7 +175,7 @@ class Player(pygame.sprite.Sprite):
 
 
 class NPC(pygame.sprite.Sprite):
-    def __init__(self, pos, groups, game):
+    def __init__(self, pos, groups, game, dialog_bool):
         super().__init__(groups)
         self.game = game
         self.image = NPC_IDLE.convert_alpha()
@@ -186,6 +186,7 @@ class NPC(pygame.sprite.Sprite):
         self.z = WORLD_LAYERS['main']
         self.y_sort = self.rect.centery
         self.show_interact_text = False
+        self.dialog_bool = dialog_bool
 
     def interactInRange(self, player_center, screen):
         player_distance = pygame.Vector2(self.game.player.rect.center).distance_to(self.rect.center)
@@ -195,23 +196,26 @@ class NPC(pygame.sprite.Sprite):
             self.show_interact_text = False
 
         if self.show_interact_text:
-            dialog = Dialog(self.pos)
+            dialog = Dialog(self.pos, self.game)
             dialog.interactInRange("", player_center, screen=self.game.display_surface)
 
     def interact(self, text, player_center):
         self.show_interact_text = False
-        dialog = Dialog(self.pos)                                                                                       # initializing dialog class
-        dialog.interact(text, player_center, screen=self.game.display_surface)                                                                       # run dialogs' interact function, to show some text
+        dialog = Dialog(self.pos, self.game)                                                                                       # initializing dialog class
+        if self.dialog_bool:
+            dialog.interactDialog(NPC_DIALOG_1, screen=self.game.display_surface)
+        else:
+            dialog.interact(text, player_center, screen=self.game.display_surface)                                                                       # run dialogs' interact function, to show some text
 
 
 class NPC_Friendly(NPC):
-    def __init__(self, pos, groups, game):
-        super().__init__(pos, groups, game)
+    def __init__(self, pos, groups, game, dialog_bool):
+        super().__init__(pos, groups, game, dialog_bool)
 
 
 class NPC_Enemy(NPC):
-    def __init__(self, pos, groups, game, health=100):
-        super().__init__(pos, groups, game)
+    def __init__(self, pos, groups, game, health=100, dialog_bool=False):
+        super().__init__(pos, groups, game, dialog_bool)
         # ATTRIBUTES
         self.health = 100
         self.text = ""

@@ -100,10 +100,13 @@ class Game:
                     #print("NEW PLAYER")
             if obj.name == 'Character':
                 if obj.properties['enemy'] == False:
-                    self.npc = NPC_Friendly((obj.x, obj.y), self.all_sprites, game=self)
+                    if obj.properties['pos'] == 'top-right' and tmx_map == self.tmx_maps['neighbourhood']:
+                        self.npc = NPC_Friendly((obj.x, obj.y), self.all_sprites, game=self, dialog_bool=True)
+                    else:
+                        self.npc = NPC_Friendly((obj.x, obj.y), self.all_sprites, game=self, dialog_bool=False)
                     self.npcs_on_current_screen.append(self.npc)
                 if obj.properties['enemy'] == True:
-                    self.npc_enemy = NPC_Enemy((obj.x, obj.y), self.all_sprites, game=self)
+                    self.npc_enemy = NPC_Enemy((obj.x, obj.y), self.all_sprites, game=self, dialog_bool=False)
                     self.npcs_on_current_screen.append(self.npc_enemy)
 
         # GET ITEMS' POSITION
