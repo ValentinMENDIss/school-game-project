@@ -59,4 +59,3 @@ class Dialog:
                     if event.type == pygame.KEYDOWN:
                         if event.key ==  pygame.K_e:
                             timer.is_finished = True
- 
