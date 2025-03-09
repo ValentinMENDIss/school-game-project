@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="60" tilewidth="64" tileheight="64" infinite="0" nextlayerid="7" nextobjectid="231">
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down" width="40" height="60" tilewidth="64" tileheight="64" infinite="0" nextlayerid="7" nextobjectid="236">
  <tileset firstgid="1" source="../tilesets/world.tsx"/>
  <tileset firstgid="211" source="../tilesets/objects.tsx"/>
  <layer id="1" name="Terrain" width="40" height="60">
@@ -84,7 +84,26 @@
   <object id="230" x="2447.56" y="2434.82" width="107.435" height="11.114"/>
  </objectgroup>
  <objectgroup id="3" name="Items"/>
- <objectgroup id="4" name="Transitions"/>
+ <objectgroup id="4" name="Transitions">
+  <object id="232" x="1119.43" y="170.118" width="322.873" height="21.8817">
+   <properties>
+    <property name="pos" value="exit"/>
+    <property name="target" value="world"/>
+   </properties>
+  </object>
+  <object id="234" x="1442.31" y="0" width="29.6923" height="192">
+   <properties>
+    <property name="pos" value="exit"/>
+    <property name="target" value="world"/>
+   </properties>
+  </object>
+  <object id="235" x="1088" y="0" width="29.6923" height="192">
+   <properties>
+    <property name="pos" value="exit"/>
+    <property name="target" value="world"/>
+   </properties>
+  </object>
+ </objectgroup>
  <objectgroup id="5" name="Entities">
   <object id="212" name="Player" x="1280" y="256">
    <properties>
