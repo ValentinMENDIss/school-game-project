@@ -204,9 +204,9 @@ class NPC(pygame.sprite.Sprite):
         dialog = Dialog(self.pos, self.game)                                                                                       # initializing dialog class
         if self.dialog_bool:
             dialog.interactDialog(NPC_DIALOG_1, screen=self.game.display_surface)
+            self.game.action = None
         else:
             dialog.interact(text, player_center, screen=self.game.display_surface)                                                                       # run dialogs' interact function, to show some text
-        self.game.action = None
 
 
 class NPC_Friendly(NPC):

@@ -270,6 +270,7 @@ class Game:
 
     def process_interactions(self):
         # INTERACTION/ACTION HANDLING
+        print(self.action)
         if self.action:                                                                                   # check whether interact condition is true or not (bool check)
             if self.action == "item_pickup":
                 for item in [self.item_test, self.item_test2]:
@@ -286,19 +287,12 @@ class Game:
             elif self.action == "npc_enemy":
                 self.npc_enemy.interact(self.display_surface, self.player.rect)
 
+        for npc in self.npcs_on_current_screen:
+            npc.interactInRange(self.player.rect, self.display_surface)
+
     def npc_interact(self, npc):
         npc.interact(self.random_interact_text, self.player.rect)
 
-#        if hasattr(self, 'npc'):
-#            npcs.append(self.npc)
-#        if hasattr(self, 'npc_enemy'):
-#            npcs.append(self.npc_enemy)
-#
-#        for npc in npcs:
-#            try:
-#                npc.interactInRange(self.player.rect, self.display_surface)
-#            except AttributeError:
-#                pass
 
 
 ####### MAIN CODE ############
