@@ -270,7 +270,6 @@ class Game:
 
     def process_interactions(self):
         # INTERACTION/ACTION HANDLING
-        print(self.action)
         if self.action:                                                                                   # check whether interact condition is true or not (bool check)
             if self.action == "item_pickup":
                 for item in [self.item_test, self.item_test2]:

@@ -13,8 +13,8 @@ class Shop:
         self.selected_item_index = 0
 
     def display_shop(self, surface):
-        running = True
-        while running:
+        self.running = True
+        while self.running:
             # Display shop background
             surface.fill((255, 255, 255))  # White background for the shop
             heading_text = "Shop"
@@ -37,10 +37,21 @@ class Shop:
             
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
-                    running = False
+                    self.running = False
                     self.game.current_screen = "game"
+                    
+            self.check_input()
+                
             pygame.display.update()
-            
+
+    def check_input(self):
+        keys = pygame.key.get_just_pressed()
+        if keys[self.game.input.key_bindings["shop_toggle"]]:
+            self.running = False
+            self.game.current_screen = "game"
+
+
+
     def get_item_price(self, item):
         # Define prices for items
         prices = {
