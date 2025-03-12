@@ -86,8 +86,10 @@ class UserInput:
             self.button_states = [self.my_joystick.get_button(i) for i in range(self.my_joystick.get_numbuttons())]     # get the button states
             if abs(self.joystick_x_axis) < 0.1 and abs(self.joystick_y_axis) < 0.1:                                     # reset the joystick's input vector if the joystick isn't being moved anymore
                 self.joystick_input_vector = pygame.Vector2(0, 0)                                                       # reset joystick's input vector to default. AKA (0, 0)
-
-            self.game.player.input_joystick(axes_value=(self.joystick_input_vector), button_value=self.button_states)   # parse joystick's states to the input handling
+            try:
+                self.game.player.input_joystick(axes_value=(self.joystick_input_vector), button_value=self.button_states)   # parse joystick's states to the input handling
+            except AttributeError:
+                print("No player Attribute")
 
     def menu(self):
         pygame.time.delay(10)                                                                                           # wait 10ms(milliseconds), for optimization purposes, so that it would not check the input every single it can render a frame

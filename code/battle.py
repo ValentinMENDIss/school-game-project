@@ -71,9 +71,11 @@ class Battle_Menu:
             self.random_text()
             self.player_stamina -= 5
             self.player_defence -= 0.25
-        self.show_player_damage_action = True
-        self.defence_action = False
-        self.action = "Enemy_Fight"                                                                          # after player's fight, set action variable that corresponds to fight for NPC_ENEMY
+        
+        if self.player_stamina > 5:
+            self.show_player_damage_action = True
+            self.defence_action = False
+            self.action = "Enemy_Fight"                                                                          # after player's fight, set action variable that corresponds to fight for NPC_ENEMY
 
     def defence(self):
         self.player_stamina += 10 

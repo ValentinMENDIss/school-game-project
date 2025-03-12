@@ -12,7 +12,7 @@ from savedata import load_saved_data, change_attribute
 
 class Player(pygame.sprite.Sprite):
     initiated = False
-    def __init__(self, input, pos, groups, collision_sprites, level=0):
+    def __init__(self, input, pos, groups, collision_sprites, level=0, money=0):
         global initiated
         Player.initiated = True
         # ATTRIBUTES
@@ -22,6 +22,7 @@ class Player(pygame.sprite.Sprite):
         self.defence = self.player_data['defence']
         self.damage = self.player_data['damage']
         self.level = level
+        self.money = money
         self.z = WORLD_LAYERS['main']
         self.collision_rects = [sprite.rect for sprite in collision_sprites if sprite is not self]
         self.collision_sprites = collision_sprites
