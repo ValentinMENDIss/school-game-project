@@ -84,6 +84,7 @@ class Game:
         # clear the map
         for group in (self.all_sprites, self.collision_sprites, self.transition_sprites):
             group.empty()
+        self.npcs_on_current_screen = []
 
         self.background_layer = self.create_static_layer(tmx_map=tmx_map, layer_name='Terrain')
 
