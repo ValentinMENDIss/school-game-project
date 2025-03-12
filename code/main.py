@@ -32,7 +32,6 @@ class Game:
         # INITIALIZE VARIABLES
         self.is_running = True
         self.action = None                                                                                           # declare/initialize self.action variable that has a default value: False
-        self.npc_action = None
         self.timer = Timer()
         self.menu = Menu(self)
         self.shop = Shop(self)
@@ -108,6 +107,9 @@ class Game:
                 if obj.properties['enemy'] == True:
                     self.npc_enemy = NPC_Enemy((obj.x, obj.y), self.all_sprites, game=self, dialog_bool=False)
                     self.npcs_on_current_screen.append(self.npc_enemy)
+                if obj.properties['shop'] == True:
+                    self.npc_shop = NPC_Shop((obj.x, obj.y), self.all_sprites, game=self, dialog_bool=False)
+                    self.npcs_on_current_screen.append(self.npc_shop)
 
         # GET ITEMS' POSITION
         for obj in tmx_map.get_layer_by_name('Items'):
@@ -268,6 +270,7 @@ class Game:
         else:
             pass
 
+
     def process_interactions(self):
         # INTERACTION/ACTION HANDLING
         if self.action:                                                                                   # check whether interact condition is true or not (bool check)
@@ -275,22 +278,19 @@ class Game:
                 for item in [self.item_test, self.item_test2]:
                     item.pickup_logic(self.player.rect.center)
             elif self.action == "npc":
-                if self.timer.active == False and not self.timer.is_finished:
-                    self.timer.start(self.action_duration)
-                    self.get_random_interact_text(NPC_INTERACT_DATA)
-                if self.timer.is_finished:
-                    self.action = None
-                    self.timer.is_finished = False
-                self.npc_interact(self.npc_action)
-                self.timer.update()
-            elif self.action == "npc_enemy":
-                self.npc_enemy.interact(self.display_surface, self.player.rect)
+                self.process_npc_interactions()
 
         for npc in self.npcs_on_current_screen:
             npc.interactInRange(self.player.rect, self.display_surface)
 
-    def npc_interact(self, npc):
-        npc.interact(self.random_interact_text, self.player.rect)
+
+    def process_npc_interactions(self):
+        if isinstance(self.npc_interact, NPC_Friendly):
+            self.npc_interact.interact(self.player.rect)
+        elif isinstance(self.npc_interact, NPC_Enemy):
+            self.npc_interact.interact(self.display_surface, self.player.rect)
+        elif isinstance(self.npc_interact, NPC_Shop):
+            self.npc_interact.interact() 
 
 
 

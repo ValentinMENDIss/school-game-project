@@ -8,6 +8,8 @@ from battle import Battle_Menu
 from timer import Timer
 from gamedata import NPC_ENEMY_DEFEATED_INTERACT_DATA, NPC_ENEMY_WON_INTERACT_DATA, NPC_DIALOG_1
 from savedata import load_saved_data, change_attribute
+from gamedata import NPC_INTERACT_DATA
+
 ######### CLASSes ############
 
 class Player(pygame.sprite.Sprite):
@@ -187,7 +189,10 @@ class NPC(pygame.sprite.Sprite):
         self.z = WORLD_LAYERS['main']
         self.y_sort = self.rect.centery
         self.show_interact_text = False
-        self.dialog_bool = dialog_bool
+        self.dialog_bool = dialog_bool                                                                                  # dialog_bool is a 'flag', variable that stores value in form of boolean and says whether dialog should be used or plain text rendering when interacted with NPC
+        self.timer = Timer()
+        self.dialog = Dialog(self.pos, self.game)
+        self.text = None
 
     def interactInRange(self, player_center, screen):
         player_distance = pygame.Vector2(self.game.player.rect.center).distance_to(self.rect.center)
@@ -197,17 +202,25 @@ class NPC(pygame.sprite.Sprite):
             self.show_interact_text = False
 
         if self.show_interact_text:
-            dialog = Dialog(self.pos, self.game)
-            dialog.interactInRange("", player_center, screen=self.game.display_surface)
+            self.dialog = Dialog(self.pos, self.game)
+            self.dialog.interactInRange("", player_center, screen=self.game.display_surface)
 
-    def interact(self, text, player_center):
-        self.show_interact_text = False
-        dialog = Dialog(self.pos, self.game)                                                                                       # initializing dialog class
+    def interact(self, player_center):
+        if self.timer.active == False and not self.timer.is_finished:
+            self.timer.start(self.game.action_duration)
+            self.dialog = Dialog(self.pos, self.game)
+            self.text = self.game.get_random_interact_text(NPC_INTERACT_DATA)
+        if self.timer.is_finished:
+            self.timer.is_finished = False
+            self.timer.active = False
+            self.game.action = None
+        self.timer.update()
+        self.show_interact_text = False                                                                                             # stop showing interaction possibility, that is being shown when the user is in range of NPC's interaction  (because of overlapping issues)
         if self.dialog_bool:
-            dialog.interactDialog(NPC_DIALOG_1, screen=self.game.display_surface)
+            self.dialog.interactDialog(NPC_DIALOG_1, screen=self.game.display_surface)
             self.game.action = None
         else:
-            dialog.interact(text, player_center, screen=self.game.display_surface)                                                                       # run dialogs' interact function, to show some text
+            self.dialog.interact(self.text, player_center, screen=self.game.display_surface)                                                                       # run dialogs' interact function, to show some text
 
 
 class NPC_Friendly(NPC):
@@ -248,5 +261,13 @@ class NPC_Enemy(NPC):
 
             self.show_interact_text = False
             self.timer.update()
-            dialog = Dialog(self.pos)                                                                                       # initializing dialog class
+            dialog = Dialog(self.pos, self.game)                                                                                       # initializing dialog class
             dialog.interact(self.text, player_center, screen=self.game.display_surface)                                                                       # run dialogs' interact function, to show some tex
+
+
+class NPC_Shop(NPC):
+    def __init__(self, pos, groups, game, dialog_bool):
+        super().__init__(pos, groups, game, dialog_bool)
+        
+    def interact(self):
+        self.game.current_screen = "shop"

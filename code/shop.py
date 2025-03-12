@@ -60,6 +60,7 @@ class Shop:
         keys = pygame.key.get_just_pressed()
         if keys[self.game.input.key_bindings["shop_toggle"]]:
             self.running = False
+            self.game.action = None
             self.game.current_screen = "game"
 
 

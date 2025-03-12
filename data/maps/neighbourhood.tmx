@@ -115,6 +115,7 @@
    <properties>
     <property name="enemy" type="bool" value="false"/>
     <property name="pos" value="top-right"/>
+    <property name="shop" type="bool" value="false"/>
    </properties>
    <point/>
   </object>
