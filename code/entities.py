@@ -12,7 +12,7 @@ from savedata import load_saved_data, change_attribute
 
 class Player(pygame.sprite.Sprite):
     initiated = False
-    def __init__(self, input, pos, groups, collision_sprites, level=0, money=0):
+    def __init__(self, input, pos, groups, collision_sprites, level=0, money=5):
         global initiated
         Player.initiated = True
         # ATTRIBUTES

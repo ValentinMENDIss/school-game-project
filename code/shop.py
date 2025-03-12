@@ -92,9 +92,16 @@ class Shop:
 
     
     def buy_item(self, item):
-        created_item = Items((0, 0), item, self.game.all_sprites, rarity=self.items[item]["rarity"], game=self.game)
-        self.game.inventory.add_item(created_item) 
-        self.items.pop(item)
+        item_price = self.items[item]["price"]
+        if item_price > self.game.player.money:
+            print("Not enough money to buy this item")
+        else:
+            print(f"Money before transaction: {self.game.player.money}")
+            created_item = Items((0, 0), item, self.game.all_sprites, rarity=self.items[item]["rarity"], game=self.game)
+            self.game.player.money = round(self.game.player.money - item_price, 2)
+            self.game.inventory.add_item(created_item) 
+            self.items.pop(item)
+            if self.debug:
+                print(f"Inventory: {self.game.inventory}\nShop Items: {self.items}")
+                print(f"Money after transaction: {self.game.player.money}")
         self.action = None
-        if self.debug:
-            print(f"Inventory: {self.game.inventory}\nShop Items: {self.items}")

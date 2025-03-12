@@ -1,6 +1,6 @@
 {
-    "health": 28.0,
+    "health": 100,
     "stamina": 50,
-    "damage": 11,
-    "defence": 3.5
+    "damage": 10,
+    "defence": 5
 }
