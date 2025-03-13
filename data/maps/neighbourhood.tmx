@@ -119,6 +119,7 @@
   </object>
   <object id="239" name="Character" x="2112" y="896">
    <properties>
+    <property name="dialog" type="bool" value="false"/>
     <property name="enemy" type="bool" value="false"/>
     <property name="pos" value="top-right"/>
     <property name="shop" type="bool" value="false"/>
