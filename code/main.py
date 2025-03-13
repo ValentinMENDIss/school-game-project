@@ -78,7 +78,9 @@ class Game:
         self.tmx_maps = {'world': load_pygame(os.path.join('..', 'data', 'maps', 'world.tmx')),                         # load world.tmx file (with given location of it)
                          'world2': load_pygame(os.path.join('..', 'data', 'maps', 'world2.tmx')),
                          'school-building-bottom-left': load_pygame(os.path.join('..', 'data', 'maps', 'school-building-bottom-left.tmx')),
-                         'neighbourhood': load_pygame(os.path.join('..', 'data', 'maps', 'neighbourhood.tmx'))}
+                         'neighbourhood': load_pygame(os.path.join('..', 'data', 'maps', 'neighbourhood.tmx')),
+                         'player-home': load_pygame(os.path.join('..', 'data', 'maps', 'player-home.tmx'))}
+                        
 
     def setup(self, tmx_map, player_start_pos):
         # clear the map
