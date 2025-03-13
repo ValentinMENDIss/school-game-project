@@ -39,9 +39,6 @@ class UserInput:
                 self.button_state()
                 self.game.current_screen = "menu"                                                                       # run menu logic
 
-        if self.keys[self.key_bindings["shop_toggle"]]:
-            self.game.current_screen = "shop"
-
         self.button_state()
 
     # BUTTON STATE/PRESSED CHECKING                                                                                     # checking if the button is still pressed(hold) or not
