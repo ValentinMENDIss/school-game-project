@@ -28,6 +28,7 @@ class HUD:
         self.draw_items(surface)
         self.draw_time(surface)
         self.draw_player_level(surface)
+        self.draw_player_health(surface)
         
     def update_time_text(self, new_time_text):
         if self.initialized_time_text == False:
@@ -52,14 +53,14 @@ class HUD:
             self.old_level_text = f"Level: {self.player.level}"
             self.leveltextfont = HEADINGTEXT.render(self.old_level_text, True, (0, 0, 0)).convert_alpha()                             # render a Heading Text
             self.leveltextrect = self.leveltextfont.get_rect()
-            self.leveltextrect.center = (100, WINDOW_HEIGHT - 50)
+            self.leveltextrect.center = (WINDOW_WIDTH / 2, WINDOW_HEIGHT - 100)
             self.initialized_player_level_text = True
         
         if self.old_level_text != new_level_text:
             self.old_level_text = new_level_text
             self.leveltextfont = HEADINGTEXT.render(self.old_level_text, True, (0, 0, 0)).convert_alpha()                             # render a Heading Text
             self.leveltextrect = self.leveltextfont.get_rect()                                                                    # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
-            self.leveltextrect.center = (100, WINDOW_HEIGHT - 50)                                      # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+            self.leveltextrect.center = (WINDOW_WIDTH / 2, WINDOW_HEIGHT - 100)                                      # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
             
             if self.game.debug:
                 print("NEW_LEVEL_TEXT")
@@ -89,5 +90,11 @@ class HUD:
         level_text = f"Level: {self.player.level}"
         self.update_player_level_text(level_text)
         surface.blit(self.leveltextfont, self.leveltextrect)
-
-
+        
+    def draw_player_health(self,surface):
+        for player_health ,obj in HEALTH_THRESHOLDS:
+            if self.player.health <= player_health:
+                image = pygame.transform.scale(obj, (340,164))
+                imagerect = image.get_frect()
+                imagerect.center = (WINDOW_WIDTH / 2 , WINDOW_HEIGHT - 50)
+                surface.blit(image, imagerect)
