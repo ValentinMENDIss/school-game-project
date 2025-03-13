@@ -93,7 +93,7 @@ class HUD:
         
     def draw_player_health(self,surface):
         for player_health ,obj in HEALTH_THRESHOLDS:
-            if self.player.health <= player_health:
+            if self.player.health >= player_health:
                 image = pygame.transform.scale(obj, (340,164))
                 imagerect = image.get_frect()
                 imagerect.center = (WINDOW_WIDTH / 2 , WINDOW_HEIGHT - 50)
