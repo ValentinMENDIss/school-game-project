@@ -97,6 +97,8 @@ TEST_IMG_PRESSED = pygame.image.load(os.path.join('..', 'graphics', 'buttons', '
 SURRENDER_IMG = pygame.image.load(os.path.join('..', 'graphics', 'buttons', 'surrender-button.png'))
 SURRENDER_IMG_PRESSED = pygame.image.load(os.path.join('..', 'graphics', 'buttons', 'surrender-button-pressed.png'))
 
+UI_SETTINGS_IMG = pygame.image.load(os.path.join('..', 'graphics', 'ui', 'settings.png'))
+
 ## HEALTHBAR ##
 HEALTH_0 = pygame.image.load(os.path.join('..', 'graphics', 'healthbar', '0%.png'))
 HEALTH_10 = pygame.image.load(os.path.join('..', 'graphics', 'healthbar', '10%.png'))

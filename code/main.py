@@ -207,9 +207,14 @@ class Game:
         print(self.clock.get_fps())
 
     def handle_game_events(self):
+        MOUSE_POS = pygame.mouse.get_pos()
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 self.is_running = False
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if self.hud.settings_button.checkForInput(MOUSE_POS):
+                    print("H")
+                    self.current_screen = "menu"
 
     def update_game_state(self):
         dt = self.clock.tick() / 1000

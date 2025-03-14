@@ -1,6 +1,7 @@
 ######### IMPORT ##############
 
 from settings import  *
+from button import Button
 
 ######### CLASSes ############
 class HUD:
@@ -11,6 +12,9 @@ class HUD:
         self.pos_x , self.pos_y = (WINDOW_WIDTH // 2 - 20), (WINDOW_HEIGHT // 2 - 85)
         self.initialized_time_text = False
         self.initialized_player_level_text = False
+
+        self.settings_button = Button(20, 20, scale=0.5, image=UI_SETTINGS_IMG, hovered_image=UI_SETTINGS_IMG)
+
 
     def add_item(self, item):
         self.items.append(item)
@@ -29,6 +33,7 @@ class HUD:
         self.draw_time(surface)
         self.draw_player_level(surface)
         self.draw_player_health(surface)
+        self.draw_settings_button(surface)
         
     def update_time_text(self, new_time_text):
         if self.initialized_time_text == False:
@@ -98,3 +103,6 @@ class HUD:
                 imagerect = image.get_frect()
                 imagerect.center = (WINDOW_WIDTH / 2 , WINDOW_HEIGHT - 50)
                 surface.blit(image, imagerect)
+                
+    def draw_settings_button(self, surface):
+        self.settings_button.draw(surface)
