@@ -21,3 +21,57 @@ class Inventory:
 
     def show_items(self):
         print(self.items)
+    
+    def show_menu(self, surface):
+        self.is_running = True
+        while self.is_running:
+            # INITIALIZING BUTTONS
+            EXIT_BUTTON = Button(150, WINDOW_HEIGHT - 250, scale=0.40, image=EXIT_IMG, hovered_image=EXIT_IMG_PRESSED)
+            BACKGROUND_COLOR = ((255, 255, 255))
+
+            # SETTING TEXT FOR MENU
+            heading_text = "Your Items"
+
+            # DEFINING TEXT VARIABLES
+            headingtext = HEADINGTEXT.render(heading_text, True, (0, 0, 0)).convert_alpha()  # render a Small Text
+            headingtextrect = headingtext.get_rect()                                                              # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
+            headingtextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 250)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+
+            # DEFINING CONSTANT VARIABLES
+            MENU_MOUSE_POS = pygame.mouse.get_pos()
+
+            # DRAWING ON THE SURFACE
+            surface.fill(BACKGROUND_COLOR)
+            surface.blit(headingtext, headingtextrect)
+
+            ## DRAWING BUTTONS ##
+            self.__draw_items(surface, items_pos_init_x=300, items_pos_init_y=200)
+            for button in [EXIT_BUTTON]:                     # iterate through every single button instance and draw it to the screen
+                button.draw(surface)
+
+            ## EVENTS ##
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:                                                                               # exit game function
+                    self.game.running = False
+                    exit()
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if EXIT_BUTTON.checkForInput(MENU_MOUSE_POS):
+                        self.is_running = False
+
+            pygame.display.update()
+
+    def __draw_items(self, surface, items_pos_init_x, items_pos_init_y, max_length=(WINDOW_WIDTH - 200)):
+        items_pos_x = items_pos_init_x
+        items_pos_y = items_pos_init_y
+        for item in self.items:
+            item_name = item.name
+            if item.name == "item-test":
+                item_image = ITEM_TEST.convert_alpha()
+            elif item.name == "item-test2":
+                item_image = ITEM_TEST2.convert_alpha()
+            button = Button(items_pos_x , items_pos_y, scale=1, image=item_image)
+            items_pos_x += 100
+            if items_pos_x >= max_length:
+                items_pos_y += 100
+                items_pos_x = items_pos_init_x
+            button.draw(surface)

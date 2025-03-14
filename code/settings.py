@@ -98,6 +98,7 @@ SURRENDER_IMG = pygame.image.load(os.path.join('..', 'graphics', 'buttons', 'sur
 SURRENDER_IMG_PRESSED = pygame.image.load(os.path.join('..', 'graphics', 'buttons', 'surrender-button-pressed.png'))
 
 UI_SETTINGS_IMG = pygame.image.load(os.path.join('..', 'graphics', 'ui', 'settings.png'))
+UI_INVENTORY_IMG = pygame.image.load(os.path.join('..', 'graphics', 'ui', 'inventory.png'))
 
 ## HEALTHBAR ##
 HEALTH_0 = pygame.image.load(os.path.join('..', 'graphics', 'healthbar', '0%.png'))

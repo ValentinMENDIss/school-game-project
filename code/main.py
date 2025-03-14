@@ -213,8 +213,10 @@ class Game:
                 self.is_running = False
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.hud.settings_button.checkForInput(MOUSE_POS):
-                    print("H")
                     self.current_screen = "menu"
+                if self.hud.inventory_button.checkForInput(MOUSE_POS):
+                    self.inventory.show_menu(self.display_surface)
+
 
     def update_game_state(self):
         dt = self.clock.tick() / 1000

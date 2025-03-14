@@ -14,6 +14,7 @@ class HUD:
         self.initialized_player_level_text = False
 
         self.settings_button = Button(20, 20, scale=0.5, image=UI_SETTINGS_IMG, hovered_image=UI_SETTINGS_IMG)
+        self.inventory_button = Button (20, WINDOW_HEIGHT - 20, scale=0.5, image=UI_INVENTORY_IMG, hovered_image=UI_INVENTORY_IMG)
 
 
     def add_item(self, item):
@@ -29,11 +30,11 @@ class HUD:
                 break
 
     def draw(self, surface):
-        self.draw_items(surface)
         self.draw_time(surface)
         self.draw_player_level(surface)
         self.draw_player_health(surface)
         self.draw_settings_button(surface)
+        self.draw_inventory_button(surface)
         
     def update_time_text(self, new_time_text):
         if self.initialized_time_text == False:
@@ -70,22 +71,6 @@ class HUD:
             if self.game.debug:
                 print("NEW_LEVEL_TEXT")
         
-    def draw_items(self, surface):
-        self.offset = 0
-        for item in self.items:
-            if item.name == "item-test":
-                self.image = ITEM_TEST.convert_alpha()
-            elif item.name == "item-test2":
-                self.image = ITEM_TEST2.convert_alpha()
-
-            self.get_x_coords = WINDOW_WIDTH // 2 - (16 * len(self.items))
-            self.get_y_coords = WINDOW_HEIGHT - 50
-
-            surface.blit(self.image, (self.get_x_coords + self.offset, self.get_y_coords))     # Draw every single item in the middle of the x axes of the screen/surface, change coordinates based on how many items are there and add self.offset to put every item slightly after previous picture. On y axes put it slightly above the WINDOW_HEIGHT value
-            self.offset += 35
-
-        self.check_player_health(surface, self.player)
-
     def draw_time(self, surface):
         time_text = self.game.game_time.get_time_12hr()
         self.update_time_text(time_text)
@@ -106,3 +91,6 @@ class HUD:
                 
     def draw_settings_button(self, surface):
         self.settings_button.draw(surface)
+        
+    def draw_inventory_button(self, surface):
+        self.inventory_button.draw(surface)
