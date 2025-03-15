@@ -26,7 +26,7 @@ class Inventory:
         self.is_running = True
         while self.is_running:
             # INITIALIZING BUTTONS
-            EXIT_BUTTON = Button(150, WINDOW_HEIGHT - 250, scale=0.40, image=EXIT_IMG, hovered_image=EXIT_IMG_PRESSED)
+            EXIT_BUTTON = Button(20, WINDOW_HEIGHT - 20, scale=0.50, image=UI_INVENTORY_IMG, hovered_image=UI_INVENTORY_IMG)
             BACKGROUND_COLOR = ((255, 255, 255))
 
             # SETTING TEXT FOR MENU
