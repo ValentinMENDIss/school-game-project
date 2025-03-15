@@ -8,6 +8,7 @@ from hud import *
 class Inventory:
     def __init__(self, game):
         self.items = []
+        self.items_dict = {}
         self.game = game
 
     def add_item(self, item):
@@ -24,6 +25,8 @@ class Inventory:
     
     def show_menu(self, surface):
         self.is_running = True
+        self.initialized = False
+        self.items_dict = {}
         while self.is_running:
             # INITIALIZING BUTTONS
             EXIT_BUTTON = Button(20, WINDOW_HEIGHT - 20, scale=0.50, image=UI_INVENTORY_IMG, hovered_image=UI_INVENTORY_IMG)
@@ -57,7 +60,12 @@ class Inventory:
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if EXIT_BUTTON.checkForInput(MENU_MOUSE_POS):
                         self.is_running = False
-
+                    for item_button in self.items_dict:
+                        if item_button.checkForInput(MENU_MOUSE_POS):
+                            item = self.items_dict[item_button]["item"]
+                            self.item_get_info(item)
+ 
+            self.game.clock.tick(15)
             pygame.display.update()
 
     def __draw_items(self, surface, items_pos_init_x, items_pos_init_y, max_length=(WINDOW_WIDTH - 200)):
@@ -70,8 +78,15 @@ class Inventory:
             elif item.name == "item-test2":
                 item_image = ITEM_TEST2.convert_alpha()
             button = Button(items_pos_x , items_pos_y, scale=1, image=item_image)
+            if self.initialized == False:
+                new_item_info = {button: {'item': item}}
+                self.items_dict.update(new_item_info)
             items_pos_x += 100
             if items_pos_x >= max_length:
                 items_pos_y += 100
                 items_pos_x = items_pos_init_x
             button.draw(surface)
+        self.initialized = True
+            
+    def item_get_info(self, item):
+        print(f"Item's information. Name: {item.name}, Rarity: {item.rarity}")
