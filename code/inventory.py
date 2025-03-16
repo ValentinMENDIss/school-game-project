@@ -120,7 +120,6 @@ class Inventory:
             if width > text_width:
                 text_width = width
             
-        SMALLTEXT.set_bold(info_text)
         infotext = SMALLTEXT.render(info_text, True, (0, 0, 0)).convert_alpha()                                     # render a Small Text
         infotextrect = infotext.get_rect()                                                                          # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
         
