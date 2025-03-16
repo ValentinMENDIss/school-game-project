@@ -13,10 +13,16 @@ class Timer:
         if loop:
             self.is_finished = False
 
-    def stop(self):
+    def stop(self, loop=False):
         self.active = False
         self.start_time = 0
-        self.finished()
+        if loop == False:
+            self.finished()
+        else:
+            self.not_finished()
+    
+    def not_finished(self):
+        self.is_finished = False
 
     def finished(self):
         self.is_finished = True

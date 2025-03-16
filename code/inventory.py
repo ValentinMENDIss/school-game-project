@@ -2,6 +2,7 @@
 
 from settings import *
 from hud import *
+from timer import Timer
 
 ######### CLASSes ##############
 
@@ -10,6 +11,7 @@ class Inventory:
         self.items = []
         self.items_dict = {}
         self.game = game
+        self.timer = Timer()
 
     def add_item(self, item):
         self.hud = self.game.hud
@@ -64,6 +66,22 @@ class Inventory:
                         if item_button.checkForInput(MENU_MOUSE_POS):
                             item = self.items_dict[item_button]["item"]
                             self.item_get_info(item)
+            for item_button in self.items_dict:
+                if item_button.checkForInput(MENU_MOUSE_POS):     
+                    item_button.hovered_on = True
+                    if self.timer.active == False and not self.timer.is_finished:                         # if timer hasn't been started yet:
+                        self.timer.start(500)                                                       # set timer for 'n' ms
+                    self.timer.update()                                                              # update timer's state
+                    if self.timer.is_finished:                                                       # if timer is finished
+                        item = self.items_dict[item_button]["item"]
+                        self.item_get_info(item)
+                else:
+                    if item_button.hovered_on:
+                        self.timer.stop(loop=True)
+                        item_button.hovered_on = False
+                    
+                
+ 
  
             self.game.clock.tick(15)
             pygame.display.update()

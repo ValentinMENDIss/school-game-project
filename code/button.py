@@ -22,6 +22,8 @@ class Button:
         self.pressed = False
         self.action = False
 
+        self.hovered_on = False                                                                                             # variable that stores bool value to show whether the button is being hovered on or not
+
     def checkForInput(self, position):
         if position[0] in range(self.rect.left, self.rect.right) and position[1] in range(self.rect.top, self.rect.bottom):
             return True
