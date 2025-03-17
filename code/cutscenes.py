@@ -81,16 +81,18 @@ cutscene_data = {
     
 }
 
-def play_cutscene(screen, location):
+def play_cutscene(surface, location):
+    data = cutscene_data[location]
+    images_data = data["images"]
+    text_data = data["text"]
+    music_data = data["music"]
+
+    if music_data:
+        music_player.play(music_data)
+    
     if location == "intro":
-        data = cutscene_data[location]
-        images = data["images"]
-        text = data["text"]
-        music = data["music"]
-        if music:
-            music_player.play(music)
-        for idx, image in enumerate(images):
-            screen.fill((255, 255, 255))
+        for idx, image in enumerate(images_data):
+            surface.fill((255, 255, 255))
             if image:
                 image_rect = image.get_rect()
                 image_width, image_height = image.get_size()
@@ -99,12 +101,9 @@ def play_cutscene(screen, location):
                 new_height = int(image_height * scaler)
                 scaled_image = pygame.transform.scale(image,(new_height,new_width))
                 image_rect.center = (WINDOW_WIDTH // 2.18, WINDOW_HEIGHT // 2.2)
-                screen.blit(scaled_image, image_rect)
-            if text:
-                text_surface = SMALLTEXT.render(text[idx], True, (0, 0, 0)).convert_alpha()
-                text_surface_rect = text_surface.get_rect()
-                text_surface_rect.center = (WINDOW_WIDTH // 2, 500)
-                screen.blit(text_surface, text_surface_rect)
+                surface.blit(scaled_image, image_rect)
+            if text_data:
+                draw_text(surface, idx, text_data)
             pygame.display.update()
             timer.start(3000, loop=True)                                                       # set timer for 'n' ms
             while timer.is_finished == False:
@@ -116,31 +115,9 @@ def play_cutscene(screen, location):
                         if event.key ==  pygame.K_e:
                             timer.is_finished = True
         music_player.stop_music()
-
-    if location == "tutorial":
-        data = cutscene_data[location]
-        images = data["images"]
-        text = data["text"]
-        music = data["music"]
         
-        if music:
-            music_player.play(music)
-            
-        for idx, image in enumerate(images):
-            screen.fill((255, 0, 255))
-            if image:
-                image_rect = image.get_rect()
-                image_width, image_height = image.get_size()
-                scaler = 4
-                new_width = int(image_width * scaler)
-                new_height = int(image_height * scaler)
-                scaled_image = pygame.transform.scale(image,(new_height,new_width))
-                image_rect.center = (WINDOW_WIDTH // 2.2, WINDOW_HEIGHT // 5)
-                screen.blit(scaled_image, image_rect)
-            if text:
-                text_surface = SMALLTEXT.render(text[idx], True, (0, 0, 0)).convert_alpha()
-                text_surface_rect = text_surface.get_rect()
-                text_surface_rect.center = (WINDOW_WIDTH // 2, 500)
-                screen.blit(text_surface, text_surface_rect)
-            pygame.display.update()
-        music_player.stop_music()
+def draw_text(surface, idx, text_data):
+    text_surface = SMALLTEXT.render(text_data[idx], True, (0, 0, 0)).convert_alpha()
+    text_surface_rect = text_surface.get_rect()
+    text_surface_rect.center = (WINDOW_WIDTH // 2, 500)
+    surface.blit(text_surface, text_surface_rect)
