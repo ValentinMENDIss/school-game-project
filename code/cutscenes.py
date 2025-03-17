@@ -9,6 +9,35 @@ timer = Timer()
 cutscene_data = {
     "intro": {
         "images": [
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+        ],
+        "text": [
+            "<A Call from the Void>: ...",
+            "Hello?",
+            "...",
+            "Can you hear me?",
+            "it's time to go!",
+            "...",
+            "is someone there at all?",
+            "...",
+            "...",
+            "HELLO!???",
+            "it's time to wake up!",
+        ],
+        "music": None
+    },
+    "intro-tutorial": {
+        "images": [
             pygame.image.load(os.path.join('..', 'graphics', 'player', 'idle', 'player_idle.png')),
             pygame.image.load(os.path.join('..', 'graphics', 'player', 'idle', 'player_idle.png')),
             pygame.image.load(os.path.join('..','graphics','tutorial','arrowkey_up.png')),
@@ -17,7 +46,7 @@ cutscene_data = {
             pygame.image.load(os.path.join('..','graphics','tutorial','arrowkey_right.png')),
             pygame.image.load(os.path.join('..','graphics','tutorial','E.png')),
             pygame.image.load(os.path.join('..', 'graphics', 'player', 'idle', 'player_idle.png')),
-            pygame.image.load(os.path.join('..', 'graphics', 'player', 'idle', 'player_idle.png'))
+            pygame.image.load(os.path.join('..', 'graphics', 'player', 'idle', 'player_idle.png')),
         ],
         "text": [
             "Welcome to the game!",
@@ -28,7 +57,7 @@ cutscene_data = {
             "To move right press",
             "To interact with an NPC press",
             "From here on I will not interrupt anymore.",
-            "Have fun in this humble game :3"
+            "Have fun in this humble game :3",
         ],
         "music": os.path.join('..', 'data', 'music', 'soft-piano-live-drums-music.mp3')
     },
@@ -62,14 +91,15 @@ def play_cutscene(screen, location):
             music_player.play(music)
         for idx, image in enumerate(images):
             screen.fill((255, 255, 255))
-            image_rect = image.get_rect()
-            image_width, image_hieght = image.get_size()
-            scaler = 4
-            new_width = int(image_width * scaler)
-            new_height = int(image_hieght * scaler)
-            scaled_image = pygame.transform.scale(image,(new_height,new_width))
-            image_rect.center = (WINDOW_WIDTH // 2.18, WINDOW_HEIGHT // 2.2)
-            screen.blit(scaled_image, image_rect)
+            if image:
+                image_rect = image.get_rect()
+                image_width, image_height = image.get_size()
+                scaler = 4
+                new_width = int(image_width * scaler)
+                new_height = int(image_height * scaler)
+                scaled_image = pygame.transform.scale(image,(new_height,new_width))
+                image_rect.center = (WINDOW_WIDTH // 2.18, WINDOW_HEIGHT // 2.2)
+                screen.blit(scaled_image, image_rect)
             if text:
                 text_surface = SMALLTEXT.render(text[idx], True, (0, 0, 0)).convert_alpha()
                 text_surface_rect = text_surface.get_rect()
@@ -98,14 +128,15 @@ def play_cutscene(screen, location):
             
         for idx, image in enumerate(images):
             screen.fill((255, 0, 255))
-            image_rect = image.get_rect()
-            image_width, image_hieght = image.get_size()
-            scaler = 4
-            new_width = int(image_width * scaler)
-            new_height = int(image_hieght * scaler)
-            scaled_image = pygame.transform.scale(image,(new_height,new_width))
-            image_rect.center = (WINDOW_WIDTH // 2.2, WINDOW_HEIGHT // 5)
-            screen.blit(scaled_image, image_rect)
+            if image:
+                image_rect = image.get_rect()
+                image_width, image_height = image.get_size()
+                scaler = 4
+                new_width = int(image_width * scaler)
+                new_height = int(image_height * scaler)
+                scaled_image = pygame.transform.scale(image,(new_height,new_width))
+                image_rect.center = (WINDOW_WIDTH // 2.2, WINDOW_HEIGHT // 5)
+                screen.blit(scaled_image, image_rect)
             if text:
                 text_surface = SMALLTEXT.render(text[idx], True, (0, 0, 0)).convert_alpha()
                 text_surface_rect = text_surface.get_rect()
