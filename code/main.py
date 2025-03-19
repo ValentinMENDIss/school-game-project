@@ -47,6 +47,7 @@ class Game:
         self.initialized = False
 
         self.npcs_on_current_screen = []
+        self.items_on_current_screen = []
 
         self.show_cutscene = True
 
@@ -78,7 +79,7 @@ class Game:
         self.tmx_maps = {'world': load_pygame(os.path.join('..', 'data', 'maps', 'world.tmx')),                         # load world.tmx file (with given location of it)
                          'world2': load_pygame(os.path.join('..', 'data', 'maps', 'world2.tmx')),
                          'school-building-bottom-left': load_pygame(os.path.join('..', 'data', 'maps', 'school-building-bottom-left.tmx')),
-                         'neighbourhood': load_pygame(os.path.join('..', 'data', 'maps', 'neighbourhood.tmx')),
+                         'neighborhood': load_pygame(os.path.join('..', 'data', 'maps', 'neighborhood.tmx')),
                          'player-home': load_pygame(os.path.join('..', 'data', 'maps', 'player-home.tmx'))}
                         
 
@@ -87,6 +88,7 @@ class Game:
         for group in (self.all_sprites, self.collision_sprites, self.transition_sprites):
             group.empty()
         self.npcs_on_current_screen = []
+        self.items_on_current_screen = []
 
         self.background_layer = self.create_static_layer(tmx_map=tmx_map, layer_name='Terrain')
 
@@ -118,8 +120,10 @@ class Game:
         for obj in tmx_map.get_layer_by_name('Items'):
             if obj.name == 'Item' and obj.properties['item-name'] == 'item-test':
                 self.item_test = Items((obj.x, obj.y), obj.properties['item-name'], self.all_sprites, rarity="RARE",  game=self)
+                self.items_on_current_screen.append(self.item_test)
             if obj.name == 'Item' and obj.properties['item-name'] == 'item-test2':
                 self.item_test2 = Items((obj.x, obj.y), obj.properties['item-name'], self.all_sprites, rarity="EPIC", game=self)
+                self.items_on_current_screen.append(self.item_test2)
         # GET OBJECTS' POSITION
         for obj in tmx_map.get_layer_by_name('Objects'):
             CollidableSprite((obj.x, obj.y), obj.image, (self.all_sprites, self.collision_sprites))
@@ -239,7 +243,7 @@ class Game:
     def render_game_world(self):
         if self.current_screen == "game":
             if self.initialized == False:
-                self.setup(self.tmx_maps['world'], 'spawn')                                                                     # import this one specific tileset (mapset/asset)
+                self.setup(self.tmx_maps['player-home'], 'spawn')                                                                     # import this one specific tileset (mapset/asset)
                 self.hud = HUD(self, self.player)                                                                               # initializing HUD Class which is dependant on setup's method variables
                 self.initialized = True
             self.display_surface.fill((173, 216, 230))
@@ -285,7 +289,7 @@ class Game:
         # INTERACTION/ACTION HANDLING
         if self.action:                                                                                   # check whether interact condition is true or not (bool check)
             if self.action == "item_pickup":
-                for item in [self.item_test, self.item_test2]:
+                for item in self.items_on_current_screen:
                     item.pickup_logic(self.player.rect.center)
             elif self.action == "npc":
                 self.process_npc_interactions()
