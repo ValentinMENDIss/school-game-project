@@ -91,7 +91,6 @@ class Inventory:
         items_pos_x = items_pos_init_x
         items_pos_y = items_pos_init_y
         for item in self.items:
-            item_name = item.name
             if item.name == "item-test":
                 item_image = ITEM_TEST.convert_alpha()
             elif item.name == "item-test2":
@@ -128,7 +127,7 @@ class Inventory:
         offset_x = 15
         offset_y = 15
 
-        infotextrect.topleft = (mouse_x_pos + offset_x, mouse_y_pos + offset_y)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+        infotextrect.topleft = (mouse_x_pos + offset_x, mouse_y_pos + offset_y)
 
         pygame.draw.rect(surface, (226, 233, 236), (mouse_x_pos, mouse_y_pos, text_width + (2*offset_x), text_height + (2*offset_y)))
         surface.blit(infotext, infotextrect)
