@@ -109,7 +109,7 @@ class Shop:
         self.items_updated = True
         
     def item_show_info(self, surface, MENU_MOUSE_POS, item):
-        info_text =f"{self.items[item]["name"]}\n{self.items[item]["rarity"]}\n{self.items[item]["price"]}"
+        info_text =f"{self.items[item]['name']}\n{self.items[item]['rarity']}\n{self.items[item]['price']}"
         # Initialize variables to store the total height and maximum width
         text_height = 0
         text_width = 0
