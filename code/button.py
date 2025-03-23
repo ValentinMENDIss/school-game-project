@@ -109,7 +109,7 @@ class InputBox:
         self.width = width                                                                          # width of slider
         self.height = height                                                                        # height of slider
         self.rect = pygame.Rect(self.x, self.y, self.width, self.height)                            # create rectangle
-        if centered:                                                                                
+        if centered:
             self.rect.center = (self.x, self.y)                                                     # center slider (set rectangle anchor in the middle/center of rectangle)
         self.value = str(initial_value)
         self.input_type = input_type
@@ -127,13 +127,14 @@ class InputBox:
         if self.input_type == int:
             if new_value.isdigit():
                 self.value += new_value
-        if new_value == "\x08": 
+        if new_value == "\x08":                                                                     # if BACKSPACE is clicked: remove last digit/character
             self.value = self.value[:-1]
         if len(self.value) > 0:
-            if self.input_type == int:
-                return int(self.value)   
-            else:
-                return self.value
+            if new_value == "\r":                                                               # if ENTER is clicked: return value
+                if self.input_type == int:
+                    return int(self.value)
+                else:
+                    return self.value
                 
     def draw(self, surface):
         if self.pressed == False:

@@ -1,6 +1,6 @@
 ######### IMPORT ##############
 
-from settings import *
+import settings
 from hud import *
 from timer import Timer
 
@@ -32,19 +32,19 @@ class Inventory:
         self.items_dict = {}
         while self.is_running:
             # INITIALIZING BUTTONS
-            EXIT_BUTTON = Button(20, WINDOW_HEIGHT - 20, scale=0.50, image=UI_INVENTORY_IMG, hovered_image=UI_INVENTORY_IMG)
+            EXIT_BUTTON = Button(20, settings.WINDOW_HEIGHT - 20, scale=0.50, image=settings.UI_INVENTORY_IMG, hovered_image=settings.UI_INVENTORY_IMG)
             BACKGROUND_COLOR = ((255, 255, 255))
 
             # SETTING TEXT FOR MENU
             heading_text = "Your Items"
 
             # DEFINING TEXT VARIABLES
-            headingtext = HEADINGTEXT.render(heading_text, True, (0, 0, 0)).convert_alpha()  # render a Small Text
+            headingtext = settings.HEADINGTEXT.render(heading_text, True, (0, 0, 0)).convert_alpha()  # render a Small Text
             headingtextrect = headingtext.get_rect()                                                              # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
-            headingtextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 250)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+            headingtextrect.center = (settings.WINDOW_WIDTH // 2, settings.WINDOW_HEIGHT // 2 - 250)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
 
             # DEFINING CONSTANT VARIABLES
-            MENU_MOUSE_POS = pygame.mouse.get_pos()
+            MENU_MOUSE_POS = settings.pygame.mouse.get_pos()
 
             # DRAWING ON THE SURFACE
             surface.fill(BACKGROUND_COLOR)
@@ -56,11 +56,11 @@ class Inventory:
                 button.draw(surface)
 
             ## EVENTS ##
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:                                                                               # exit game function
+            for event in settings.pygame.event.get():
+                if event.type == settings.pygame.QUIT:                                                                               # exit game function
                     self.game.running = False
                     exit()
-                if event.type == pygame.MOUSEBUTTONDOWN:
+                if event.type == settings.pygame.MOUSEBUTTONDOWN:
                     if EXIT_BUTTON.checkForInput(MENU_MOUSE_POS):
                         self.is_running = False
                     for item_button in self.items_dict:
@@ -82,9 +82,9 @@ class Inventory:
                         item_button.hovered_on = False
                     
             self.game.clock.tick(60)
-            pygame.display.update()
+            settings.pygame.display.update()
 
-    def __draw_items(self, surface, items_pos_init_x, items_pos_init_y, max_length=(WINDOW_WIDTH - 200)):
+    def __draw_items(self, surface, items_pos_init_x, items_pos_init_y, max_length=(settings.WINDOW_WIDTH - 200)):
         items_pos_x = items_pos_init_x
         items_pos_y = items_pos_init_y
         for item in self.items:
@@ -116,7 +116,7 @@ class Inventory:
             if width > text_width:
                 text_width = width
             
-        infotext = SMALLTEXT.render(info_text, True, (0, 0, 0)).convert_alpha()                                     # render a Small Text
+        infotext = settings.SMALLTEXT.render(info_text, True, (0, 0, 0)).convert_alpha()                                     # render a Small Text
         infotextrect = infotext.get_rect()                                                                          # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
         
         mouse_x_pos = MENU_MOUSE_POS[0]
@@ -126,5 +126,5 @@ class Inventory:
 
         infotextrect.topleft = (mouse_x_pos + offset_x, mouse_y_pos + offset_y)
 
-        pygame.draw.rect(surface, (226, 233, 236), (mouse_x_pos, mouse_y_pos, text_width + (2*offset_x), text_height + (2*offset_y)))
+        settings.pygame.draw.rect(surface, (226, 233, 236), (mouse_x_pos, mouse_y_pos, text_width + (2*offset_x), text_height + (2*offset_y)))
         surface.blit(infotext, infotextrect)

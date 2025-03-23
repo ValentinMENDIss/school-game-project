@@ -3,7 +3,7 @@
 import pygame
 from random import randint
 
-from settings import *
+import settings
 from gamedata import NPC_ENEMY_INTERACT_DATA
 from button import Button
 from timer import Timer
@@ -11,7 +11,7 @@ from savedata import change_player_data, load_saved_data
 
 ######### SPRITES ##############
 
-BACKGROUND_IMG = pygame.image.load(os.path.join('..', 'graphics', 'background', 'battle-menu-background.png'))
+BACKGROUND_IMG = pygame.image.load(settings.os.path.join('..', 'graphics', 'background', 'battle-menu-background.png'))
 
 ######### CLASSes ##############
 
@@ -89,11 +89,11 @@ class Battle_Menu:
     # SHOW DEALT DAMAGE ON THE SCREEN
     def show_player_damage(self, surface):
         size = 25
-        DAMAGETEXT = pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'), size)
+        DAMAGETEXT = settings.pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'), size)
 
         damagetext = DAMAGETEXT.render(str(f"-{self.player_damage}"), True, (210,39,48)).convert_alpha()        # render an enemy text
         damagetextrect = damagetext.get_rect()
-        damagetextrect.center = (WINDOW_WIDTH // 2 + 350, WINDOW_HEIGHT // 2 - 150)
+        damagetextrect.center = (settings.WINDOW_WIDTH // 2 + 350, settings.WINDOW_HEIGHT // 2 - 150)
 
         surface.blit(damagetext, damagetextrect)
 #        if size >= 35:
@@ -101,7 +101,7 @@ class Battle_Menu:
 
     def show_enemy_damage(self, surface):
         size = 25
-        DAMAGETEXT = pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'), size)
+        DAMAGETEXT = settings.pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'), size)
 
         damagetext = DAMAGETEXT.render(str(f"-{self.enemy_damage}"), True, (210,39,48)).convert_alpha()        # render an enemy text
         damagetextrect = damagetext.get_rect()
@@ -141,7 +141,7 @@ class Battle_Menu:
 
     def show_player_stamina(self, surface):
         size = 35
-        STAMINATEXT = pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'), size)
+        STAMINATEXT = settings.pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'), size)
         stamina = self.player_stamina
         staminatext = STAMINATEXT.render(str(stamina), True, (255,215,0)).convert_alpha()
         staminatextrect = staminatext.get_rect()
@@ -150,7 +150,7 @@ class Battle_Menu:
 
     def show_player_defence(self, surface):
         size = 35
-        DEFENCETEXT = pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'), size)
+        DEFENCETEXT = settings.pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'), size)
         defence = self.player_defence
         defencetext = DEFENCETEXT.render(str(defence), True, (0,181,226)).convert_alpha()
         defencetextrect = defencetext.get_rect()
@@ -159,7 +159,7 @@ class Battle_Menu:
 
     def show_player_health(self, surface):
         size = 35
-        HEALTHTEXT = pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'), size)
+        HEALTHTEXT = settings.pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'), size)
         health = self.player_health
         healthtext = HEALTHTEXT.render(str(health), True, (4,106,56)).convert_alpha()
         healthtextrect = healthtext.get_rect()
@@ -183,28 +183,28 @@ class Battle_Menu:
 
     def battle_menu(self, surface):
         # INITIALIZING BUTTONS
-        SURRENDER_BUTTON = Button(WINDOW_WIDTH - 150, WINDOW_HEIGHT - 100, scale=0.40, image=SURRENDER_IMG, hovered_image=SURRENDER_IMG_PRESSED)                             # create button instance
-        FIGHT_BUTTON = Button(150, WINDOW_HEIGHT - 100, scale=0.40, image=START_IMG, hovered_image=START_IMG_PRESSED)
-        DEFENSE_BUTTON = Button(400, WINDOW_HEIGHT - 100, scale=0.40, image=START_IMG, hovered_image=START_IMG_PRESSED)
-        ITEMS_BUTTON = Button(650, WINDOW_HEIGHT - 100, scale=0.40, image=START_IMG, hovered_image=START_IMG_PRESSED)
-        SPELL_BUTTON = Button(900, WINDOW_HEIGHT - 100, scale=0.40, image=START_IMG, hovered_image=START_IMG_PRESSED)
-        EMOTIONAL_ATTACK_BUTTON = Button(150, WINDOW_HEIGHT - 175, scale=0.40, image=START_IMG, hovered_image=START_IMG_PRESSED)
-        ATTACK_BUTTON = Button(150, WINDOW_HEIGHT - 250, scale=0.40, image=START_IMG, hovered_image=START_IMG_PRESSED)
+        SURRENDER_BUTTON = Button(settings.WINDOW_WIDTH - 150, settings.WINDOW_HEIGHT - 100, scale=0.40, image=SURRENDER_IMG, hovered_image=SURRENDER_IMG_PRESSED)                             # create button instance
+        FIGHT_BUTTON = Button(150, settings.WINDOW_HEIGHT - 100, scale=0.40, image=START_IMG, hovered_image=START_IMG_PRESSED)
+        DEFENSE_BUTTON = Button(400, settings.WINDOW_HEIGHT - 100, scale=0.40, image=START_IMG, hovered_image=START_IMG_PRESSED)
+        ITEMS_BUTTON = Button(650, settings.WINDOW_HEIGHT - 100, scale=0.40, image=START_IMG, hovered_image=START_IMG_PRESSED)
+        SPELL_BUTTON = Button(900, settings.WINDOW_HEIGHT - 100, scale=0.40, image=START_IMG, hovered_image=START_IMG_PRESSED)
+        EMOTIONAL_ATTACK_BUTTON = Button(150, settings.WINDOW_HEIGHT - 175, scale=0.40, image=START_IMG, hovered_image=START_IMG_PRESSED)
+        ATTACK_BUTTON = Button(150, settings.WINDOW_HEIGHT - 250, scale=0.40, image=START_IMG, hovered_image=START_IMG_PRESSED)
 
         # DEFINING TEXT VARIABLES
         heading_text = "Battle Menu"
 
         headingtext = HEADINGTEXT.render(heading_text, True, (0, 0, 0)).convert_alpha()  # render a Small Text
         headingtextrect = headingtext.get_rect()                                                              # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
-        headingtextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 250)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+        headingtextrect.center = (settings.WINDOW_WIDTH // 2, settings.WINDOW_HEIGHT // 2 - 250)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
 
         enemytext = SMALLTEXT.render(self.enemytext, True, (0, 0, 0)).convert_alpha()        # render an enemy text
         enemytextrect = enemytext.get_rect()
-        enemytextrect.center = (WINDOW_WIDTH // 2 + 350, WINDOW_HEIGHT // 2 - 100)
+        enemytextrect.center = (settings.WINDOW_WIDTH // 2 + 350, settings.WINDOW_HEIGHT // 2 - 100)
 
         enemyhealthtext = HEADINGTEXT.render(str(self.enemy_health), True, (4,106,56)).convert_alpha()        # render an enemy text
         enemyhealthtextrect = enemyhealthtext.get_rect()
-        enemyhealthtextrect.center = (WINDOW_WIDTH // 2 + 350, 150)
+        enemyhealthtextrect.center = (settings.WINDOW_WIDTH // 2 + 350, 150)
 
         # DEFINING CONSTANT VARIABLES
         MENU_MOUSE_POS = pygame.mouse.get_pos()
@@ -214,7 +214,7 @@ class Battle_Menu:
         surface.blit(headingtext, headingtextrect)
         surface.blit(enemytext, enemytextrect)
         surface.blit(enemyhealthtext, enemyhealthtextrect)
-        surface.blit(self.enemy_image, (WINDOW_WIDTH // 2 + 280, WINDOW_HEIGHT // 2 - 70))
+        surface.blit(self.enemy_image, (settings.WINDOW_WIDTH // 2 + 280, settings.WINDOW_HEIGHT // 2 - 70))
 
         ## DRAWING BUTTONS ##
         for button in [SURRENDER_BUTTON, FIGHT_BUTTON, DEFENSE_BUTTON, ITEMS_BUTTON, SPELL_BUTTON]:                     # iterate through every single button instance and draw it to the screen
@@ -287,7 +287,7 @@ class Battle_Menu:
 
     def items_menu(self, surface):
         # INITIALIZING BUTTONS
-        EXIT_BUTTON = Button(150, WINDOW_HEIGHT - 250, scale=0.40, image=EXIT_IMG, hovered_image=EXIT_IMG_PRESSED)
+        EXIT_BUTTON = Button(150, settings.WINDOW_HEIGHT - 250, scale=0.40, image=EXIT_IMG, hovered_image=EXIT_IMG_PRESSED)
 
         # SETTING TEXT FOR MENU
         heading_text = "Your Items"
@@ -295,7 +295,7 @@ class Battle_Menu:
         # DEFINING TEXT VARIABLES
         headingtext = HEADINGTEXT.render(heading_text, True, (0, 0, 0)).convert_alpha()  # render a Small Text
         headingtextrect = headingtext.get_rect()                                                              # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
-        headingtextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 250)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+        headingtextrect.center = (settings.WINDOW_WIDTH // 2, settings.WINDOW_HEIGHT // 2 - 250)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
 
         # DEFINING CONSTANT VARIABLES
         MENU_MOUSE_POS = pygame.mouse.get_pos()
@@ -323,7 +323,7 @@ class Battle_Menu:
                         self.items_menu_dict_update = True
         pygame.display.update()
 
-    def __draw_items(self, surface, items_pos_init_x, items_pos_init_y, max_length=(WINDOW_WIDTH - 200)):
+    def __draw_items(self, surface, items_pos_init_x, items_pos_init_y, max_length=(settings.WINDOW_WIDTH - 200)):
         items_pos_x = items_pos_init_x
         items_pos_y = items_pos_init_y
         for item in self.game.inventory.items:
