@@ -42,6 +42,7 @@ class Game:
         self.time = 0
         self.pressed_start_time = 0
         self.pressed_duration = 5000
+        self.fps_lock = 60
         self.music_paused = False
         self.current_screen = "menu"
         self.initialized = False
@@ -175,7 +176,7 @@ class Game:
             self.fade_surface.set_alpha(alpha)
             self.display_surface.blit(self.fade_surface, (0, 0))
             pygame.display.flip()
-            self.clock.tick(60)
+            self.clock.tick(self.fps_lock)
             alpha += 5
 
     def transition_fade_out(self):
@@ -186,7 +187,7 @@ class Game:
             self.fade_surface.set_alpha(alpha)
             self.display_surface.blit(self.fade_surface, (0, 0))
             pygame.display.flip()
-            self.clock.tick(60) 
+            self.clock.tick(self.fps_lock) 
             alpha -= 5
 
     # MAIN (RUN) LOGIC
@@ -222,7 +223,7 @@ class Game:
 
 
     def update_game_state(self):
-        dt = self.clock.tick(60) / 1000
+        dt = self.clock.tick(self.fps_lock) / 1000
         self.game_time.update()
         self.input.update()  # check user's input
         self.check_map_transition() # check for map tps (teleport points/transitions)

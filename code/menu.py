@@ -1,6 +1,6 @@
 ######### IMPORT ##############
 from settings import *
-from button import Button, Slider
+from button import Button, Slider, InputBox
 from input import *
 from savedata import save_data, default_data, load_saved_data
 
@@ -161,6 +161,7 @@ class Menu:
     # SETTINGS MENU
     def settings(self, surface):
         ## INITIALIZING BUTTONS ##
+        SETTINGS_VIDEO_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 125, scale=0.8, image=START_IMG, hovered_image=START_IMG_PRESSED)
         SETTINGS_INPUT_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, scale=0.8, image=INPUT_IMG, hovered_image=INPUT_IMG_PRESSED)
         SETTINGS_SOUND_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 125, scale=0.8, image=SOUNDS_IMG, hovered_image=SOUNDS_IMG_PRESSED)
         RETURN_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, scale=0.8,  image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
@@ -181,7 +182,7 @@ class Menu:
             surface.blit(headingtext, headingtextrect)
 
             ## DRAWING BUTTONS ##
-            for button in [SETTINGS_INPUT_BUTTON, SETTINGS_SOUND_BUTTON, RETURN_BUTTON]:
+            for button in [SETTINGS_VIDEO_BUTTON, SETTINGS_INPUT_BUTTON, SETTINGS_SOUND_BUTTON, RETURN_BUTTON]:
                 button.draw(surface)
 
             # INPUT HANDLING
@@ -193,14 +194,18 @@ class Menu:
                 if event.type == pygame.QUIT:
                     self.exit_action = True
                 if event.type == pygame.MOUSEBUTTONDOWN:
+                    if SETTINGS_VIDEO_BUTTON.checkForInput(MENU_MOUSE_POS):
+                        self.settings_video(surface)
+                        running = False
                     if SETTINGS_INPUT_BUTTON.checkForInput(MENU_MOUSE_POS):
                         self.settings_input(surface)
                         running = False
                     if SETTINGS_SOUND_BUTTON.checkForInput(MENU_MOUSE_POS):
                         self.settings_sound(surface)
-                    if RETURN_BUTTON.checkForInput(MENU_MOUSE_POS):
                         running = False
+                    if RETURN_BUTTON.checkForInput(MENU_MOUSE_POS):
                         self.main_menu(surface)
+                        running = False
 
             if self.exit_action == True:
                 return self.exit_action
@@ -211,6 +216,65 @@ class Menu:
 
             # DISPLAY UPDATE
             pygame.display.update()
+
+
+    def settings_video(self, surface):
+        ## INITIALIZING BUTTONS ##
+        FPS_INPUT_BOX = InputBox(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, width=150, height=50, initial_value=self.game.fps_lock, centered=True)
+        RETURN_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, scale=0.5, image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
+        # DEFINING VARIABLES
+        running = True
+        action = None
+        while running:
+            # INITIALIZING CONSTANT VARIABLES
+            MENU_MOUSE_POS = pygame.mouse.get_pos()
+            # SETTING TEXT FOR SETTINGS MENU
+            heading_text = "Settings - Video"
+
+            # DEFINING TEXT VARIABLES
+            headingtext = HEADINGTEXT.render(heading_text, True, (0, 0, 0)).convert_alpha()  # render a Small Text
+            headingtextrect = headingtext.get_rect()                                                              # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
+            headingtextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 250)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+
+            # DRAWING ON THE SURFACE
+            surface.blit(BACKGROUND_IMG)
+            surface.blit(headingtext, headingtextrect)
+
+            ## DRAWING BUTTONS ##
+            for button in [RETURN_BUTTON]:
+                button.draw(surface)
+            for input_box in [FPS_INPUT_BOX]:
+                input_box.draw(surface)
+
+            # INPUT HANDLING
+            if self.menu_exit_action == True:
+                self.running, running = False, False
+
+            # EVENTS
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    self.exit_action = True
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    if RETURN_BUTTON.checkForInput(MENU_MOUSE_POS):
+                        running = False
+                        self.settings(surface)
+                    FPS_INPUT_BOX.checkForInput(MENU_MOUSE_POS)
+                if event.type == pygame.KEYDOWN:
+                    if FPS_INPUT_BOX.pressed == True:
+                        new_fps_lock = FPS_INPUT_BOX.update_value(event)
+                        if new_fps_lock == None:
+                            new_fps_lock = 60
+                        self.game.fps_lock = new_fps_lock
+
+            if self.exit_action == True:
+                return self.exit_action
+
+            # INPUT
+            self.get_input()
+
+            # DISPLAY UPDATE
+            pygame.display.update()
+
 
     # INPUT SETTINGS MENU
     def settings_input(self, surface):
@@ -319,6 +383,7 @@ class Menu:
 
             # DISPLAY UPDATE
             pygame.display.update()  # update the screen
+
 
     def settings_sound(self, surface):
         ## INITIALIZING BUTTONS ##

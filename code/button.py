@@ -101,3 +101,49 @@ class Slider():
         pygame.draw.rect(surface, (186, 186, 186), (self.rect.x + (self.handle_x - self.rect.x), self.rect.y, self.width - int(self.value * self.width), self.height))
 
         pygame.draw.circle(surface, (0, 0, 0), (self.handle_x, self.handle_y), self.handle_radius)
+
+class InputBox:
+    def __init__(self, x, y, width, height, initial_value, input_type=int, centered=False):
+        self.x = x                                                                                  # position on x-axis of slider
+        self.y = y                                                                                  # position on y-axis of slider
+        self.width = width                                                                          # width of slider
+        self.height = height                                                                        # height of slider
+        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)                            # create rectangle
+        if centered:                                                                                
+            self.rect.center = (self.x, self.y)                                                     # center slider (set rectangle anchor in the middle/center of rectangle)
+        self.value = str(initial_value)
+        self.input_type = input_type
+        self.pressed = False
+        
+    def checkForInput(self, position):
+        if position[0] in range(self.rect.left, self.rect.right) and position[1] in range(self.rect.top, self.rect.bottom):
+            self.pressed = True
+            return True
+        self.pressed = False
+        return False
+    
+    def update_value(self, event):
+        new_value = event.unicode
+        if self.input_type == int:
+            if new_value.isdigit():
+                self.value += new_value
+        if new_value == "\x08": 
+            self.value = self.value[:-1]
+        if len(self.value) > 0:
+            if self.input_type == int:
+                return int(self.value)   
+            else:
+                return self.value
+                
+    def draw(self, surface):
+        if self.pressed == False:
+            pygame.draw.rect(surface, (255, 255, 255), self.rect) # white colour
+        else:
+            pygame.draw.rect(surface, (250, 250, 250), self.rect) # snow colour
+        self.valuetext = SMALLTEXT.render(str(self.value), True, (0, 0, 0)).convert_alpha()
+        self.valuetextrect = self.valuetext.get_rect()
+        self.valuetextrect.center = (self.x, self.y)
+        surface.blit(self.valuetext, self.valuetextrect)
+
+
+        
