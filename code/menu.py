@@ -1,5 +1,5 @@
 ######### IMPORT ##############
-from settings import *
+import settings
 from button import Button, Slider, InputBox
 from input import *
 from savedata import save_data, default_data, load_saved_data
@@ -220,6 +220,9 @@ class Menu:
 
     def settings_video(self, surface):
         ## INITIALIZING BUTTONS ##
+        global WINDOW_WIDTH, WINDOW_HEIGHT
+        HORIZONTAL_RESOLUTION_INPUT_BOX = InputBox(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 100, width=100, height=50, initial_value=WINDOW_WIDTH, centered=True)
+        VERTICAL_RESOLUTION_INPUT_BOX = InputBox(WINDOW_WIDTH // 2 + 210, WINDOW_HEIGHT // 2 - 100, width=100, height=50, initial_value=WINDOW_HEIGHT, centered=True)
         FPS_INPUT_BOX = InputBox(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 20, width=100, height=50, initial_value=self.game.fps_lock, centered=True)
         RETURN_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, scale=0.5, image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
         # DEFINING VARIABLES
@@ -230,6 +233,8 @@ class Menu:
             MENU_MOUSE_POS = pygame.mouse.get_pos()
             # SETTING TEXT FOR SETTINGS MENU
             heading_text = "Settings - Video"
+            horizontal_resolution_text = "Horizontal Resolution"
+            vertical_resolution_text = "Vertical Resolution"
             fps_lock_text = "FPS Limit"
 
             # DEFINING TEXT VARIABLES
@@ -237,20 +242,30 @@ class Menu:
             headingtextrect = headingtext.get_rect()                                                              # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
             headingtextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 250)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
             
+            horizontal_resolutiontext = SMALLTEXT.render(horizontal_resolution_text, True, (0, 0, 0)).convert_alpha()  # render a Small Text
+            horizontal_resolutiontextrect = horizontal_resolutiontext.get_rect()                                                              # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
+            horizontal_resolutiontextrect.topleft = (WINDOW_WIDTH // 2 - 35, WINDOW_HEIGHT // 2 - 106)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+            
+            vertical_resolutiontext = SMALLTEXT.render(vertical_resolution_text, True, (0, 0, 0)).convert_alpha()  # render a Small Text
+            vertical_resolutiontextrect = vertical_resolutiontext.get_rect()                                                              # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
+            vertical_resolutiontextrect.topleft = (WINDOW_WIDTH // 2 + 275, WINDOW_HEIGHT // 2 - 106)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+ 
             fps_locktext = SMALLTEXT.render(fps_lock_text, True, (0, 0, 0)).convert_alpha()
             fps_locktextrect = fps_locktext.get_rect()
-            fps_locktextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 17.5)
+            fps_locktextrect.topleft = (WINDOW_WIDTH // 2 - 35, WINDOW_HEIGHT // 2 - 25)
 
 
             # DRAWING ON THE SURFACE
             surface.blit(BACKGROUND_IMG)
             surface.blit(headingtext, headingtextrect)
+            surface.blit(horizontal_resolutiontext, horizontal_resolutiontextrect)
+            surface.blit(vertical_resolutiontext, vertical_resolutiontextrect)
             surface.blit(fps_locktext, fps_locktextrect)
 
             ## DRAWING BUTTONS ##
             for button in [RETURN_BUTTON]:
                 button.draw(surface)
-            for input_box in [FPS_INPUT_BOX]:
+            for input_box in [HORIZONTAL_RESOLUTION_INPUT_BOX, VERTICAL_RESOLUTION_INPUT_BOX, FPS_INPUT_BOX]:
                 input_box.draw(surface)
 
             # INPUT HANDLING
@@ -265,8 +280,20 @@ class Menu:
                     if RETURN_BUTTON.checkForInput(MENU_MOUSE_POS):
                         running = False
                         self.settings(surface)
+                    HORIZONTAL_RESOLUTION_INPUT_BOX.checkForInput(MENU_MOUSE_POS)
+                    VERTICAL_RESOLUTION_INPUT_BOX.checkForInput(MENU_MOUSE_POS)
                     FPS_INPUT_BOX.checkForInput(MENU_MOUSE_POS)
                 if event.type == pygame.KEYDOWN:
+                    if HORIZONTAL_RESOLUTION_INPUT_BOX.pressed == True:
+                        new_horizontal_resolution = HORIZONTAL_RESOLUTION_INPUT_BOX.update_value(event)
+                        if new_horizontal_resolution == None:
+                            new_horizontal_resolution == 1280
+                        self.game.change_resolution(new_horizontal_resolution, settings.WINDOW_HEIGHT)
+                    if VERTICAL_RESOLUTION_INPUT_BOX.pressed == True:
+                        new_vertical_resolution = VERTICAL_RESOLUTION_INPUT_BOX.update_value(event)
+                        if new_vertical_resolution == None:
+                            new_vertical_resolution == 720
+                        self.game.change_resolution(settings.WINDOW_WIDTH, new_vertical_resolution)
                     if FPS_INPUT_BOX.pressed == True:
                         new_fps_lock = FPS_INPUT_BOX.update_value(event)
                         if new_fps_lock == None:

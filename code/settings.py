@@ -11,8 +11,9 @@ pygame.mixer.init(frequency=44100, size=-16, channels=2, buffer=512)
 pygame.font.init()																										# initialize pygame.font framework (needed for text)
 
 ######### CONSTANTS ###########
-
-WINDOW_WIDTH,WINDOW_HEIGHT = 1280,720																					# setting up window's width and height
+def init():                                                                                                             # creating function that will initialize certain variables once and make them global and able to be modified
+    global WINDOW_WIDTH, WINDOW_HEIGHT                                                                                  # make constants WINDOW_WIDTH and WINDOW_HEIGHT global
+    WINDOW_WIDTH, WINDOW_HEIGHT = 1280,720																				# setting up window's width and height
 TILE_SIZE = 64																											# Tile size (tileset)
 
 ######### LAYERS ##############
@@ -119,4 +120,3 @@ HEALTH_THRESHOLDS = [
     (68, HEALTH_68),
     (100, HEALTH_100)
 ]
-

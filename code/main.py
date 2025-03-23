@@ -1,7 +1,8 @@
 ######### IMPORT ##############
 import pygame
 from pygame.midi import Input
-from settings import *
+import settings
+settings.init()
 from pytmx.util_pygame import load_pygame
 from entities import *
 from sprites import Sprite, BorderSprite, CollidableSprite, TransitionSprite
@@ -51,8 +52,8 @@ class Game:
         self.items_on_current_screen = []
 
         # CONFIGURING PYGAME
-        SCREEN_FLAGS = pygame.HWSURFACE | pygame.DOUBLEBUF
-        self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), SCREEN_FLAGS)                                            # create screen with (x,y) (tuple)
+        self.SCREEN_FLAGS = pygame.HWSURFACE | pygame.DOUBLEBUF
+        self.display_surface = pygame.display.set_mode((settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT), self.SCREEN_FLAGS)                                            # create screen with (x,y) (tuple)
         # Create a black surface for fading (same size as screen/display_surface)
         self.fade_surface = pygame.Surface(self.display_surface.get_size())
         pygame.display.set_caption("School-Game-Project(11. Grade)")                                                    # set/change title (caption) of the window
@@ -75,6 +76,11 @@ class Game:
         self.debug = False
         self.show_cutscene = True
         
+
+    def change_resolution(self, new_window_width, new_window_height):
+        settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT = new_window_width, new_window_height
+        pygame.display.set_mode((settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT))
+
     def import_assets(self):
         self.tmx_maps = {'world': load_pygame(os.path.join('..', 'data', 'maps', 'world.tmx')),                         # load world.tmx file (with given location of it)
                          'world2': load_pygame(os.path.join('..', 'data', 'maps', 'world2.tmx')),
@@ -233,8 +239,8 @@ class Game:
         self.display_surface.fill((173, 216, 230))
         self.display_surface.blit(
             self.background_layer,
-            (-(self.player.rect.center[0] - WINDOW_WIDTH / 2),
-            -(self.player.rect.center[1] - WINDOW_HEIGHT / 2))
+            (-(self.player.rect.center[0] - settings.WINDOW_WIDTH / 2),
+            -(self.player.rect.center[1] - settings.WINDOW_HEIGHT / 2))
         )
         self.all_sprites.draw(self.player.rect.center)
         self.hud.draw(self.display_surface)
@@ -249,8 +255,8 @@ class Game:
             self.display_surface.fill((173, 216, 230))
             self.display_surface.blit(
                 self.background_layer,
-                (-(self.player.rect.center[0] - WINDOW_WIDTH / 2),
-                -(self.player.rect.center[1] - WINDOW_HEIGHT / 2))
+                (-(self.player.rect.center[0] - settings.WINDOW_WIDTH / 2),
+                -(self.player.rect.center[1] - settings.WINDOW_HEIGHT / 2))
             )
             self.all_sprites.draw(self.player.rect.center)
             self.hud.draw(self.display_surface)
