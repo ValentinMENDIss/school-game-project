@@ -161,7 +161,7 @@ class Menu:
     # SETTINGS MENU
     def settings(self, surface):
         ## INITIALIZING BUTTONS ##
-        SETTINGS_VIDEO_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 125, scale=0.8, image=START_IMG, hovered_image=START_IMG_PRESSED)
+        SETTINGS_VIDEO_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 125, scale=0.8, image=VIDEO_IMG, hovered_image=VIDEO_IMG_PRESSED)
         SETTINGS_INPUT_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, scale=0.8, image=INPUT_IMG, hovered_image=INPUT_IMG_PRESSED)
         SETTINGS_SOUND_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 125, scale=0.8, image=SOUNDS_IMG, hovered_image=SOUNDS_IMG_PRESSED)
         RETURN_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, scale=0.8,  image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)

@@ -97,6 +97,8 @@ TEST_IMG = pygame.image.load(os.path.join('..', 'graphics', 'buttons', 'test-but
 TEST_IMG_PRESSED = pygame.image.load(os.path.join('..', 'graphics', 'buttons', 'test-button-pressed.png'))
 SURRENDER_IMG = pygame.image.load(os.path.join('..', 'graphics', 'buttons', 'surrender-button.png'))
 SURRENDER_IMG_PRESSED = pygame.image.load(os.path.join('..', 'graphics', 'buttons', 'surrender-button-pressed.png'))
+VIDEO_IMG = pygame.image.load(os.path.join('..', 'graphics', 'buttons', 'video-button.png'))
+VIDEO_IMG_PRESSED = pygame.image.load(os.path.join('..', 'graphics', 'buttons', 'video-button-pressed.png'))
 
 UI_SETTINGS_IMG = pygame.image.load(os.path.join('..', 'graphics', 'ui', 'settings.png'))
 UI_INVENTORY_IMG = pygame.image.load(os.path.join('..', 'graphics', 'ui', 'inventory.png'))

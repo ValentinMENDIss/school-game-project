@@ -1,6 +1,5 @@
 ######### IMPORT ##############
 import pygame
-from pygame.midi import Input
 import settings
 settings.init()
 from pytmx.util_pygame import load_pygame
