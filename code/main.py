@@ -49,8 +49,6 @@ class Game:
         self.npcs_on_current_screen = []
         self.items_on_current_screen = []
 
-        self.show_cutscene = True
-
         # CONFIGURING PYGAME
         SCREEN_FLAGS = pygame.HWSURFACE | pygame.DOUBLEBUF
         self.display_surface = pygame.display.set_mode((WINDOW_WIDTH, WINDOW_HEIGHT), SCREEN_FLAGS)                                            # create screen with (x,y) (tuple)
@@ -72,8 +70,9 @@ class Game:
         self.transition_target = 0
 
         self.import_assets()                                                                                            # import tilesets (assets)
-        # DEBUGGING VARIABLE
+        # DEBUGGING VARIABLEs
         self.debug = False
+        self.show_cutscene = True
         
     def import_assets(self):
         self.tmx_maps = {'world': load_pygame(os.path.join('..', 'data', 'maps', 'world.tmx')),                         # load world.tmx file (with given location of it)
@@ -223,7 +222,7 @@ class Game:
 
 
     def update_game_state(self):
-        dt = self.clock.tick() / 1000
+        dt = self.clock.tick(60) / 1000
         self.game_time.update()
         self.input.update()  # check user's input
         self.check_map_transition() # check for map tps (teleport points/transitions)

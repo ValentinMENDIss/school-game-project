@@ -81,9 +81,6 @@ class Inventory:
                         self.timer.stop(loop=True)
                         item_button.hovered_on = False
                     
-                
- 
- 
             self.game.clock.tick(60)
             pygame.display.update()
 
