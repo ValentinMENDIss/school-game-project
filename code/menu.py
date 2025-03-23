@@ -220,7 +220,7 @@ class Menu:
 
     def settings_video(self, surface):
         ## INITIALIZING BUTTONS ##
-        FPS_INPUT_BOX = InputBox(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, width=150, height=50, initial_value=self.game.fps_lock, centered=True)
+        FPS_INPUT_BOX = InputBox(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 20, width=100, height=50, initial_value=self.game.fps_lock, centered=True)
         RETURN_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, scale=0.5, image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
         # DEFINING VARIABLES
         running = True
@@ -230,15 +230,22 @@ class Menu:
             MENU_MOUSE_POS = pygame.mouse.get_pos()
             # SETTING TEXT FOR SETTINGS MENU
             heading_text = "Settings - Video"
+            fps_lock_text = "FPS Limit"
 
             # DEFINING TEXT VARIABLES
             headingtext = HEADINGTEXT.render(heading_text, True, (0, 0, 0)).convert_alpha()  # render a Small Text
             headingtextrect = headingtext.get_rect()                                                              # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
             headingtextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 250)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+            
+            fps_locktext = SMALLTEXT.render(fps_lock_text, True, (0, 0, 0)).convert_alpha()
+            fps_locktextrect = fps_locktext.get_rect()
+            fps_locktextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 17.5)
+
 
             # DRAWING ON THE SURFACE
             surface.blit(BACKGROUND_IMG)
             surface.blit(headingtext, headingtextrect)
+            surface.blit(fps_locktext, fps_locktextrect)
 
             ## DRAWING BUTTONS ##
             for button in [RETURN_BUTTON]:
