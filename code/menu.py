@@ -48,9 +48,9 @@ class Menu:
     # MAIN MENU
     def main_menu(self, surface):
         ## INITIALIZING BUTTONS ##
-        START_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, scale=0.8, image=START_IMG, hovered_image=START_IMG_PRESSED)  # create button instance
-        SETTINGS_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 125, scale=0.8, image=SETTINGS_IMG, hovered_image=SETTINGS_IMG_PRESSED)
-        EXIT_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, scale=0.8, image=EXIT_IMG, hovered_image=EXIT_IMG_PRESSED)  # create button instance
+        START_BUTTON = Button(settings.WINDOW_WIDTH // 2, settings.WINDOW_HEIGHT // 2, scale=0.8, image=START_IMG, hovered_image=START_IMG_PRESSED)  # create button instance
+        SETTINGS_BUTTON = Button(settings.WINDOW_WIDTH // 2, settings.WINDOW_HEIGHT // 2 + 125, scale=0.8, image=SETTINGS_IMG, hovered_image=SETTINGS_IMG_PRESSED)
+        EXIT_BUTTON = Button(settings.WINDOW_WIDTH // 2, settings.WINDOW_HEIGHT // 2 + 250, scale=0.8, image=EXIT_IMG, hovered_image=EXIT_IMG_PRESSED)  # create button instance
         self.game.music.pause()
         running = True
         while running:
@@ -63,7 +63,7 @@ class Menu:
             # DEFINING TEXT VARIABLES
             headingtext = HEADINGTEXT.render(heading_text, True, (0, 0, 0)).convert_alpha()  # render a Small Text
             headingtextrect = headingtext.get_rect()                                                              # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
-            headingtextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 250)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+            headingtextrect.center = (settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 - 250)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
 
             # DRAWING ON THE SURFACE
             surface.blit(BACKGROUND_IMG)
@@ -102,8 +102,8 @@ class Menu:
             pygame.display.update()                                                                                         # update the screen
 
     def session_manager(self, surface):
-        NEW_SAVE_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, scale=0.8, image=INPUT_IMG, hovered_image=INPUT_IMG_PRESSED)
-        LOAD_SAVE_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 125, scale=0.8, image=INPUT_IMG, hovered_image=INPUT_IMG_PRESSED)
+        NEW_SAVE_BUTTON = Button(settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2, scale=0.8, image=INPUT_IMG, hovered_image=INPUT_IMG_PRESSED)
+        LOAD_SAVE_BUTTON = Button(settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 + 125, scale=0.8, image=INPUT_IMG, hovered_image=INPUT_IMG_PRESSED)
         running = True
         while running:
             # DEFINING CONSTANT VARIABLES
@@ -114,7 +114,7 @@ class Menu:
             # DEFINING TEXT VARIABLES
             headingtext = HEADINGTEXT.render(heading_text, True, (0, 0, 0)).convert_alpha()  # render a Small Text
             headingtextrect = headingtext.get_rect()                                                              # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
-            headingtextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 250)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+            headingtextrect.center = (settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 - 250)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
 
             # DRAWING ON THE SURFACE
             surface.blit(BACKGROUND_IMG)
@@ -161,10 +161,10 @@ class Menu:
     # SETTINGS MENU
     def settings(self, surface):
         ## INITIALIZING BUTTONS ##
-        SETTINGS_VIDEO_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 125, scale=0.8, image=VIDEO_IMG, hovered_image=VIDEO_IMG_PRESSED)
-        SETTINGS_INPUT_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, scale=0.8, image=INPUT_IMG, hovered_image=INPUT_IMG_PRESSED)
-        SETTINGS_SOUND_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 125, scale=0.8, image=SOUNDS_IMG, hovered_image=SOUNDS_IMG_PRESSED)
-        RETURN_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, scale=0.8,  image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
+        SETTINGS_VIDEO_BUTTON = Button(settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 - 125, scale=0.8, image=VIDEO_IMG, hovered_image=VIDEO_IMG_PRESSED)
+        SETTINGS_INPUT_BUTTON = Button(settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2, scale=0.8, image=INPUT_IMG, hovered_image=INPUT_IMG_PRESSED)
+        SETTINGS_SOUND_BUTTON = Button(settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 + 125, scale=0.8, image=SOUNDS_IMG, hovered_image=SOUNDS_IMG_PRESSED)
+        RETURN_BUTTON = Button(settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 + 250, scale=0.8,  image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
         running = True
         while running:
             # DEFINING CONSTANT VARIABLES
@@ -175,7 +175,7 @@ class Menu:
             # DEFINING TEXT VARIABLES
             headingtext = HEADINGTEXT.render(heading_text, True, (0, 0, 0)).convert_alpha()  # render a Small Text
             headingtextrect = headingtext.get_rect()                                                              # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
-            headingtextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 250)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+            headingtextrect.center = (settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 - 250)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
 
             # DRAWING ON THE SURFACE
             surface.blit(BACKGROUND_IMG)
@@ -220,11 +220,10 @@ class Menu:
 
     def settings_video(self, surface):
         ## INITIALIZING BUTTONS ##
-        global WINDOW_WIDTH, WINDOW_HEIGHT
-        HORIZONTAL_RESOLUTION_INPUT_BOX = InputBox(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 100, width=100, height=50, initial_value=WINDOW_WIDTH, centered=True)
-        VERTICAL_RESOLUTION_INPUT_BOX = InputBox(WINDOW_WIDTH // 2 + 210, WINDOW_HEIGHT // 2 - 100, width=100, height=50, initial_value=WINDOW_HEIGHT, centered=True)
-        FPS_INPUT_BOX = InputBox(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 20, width=100, height=50, initial_value=self.game.fps_lock, centered=True)
-        RETURN_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, scale=0.5, image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
+        HORIZONTAL_RESOLUTION_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - 100, width=100, height=50, initial_value=settings.WINDOW_WIDTH, centered=True)
+        VERTICAL_RESOLUTION_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 + 210,settings.WINDOW_HEIGHT // 2 - 100, width=100, height=50, initial_value=settings.WINDOW_HEIGHT, centered=True)
+        FPS_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - 20, width=100, height=50, initial_value=self.game.fps_lock, centered=True)
+        RETURN_BUTTON = Button(settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 + 250, scale=0.5, image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
         # DEFINING VARIABLES
         running = True
         action = None
@@ -240,19 +239,19 @@ class Menu:
             # DEFINING TEXT VARIABLES
             headingtext = HEADINGTEXT.render(heading_text, True, (0, 0, 0)).convert_alpha()  # render a Small Text
             headingtextrect = headingtext.get_rect()                                                              # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
-            headingtextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 250)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+            headingtextrect.center = (settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 - 250)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
             
             horizontal_resolutiontext = SMALLTEXT.render(horizontal_resolution_text, True, (0, 0, 0)).convert_alpha()  # render a Small Text
             horizontal_resolutiontextrect = horizontal_resolutiontext.get_rect()                                                              # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
-            horizontal_resolutiontextrect.topleft = (WINDOW_WIDTH // 2 - 35, WINDOW_HEIGHT // 2 - 106)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+            horizontal_resolutiontextrect.topleft = (settings.WINDOW_WIDTH // 2 - 35,settings.WINDOW_HEIGHT // 2 - 106)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
             
             vertical_resolutiontext = SMALLTEXT.render(vertical_resolution_text, True, (0, 0, 0)).convert_alpha()  # render a Small Text
             vertical_resolutiontextrect = vertical_resolutiontext.get_rect()                                                              # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
-            vertical_resolutiontextrect.topleft = (WINDOW_WIDTH // 2 + 275, WINDOW_HEIGHT // 2 - 106)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+            vertical_resolutiontextrect.topleft = (settings.WINDOW_WIDTH // 2 + 275,settings.WINDOW_HEIGHT // 2 - 106)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
  
             fps_locktext = SMALLTEXT.render(fps_lock_text, True, (0, 0, 0)).convert_alpha()
             fps_locktextrect = fps_locktext.get_rect()
-            fps_locktextrect.topleft = (WINDOW_WIDTH // 2 - 35, WINDOW_HEIGHT // 2 - 25)
+            fps_locktextrect.topleft = (settings.WINDOW_WIDTH // 2 - 35,settings.WINDOW_HEIGHT // 2 - 25)
 
 
             # DRAWING ON THE SURFACE
@@ -288,12 +287,24 @@ class Menu:
                         new_horizontal_resolution = HORIZONTAL_RESOLUTION_INPUT_BOX.update_value(event)
                         if new_horizontal_resolution == None:
                             new_horizontal_resolution == 1280
-                        self.game.change_resolution(new_horizontal_resolution, settings.WINDOW_HEIGHT)
+                        if new_horizontal_resolution:
+                            self.game.change_resolution(new_horizontal_resolution, settings.WINDOW_HEIGHT)
+                            HORIZONTAL_RESOLUTION_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - 100, width=100, height=50, initial_value=settings.WINDOW_WIDTH, centered=True)
+                            VERTICAL_RESOLUTION_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 + 210,settings.WINDOW_HEIGHT // 2 - 100, width=100, height=50, initial_value=settings.WINDOW_HEIGHT, centered=True)
+                            FPS_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - 20, width=100, height=50, initial_value=self.game.fps_lock, centered=True)
+                            RETURN_BUTTON = Button(settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 + 250, scale=0.5, image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
+
                     if VERTICAL_RESOLUTION_INPUT_BOX.pressed == True:
                         new_vertical_resolution = VERTICAL_RESOLUTION_INPUT_BOX.update_value(event)
                         if new_vertical_resolution == None:
                             new_vertical_resolution == 720
-                        self.game.change_resolution(settings.WINDOW_WIDTH, new_vertical_resolution)
+                        if new_vertical_resolution:
+                            self.game.change_resolution(settings.WINDOW_WIDTH, new_vertical_resolution)
+                            HORIZONTAL_RESOLUTION_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - 100, width=100, height=50, initial_value=settings.WINDOW_WIDTH, centered=True)
+                            VERTICAL_RESOLUTION_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 + 210,settings.WINDOW_HEIGHT // 2 - 100, width=100, height=50, initial_value=settings.WINDOW_HEIGHT, centered=True)
+                            FPS_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - 20, width=100, height=50, initial_value=self.game.fps_lock, centered=True)
+                            RETURN_BUTTON = Button(settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 + 250, scale=0.5, image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
+
                     if FPS_INPUT_BOX.pressed == True:
                         new_fps_lock = FPS_INPUT_BOX.update_value(event)
                         if new_fps_lock == None:
@@ -313,12 +324,12 @@ class Menu:
     # INPUT SETTINGS MENU
     def settings_input(self, surface):
         ## INITIALIZING BUTTONS ##
-        RETURN_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, scale=0.5, image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
-        MENU_TOGGLE_BUTTON = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 180, scale=0.5, image=TEST_IMG, hovered_image=TEST_IMG_PRESSED)
-        MOVE_UP_BUTTON = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 100, scale=0.5, image=TEST_IMG, hovered_image=TEST_IMG_PRESSED)
-        MOVE_DOWN_BUTTON = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - 20, scale=0.5, image=TEST_IMG, hovered_image=TEST_IMG_PRESSED)
-        MOVE_RIGHT_BUTTON = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - -60, scale=0.5, image=TEST_IMG, hovered_image=TEST_IMG_PRESSED)
-        MOVE_LEFT_BUTTON = Button(WINDOW_WIDTH // 2 - 100, WINDOW_HEIGHT // 2 - -140, scale=0.5, image=TEST_IMG, hovered_image=TEST_IMG_PRESSED)
+        RETURN_BUTTON = Button(settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 + 250, scale=0.5, image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
+        MENU_TOGGLE_BUTTON = Button(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - 180, scale=0.5, image=TEST_IMG, hovered_image=TEST_IMG_PRESSED)
+        MOVE_UP_BUTTON = Button(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - 100, scale=0.5, image=TEST_IMG, hovered_image=TEST_IMG_PRESSED)
+        MOVE_DOWN_BUTTON = Button(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - 20, scale=0.5, image=TEST_IMG, hovered_image=TEST_IMG_PRESSED)
+        MOVE_RIGHT_BUTTON = Button(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - -60, scale=0.5, image=TEST_IMG, hovered_image=TEST_IMG_PRESSED)
+        MOVE_LEFT_BUTTON = Button(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - -140, scale=0.5, image=TEST_IMG, hovered_image=TEST_IMG_PRESSED)
         # DEFINING VARIABLES
         running = True
         action = None
@@ -337,31 +348,31 @@ class Menu:
             # DEFINING TEXT VARIABLES
             headingtext = HEADINGTEXT.render(heading_text, True, (0, 0, 0)).convert_alpha()                             # render a Heading Text
             headingtextrect = headingtext.get_rect()                                                                    # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
-            headingtextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 250)                                      # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+            headingtextrect.center = (settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 - 250)                                      # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
 
             menu_toggletext = SMALLTEXT.render(menu_toggle_text, True, (0, 0, 0)).convert_alpha()
             menu_toggletextrect = menu_toggletext.get_rect()
-            menu_toggletextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 175)
+            menu_toggletextrect.center = (settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 - 175)
 
             move_uptext = SMALLTEXT.render(move_up_text, True, (0, 0, 0)).convert_alpha()
             move_uptextrect = move_uptext.get_rect()
-            move_uptextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 95)
+            move_uptextrect.center = (settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 - 95)
 
             move_downtext = SMALLTEXT.render(move_down_text, True, (0, 0, 0)).convert_alpha()
             move_downtextrect = move_uptext.get_rect()
-            move_downtextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 15)
+            move_downtextrect.center = (settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 - 15)
 
             move_righttext = SMALLTEXT.render(move_right_text, True, (0, 0, 0)).convert_alpha()
             move_righttextrect = move_uptext.get_rect()
-            move_righttextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - -55)
+            move_righttextrect.center = (settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 - -55)
 
             move_lefttext = SMALLTEXT.render(move_left_text, True, (0, 0, 0)).convert_alpha()
             move_lefttextrect = move_uptext.get_rect()
-            move_lefttextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - -135)
+            move_lefttextrect.center = (settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 - -135)
 
             attentiontext = SMALLTEXT.render(attention_text, True, (0, 0, 0)).convert_alpha()
             attentiontextrect = attentiontext.get_rect()
-            attentiontextrect.center = (WINDOW_WIDTH // 2 + 400, WINDOW_HEIGHT - -225)
+            attentiontextrect.center = (settings.WINDOW_WIDTH // 2 + 400,settings.WINDOW_HEIGHT - -225)
 
 
             # DRAWING TO THE SURFACE
@@ -421,8 +432,8 @@ class Menu:
 
     def settings_sound(self, surface):
         ## INITIALIZING BUTTONS ##
-        RETURN_BUTTON = Button(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 + 250, scale=0.5, image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
-        VOLUME_SLIDER = Slider(WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2, width=500, height=25, min_value=0, max_value=1, initial_value=self.game.music.volume, centered=True)
+        RETURN_BUTTON = Button(settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 + 250, scale=0.5, image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
+        VOLUME_SLIDER = Slider(settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2, width=500, height=25, min_value=0, max_value=1, initial_value=self.game.music.volume, centered=True)
         # DEFINING VARIABLES
         running = True
         while running:
@@ -434,7 +445,7 @@ class Menu:
             # DEFINING TEXT VARIABLES
             headingtext = HEADINGTEXT.render(heading_text, True, (0, 0, 0)).convert_alpha()  # render a Small Text
             headingtextrect = headingtext.get_rect()                                                              # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
-            headingtextrect.center = (WINDOW_WIDTH // 2, WINDOW_HEIGHT // 2 - 250)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+            headingtextrect.center = (settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 - 250)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
 
             # DRAWING ON THE SURFACE
             surface.blit(BACKGROUND_IMG)

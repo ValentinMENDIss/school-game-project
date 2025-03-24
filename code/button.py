@@ -1,6 +1,6 @@
 ######### IMPORT ##############
 
-from settings import *
+import settings
 
 ######### Variables ##############
 
@@ -39,15 +39,15 @@ class Button:
         width = image.get_width()
         height = image.get_height()
         scale = scale
-        self.image = pygame.transform.scale(image, (int(width* scale),int(height* scale)))
+        self.image = settings.pygame.transform.scale(image, (int(width* scale),int(height* scale)))
 
     def draw(self, surface):
         self.action = False
-        pos = pygame.mouse.get_pos()
+        pos = settings.pygame.mouse.get_pos()
 
         if self.rect.collidepoint(pos):
             self.hovered()
-            if pygame.mouse.get_just_pressed()[0] == 1 and self.pressed == False:
+            if settings.pygame.mouse.get_just_pressed()[0] == 1 and self.pressed == False:
                 self.pressed = True
                 self.action = True
         else:
@@ -62,7 +62,7 @@ class Slider():
         self.y = y                                                                                  # position on y-axis of slider
         self.width = width                                                                          # width of slider
         self.height = height                                                                        # height of slider
-        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)                            # create rectangle
+        self.rect = settings.pygame.Rect(self.x, self.y, self.width, self.height)                            # create rectangle
         if centered:                                                                                
             self.rect.center = (self.x, self.y)                                                     # center slider (set rectangle anchor in the middle/center of rectangle)
         self.min_value = min_value                                                                  # minimal allowed value
@@ -92,15 +92,15 @@ class Slider():
  
     def draw(self, surface):
         if self.show_value:
-            self.valuetext = SMALLTEXT.render(str(self.value), True, (0, 0, 0)).convert_alpha()
+            self.valuetext = settings.SMALLTEXT.render(str(self.value), True, (0, 0, 0)).convert_alpha()
             self.valuetextrect = self.valuetext.get_rect()
             self.valuetextrect.center = (self.x, self.y - 50)
             surface.blit(self.valuetext, self.valuetextrect)
 
-        pygame.draw.rect(surface, (255, 255, 255), self.rect)
-        pygame.draw.rect(surface, (186, 186, 186), (self.rect.x + (self.handle_x - self.rect.x), self.rect.y, self.width - int(self.value * self.width), self.height))
+        settings.pygame.draw.rect(surface, (255, 255, 255), self.rect)
+        settings.pygame.draw.rect(surface, (186, 186, 186), (self.rect.x + (self.handle_x - self.rect.x), self.rect.y, self.width - int(self.value * self.width), self.height))
 
-        pygame.draw.circle(surface, (0, 0, 0), (self.handle_x, self.handle_y), self.handle_radius)
+        settings.pygame.draw.circle(surface, (0, 0, 0), (self.handle_x, self.handle_y), self.handle_radius)
 
 class InputBox:
     def __init__(self, x, y, width, height, initial_value, input_type=int, centered=False):
@@ -108,8 +108,8 @@ class InputBox:
         self.y = y                                                                                  # position on y-axis of slider
         self.width = width                                                                          # width of slider
         self.height = height                                                                        # height of slider
-        self.rect = pygame.Rect(self.x, self.y, self.width, self.height)                            # create rectangle
-        if centered:                                                                                
+        self.rect = settings.pygame.Rect(self.x, self.y, self.width, self.height)                            # create rectangle
+        if centered:
             self.rect.center = (self.x, self.y)                                                     # center slider (set rectangle anchor in the middle/center of rectangle)
         self.value = str(initial_value)
         self.input_type = input_type
@@ -127,20 +127,21 @@ class InputBox:
         if self.input_type == int:
             if new_value.isdigit():
                 self.value += new_value
-        if new_value == "\x08": 
+        if new_value == "\x08":                                                                     # if BACKSPACE is clicked: remove last digit/character
             self.value = self.value[:-1]
         if len(self.value) > 0:
-            if self.input_type == int:
-                return int(self.value)   
-            else:
-                return self.value
+            if new_value == "\r":                                                               # if ENTER is clicked: return value
+                if self.input_type == int:
+                    return int(self.value)
+                else:
+                    return self.value
                 
     def draw(self, surface):
         if self.pressed == False:
-            pygame.draw.rect(surface, (255, 255, 255), self.rect) # white colour
+            settings.pygame.draw.rect(surface, (255, 255, 255), self.rect) # white colour
         else:
-            pygame.draw.rect(surface, (250, 250, 250), self.rect) # snow colour
-        self.valuetext = SMALLTEXT.render(str(self.value), True, (0, 0, 0)).convert_alpha()
+            settings.pygame.draw.rect(surface, (250, 250, 250), self.rect) # snow colour
+        self.valuetext = settings.SMALLTEXT.render(str(self.value), True, (0, 0, 0)).convert_alpha()
         self.valuetextrect = self.valuetext.get_rect()
         self.valuetextrect.center = (self.x, self.y)
         surface.blit(self.valuetext, self.valuetextrect)

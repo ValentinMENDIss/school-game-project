@@ -53,8 +53,6 @@ class Game:
         # CONFIGURING PYGAME
         self.SCREEN_FLAGS = pygame.HWSURFACE | pygame.DOUBLEBUF
         self.display_surface = pygame.display.set_mode((settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT), self.SCREEN_FLAGS)                                            # create screen with (x,y) (tuple)
-        # Create a black surface for fading (same size as screen/display_surface)
-        self.fade_surface = pygame.Surface(self.display_surface.get_size())
         pygame.display.set_caption("School-Game-Project(11. Grade)")                                                    # set/change title (caption) of the window
         self.clock = pygame.time.Clock()                                                                                # create a clock
         self.ticks = pygame.time.get_ticks()                                                                            # get ticks (needed in order to count how much time is gone)
@@ -78,7 +76,7 @@ class Game:
 
     def change_resolution(self, new_window_width, new_window_height):
         settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT = new_window_width, new_window_height
-        pygame.display.set_mode((settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT))
+        self.display_surface = pygame.display.set_mode((settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT), self.SCREEN_FLAGS)
 
     def import_assets(self):
         self.tmx_maps = {'world': load_pygame(os.path.join('..', 'data', 'maps', 'world.tmx')),                         # load world.tmx file (with given location of it)
@@ -169,6 +167,8 @@ class Game:
     def check_map_transition(self):                                                                                                           # check whether player is colliding with transition points
         sprites = [sprite for sprite in self.transition_sprites if sprite.rect.colliderect(self.player.hitbox)]
         if sprites:
+            # Create a black surface for fading (same size as screen/display_surface)
+            self.fade_surface = pygame.Surface(self.display_surface.get_size())
             self.transition_fade_in()
             self.transition_target = sprites[0].target
             self.setup(self.tmx_maps[self.transition_target[0]], self.transition_target[1])                                                   # import this one specific tileset (mapset/asset)
