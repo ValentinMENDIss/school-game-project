@@ -13,10 +13,6 @@ class HUD:
         self.initialized_time_text = False
         self.initialized_player_level_text = False
 
-        self.settings_button = Button(20, 20, scale=0.5, image=settings.UI_SETTINGS_IMG, hovered_image=settings.UI_SETTINGS_IMG)
-        self.inventory_button = Button (20, settings.WINDOW_HEIGHT - 20, scale=0.5, image=settings.UI_INVENTORY_IMG, hovered_image=settings.UI_INVENTORY_IMG)
-
-
     def add_item(self, item):
         self.items.append(item)
 
@@ -55,12 +51,12 @@ class HUD:
                 print("NEW_TIME_TEXT")
 
     def update_player_level_text(self, new_level_text):
-        if self.initialized_player_level_text == False:
-            self.old_level_text = f"Level: {self.player.level}"
-            self.leveltextfont = settings.HEADINGTEXT.render(self.old_level_text, True, (0, 0, 0)).convert_alpha()                             # render a Heading Text
-            self.leveltextrect = self.leveltextfont.get_rect()
-            self.leveltextrect.center = (settings.WINDOW_WIDTH / 2, settings.WINDOW_HEIGHT - 100)
-            self.initialized_player_level_text = True
+        #if self.initialized_player_level_text == False:
+        self.old_level_text = f"Level: {self.player.level}"
+        self.leveltextfont = settings.HEADINGTEXT.render(self.old_level_text, True, (0, 0, 0)).convert_alpha()                             # render a Heading Text
+        self.leveltextrect = self.leveltextfont.get_rect()
+        self.leveltextrect.center = (settings.WINDOW_WIDTH / 2, settings.WINDOW_HEIGHT - 100)
+        self.initialized_player_level_text = True
         
         if self.old_level_text != new_level_text:
             self.old_level_text = new_level_text
@@ -90,7 +86,9 @@ class HUD:
                 surface.blit(image, imagerect)
                 
     def draw_settings_button(self, surface):
+        self.settings_button = Button(20, 20, scale=0.5, image=settings.UI_SETTINGS_IMG, hovered_image=settings.UI_SETTINGS_IMG)
         self.settings_button.draw(surface)
         
     def draw_inventory_button(self, surface):
+        self.inventory_button = Button (20, settings.WINDOW_HEIGHT - 20, scale=0.5, image=settings.UI_INVENTORY_IMG, hovered_image=settings.UI_INVENTORY_IMG)
         self.inventory_button.draw(surface)
