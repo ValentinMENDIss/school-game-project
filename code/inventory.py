@@ -89,9 +89,9 @@ class Inventory:
         items_pos_y = items_pos_init_y
         for item in self.items:
             if item.name == "item-test":
-                item_image = ITEM_TEST.convert_alpha()
+                item_image = settings.ITEM_TEST.convert_alpha()
             elif item.name == "item-test2":
-                item_image = ITEM_TEST2.convert_alpha()
+                item_image = settings.ITEM_TEST2.convert_alpha()
             button = Button(items_pos_x , items_pos_y, scale=1, image=item_image)
             if self.initialized == False:
                 new_item_info = {button: {'item': item}}
