@@ -111,7 +111,7 @@ class Inventory:
 
         lines = info_text.splitlines()                                                                                   # Split the text into lines
         for line in lines:
-            width, height = SMALLTEXT.size(line)
+            width, height = settings.SMALLTEXT.size(line)
             text_height += height
             if width > text_width:
                 text_width = width
