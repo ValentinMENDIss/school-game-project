@@ -93,7 +93,7 @@ class Battle_Menu:
 
         damagetext = DAMAGETEXT.render(str(f"-{self.player_damage}"), True, (210,39,48)).convert_alpha()        # render an enemy text
         damagetextrect = damagetext.get_rect()
-        damagetextrect.center = (settings.WINDOW_WIDTH // 2 + 350, settings.WINDOW_HEIGHT // 2 - 150)
+        damagetextrect.center = (settings.WINDOW_WIDTH // 2 - 200, settings.WINDOW_HEIGHT // 2 - 150)
 
         surface.blit(damagetext, damagetextrect)
 #        if size >= 35:
@@ -145,7 +145,7 @@ class Battle_Menu:
         stamina = self.player_stamina
         staminatext = STAMINATEXT.render(str(stamina), True, (255,215,0)).convert_alpha()
         staminatextrect = staminatext.get_rect()
-        staminatextrect.center = (500, 500)
+        staminatextrect.center = (settings.WINDOW_WIDTH // 2 - 100, settings.WINDOW_HEIGHT - 220)
         surface.blit(staminatext, staminatextrect)
 
     def show_player_defence(self, surface):
@@ -154,7 +154,7 @@ class Battle_Menu:
         defence = self.player_defence
         defencetext = DEFENCETEXT.render(str(defence), True, (0,181,226)).convert_alpha()
         defencetextrect = defencetext.get_rect()
-        defencetextrect.center = (550, 500)
+        defencetextrect.center = (settings.WINDOW_WIDTH // 2 - 150, settings.WINDOW_HEIGHT - 220)
         surface.blit(defencetext, defencetextrect)
 
     def show_player_health(self, surface):
@@ -163,7 +163,7 @@ class Battle_Menu:
         health = self.player_health
         healthtext = HEALTHTEXT.render(str(health), True, (4,106,56)).convert_alpha()
         healthtextrect = healthtext.get_rect()
-        healthtextrect.center = (450, 500)
+        healthtextrect.center = (settings.WINDOW_WIDTH // 2 - 200, settings.WINDOW_HEIGHT - 220)
         surface.blit(healthtext, healthtextrect)
 
 
@@ -231,7 +231,7 @@ class Battle_Menu:
                 self.game.running = False
             if event.type == pygame.MOUSEBUTTONDOWN and not self.timer.active and not self.action:
                 if SURRENDER_BUTTON.checkForInput(MENU_MOUSE_POS):
-                    pygame.mixer.Sound.play(MENU_SOUND)
+                    pygame.mixer.Sound.play(settings.MENU_SOUND)
                     self.exit_battle()
                 if FIGHT_BUTTON.checkForInput(MENU_MOUSE_POS):
                     self.FightButtonMenu = True
