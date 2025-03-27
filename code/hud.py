@@ -12,6 +12,7 @@ class HUD:
         self.pos_x , self.pos_y = (settings.WINDOW_WIDTH // 2 - 20), (settings.WINDOW_HEIGHT // 2 - 85)
         self.initialized_time_text = False
         self.initialized_player_level_text = False
+        self.initialized_money_text = False
 
     def add_item(self, item):
         self.items.append(item)
@@ -31,6 +32,7 @@ class HUD:
         self.draw_player_health(surface)
         self.draw_settings_button(surface)
         self.draw_inventory_button(surface)
+        self.draw_player_money(surface)
         
     def update_time_text(self, new_time_text):
         if self.initialized_time_text == False:
@@ -66,6 +68,19 @@ class HUD:
             
             if self.game.debug:
                 print("NEW_LEVEL_TEXT")
+
+    def update_money_text(self, new_money_text):
+        if self.initialized_money_text == False:
+            self.old_money_text = f"Money: {self.player.money}"
+            self.moneytextfont = settings.HEADINGTEXT.render(self.old_money_text, True, (0, 0, 0)).convert_alpha()
+            self.moneytextrect = self.moneytextfont.get_rect()
+            self.moneytextrect.center = (200, settings.WINDOW_HEIGHT - 100)
+
+        if self.old_money_text != new_money_text:
+            self.old_money_text = new_money_text
+            self.moneytextfont = settings.HEADINGTEXT.render(self.old_money_text, True, (0, 0, 0)).convert_alpha()
+            self.moneytextrect = self.moneytextfont.get_rect()
+            self.moneytextrect.center = (200, settings.WINDOW_HEIGHT - 100)
         
     def draw_time(self, surface):
         time_text = self.game.game_time.get_time_12hr()
@@ -84,6 +99,11 @@ class HUD:
                 imagerect = image.get_frect()
                 imagerect.center = (settings.WINDOW_WIDTH / 2 , settings.WINDOW_HEIGHT - 50)
                 surface.blit(image, imagerect)
+
+    def draw_player_money(self, surface):
+        money_text = f"Money: {self.player.money}"
+        self.update_money_text(money_text)
+        surface.blit(self.moneytextfont, self.moneytextrect)
                 
     def draw_settings_button(self, surface):
         self.settings_button = Button(20, 20, scale=0.5, image=settings.UI_SETTINGS_IMG, hovered_image=settings.UI_SETTINGS_IMG)
