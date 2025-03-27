@@ -5,7 +5,7 @@ import random
 
 import settings
 from gamedata import NPC_ENEMY_INTERACT_DATA
-from button import Button
+from ui import Button
 from timer import Timer
 from savedata import change_player_data, load_saved_data
 

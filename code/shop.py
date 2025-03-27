@@ -1,7 +1,7 @@
 from inventory import Inventory
 from items import Items
 from settings import *
-from button import Button
+from ui import Button
 from timer import Timer
 
 class Shop:

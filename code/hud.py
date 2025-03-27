@@ -1,7 +1,7 @@
 ######### IMPORT ##############
 
 import settings
-from button import Button
+from ui import Button
 
 ######### CLASSes ############
 class HUD:

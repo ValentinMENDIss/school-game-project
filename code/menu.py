@@ -1,6 +1,6 @@
 ######### IMPORT ##############
 import settings
-from button import Button, Slider, InputBox
+from ui import Button, Slider, InputBox
 from input import *
 from savedata import save_data, default_data, load_saved_data
 
