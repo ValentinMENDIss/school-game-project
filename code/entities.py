@@ -22,7 +22,7 @@ from settings import *
 from dialog import Dialog
 from battle import Battle_Menu
 from timer import Timer
-from gamedata import NPC_ENEMY_DEFEATED_INTERACT_DATA, NPC_ENEMY_WON_INTERACT_DATA, NPC_DIALOG_1
+from gamedata import NPC_ENEMY_DEFEATED_INTERACT_DATA, NPC_ENEMY_WON_INTERACT_DATA, NPC_DIALOG_1, SIDE_QUESTS
 from savedata import load_saved_data, change_attribute
 from gamedata import NPC_INTERACT_DATA
 
@@ -45,6 +45,7 @@ class Player(pygame.sprite.Sprite):
         self.collision_rects = [sprite.rect for sprite in collision_sprites if sprite is not self]
         self.collision_sprites = collision_sprites
         self.speed = 250                                                                                                # in-game attribute for speed
+        self.active_quests = {}
 
         super().__init__(groups)                                                                                        # this subclass sets up the basic properties and methods that it inherits from its parent class (group)
         self.image = PLAYER_R[0].convert_alpha()                                                                        # assign image to the player # convert_alpha() function used to specify that the image should be rendered with alpha colors (for .png format)
@@ -194,14 +195,16 @@ class Player(pygame.sprite.Sprite):
 
 
 class NPC(pygame.sprite.Sprite):
-    def __init__(self, pos, groups, game, dialog_bool):
+    def __init__(self, name, pos, groups, game, dialog_bool):
         super().__init__(groups)
         self.game = game
         self.image = NPC_IDLE.convert_alpha()
         self.new_size_image = (self.image.get_width() * 4, self.image.get_height() * 4)                                 # declare new variable that has 4 times bigger scale than the player's image
         self.image = (pygame.transform.scale(self.image, self.new_size_image))
+        self.name = name
         self.rect = self.image.get_frect(center=pos)                                                                    # convert image to rectangle (needed for collision in the future), center is position that was provided during construction (__init__())
         self.pos = pos
+        self.side_quests = self.get_side_quests()
         self.z = WORLD_LAYERS['main']
         self.y_sort = self.rect.centery
         self.show_interact_text = False
@@ -209,7 +212,11 @@ class NPC(pygame.sprite.Sprite):
         self.timer = Timer()
         self.dialog = Dialog(self.pos, self.game)
         self.text = None
+        self.quest_assignable = False                                                                                   # flag/variable that stores bool type value, and determines whether entity can give quest to the player
 
+    def get_side_quests(self):
+        return SIDE_QUESTS.get(self.name, {})                                                                           # Retrieve the side quests from the SIDE_QUESTS dictionary located in gamedata.py based on the NPC's name
+ 
     def interactInRange(self, player_center, screen):
         player_distance = pygame.Vector2(self.game.player.rect.center).distance_to(self.rect.center)
         if player_distance < 200:
@@ -223,6 +230,7 @@ class NPC(pygame.sprite.Sprite):
 
     def interact(self, player_center):
         if self.timer.active == False and not self.timer.is_finished:
+            self.check_npc_can_assign_quest()
             self.timer.start(self.game.action_duration)
             self.dialog = Dialog(self.pos, self.game)
             self.text = self.game.get_random_interact_text(NPC_INTERACT_DATA)
@@ -238,15 +246,55 @@ class NPC(pygame.sprite.Sprite):
         else:
             self.dialog.interact(self.text, player_center, screen=self.game.display_surface)                                                                       # run dialogs' interact function, to show some text
 
+    def check_npc_can_assign_quest(self):
+        if self.game.game_time.game_time.hour >= 7:
+            self.quest_assignable = True
+
+        if self.quest_assignable:
+            for quest in self.side_quests:
+                quest_already_in_use = False
+                if len(self.game.player.active_quests) >= 1:
+                    for active_quest in self.game.player.active_quests[self.name]:
+                        if quest != active_quest: 
+                            pass
+                        elif quest == active_quest:
+                            quest_already_in_use = True
+                            continue
+                    if quest_already_in_use == False:
+                        self.add_quest(self.name, quest)
+                        return
+                else:
+                    self.add_quest(self.name, quest, empty_quests_log=True)
+                    return
+
+    def add_quest(self, npc_name, quest, empty_quests_log=False):
+        initialized_new_quest_dict = False
+
+        if empty_quests_log:
+            self.game.player.active_quests[npc_name] = [quest]
+            initialized_new_quest_dict = True
+        else:
+            for entity in self.game.player.active_quests:
+                if entity != npc_name:
+                    pass
+                elif entity == npc_name:
+                    continue
+                self.game.player.active_quests[npc_name] = [quest]    
+                initialized_new_quest_dict = True
+
+        if initialized_new_quest_dict == False:
+            self.game.player.active_quests[npc_name].append(quest)
+        print(f"New Quest Appended: {self.game.player.active_quests}")
+
 
 class NPC_Friendly(NPC):
-    def __init__(self, pos, groups, game, dialog_bool):
-        super().__init__(pos, groups, game, dialog_bool)
+    def __init__(self, name, pos, groups, game, dialog_bool):
+        super().__init__(name, pos, groups, game, dialog_bool)
 
 
 class NPC_Enemy(NPC):
-    def __init__(self, pos, groups, game, health=100, dialog_bool=False):
-        super().__init__(pos, groups, game, dialog_bool)
+    def __init__(self, name, pos, groups, game, health=100, dialog_bool=False):
+        super().__init__(name, pos, groups, game, dialog_bool)
         # ATTRIBUTES
         self.health = 100
         self.text = ""
@@ -282,8 +330,8 @@ class NPC_Enemy(NPC):
 
 
 class NPC_Shop(NPC):
-    def __init__(self, pos, groups, game, dialog_bool):
-        super().__init__(pos, groups, game, dialog_bool)
+    def __init__(self, name, pos, groups, game, dialog_bool):
+        super().__init__(name, pos, groups, game, dialog_bool)
         
     def interact(self):
         self.game.current_screen = "shop"

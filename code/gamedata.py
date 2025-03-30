@@ -94,3 +94,17 @@ ITEM_RARITY_DATA_LEGENDARY = {"health_mul": 1.5,
                               "stamina_mul": 1.5,
                               "damage_mul": 1.5,
                               "defence_mul": 1.5}
+
+## SIDE QUESTS ##
+SIDE_QUESTS = {                                                                 # perhaps NPCs should have own name, which will work as an ID to discover which NPC is which, and which side-quests can be triggered for them
+    "player-mother": {
+        "get-item": {
+            "info-text": "Get a random item and you will get a reward.",
+            "reward": 0.99,
+        },
+        "interact_npc": {
+            "info-text": "Try to interact with someone and you will get a reward.",
+            "reward": 1.25,
+        }
+    } 
+}

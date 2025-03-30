@@ -124,15 +124,15 @@ class Game:
             if obj.name == 'Character':
                 if obj.properties['enemy'] == False:
                     if obj.properties['dialog']:
-                        self.npc = NPC_Friendly((obj.x, obj.y), self.all_sprites, game=self, dialog_bool=True)
+                        self.npc = NPC_Friendly(obj.properties['entity-name'], (obj.x, obj.y), self.all_sprites, game=self, dialog_bool=True)
                     else:
-                        self.npc = NPC_Friendly((obj.x, obj.y), self.all_sprites, game=self, dialog_bool=False)
+                        self.npc = NPC_Friendly(obj.properties['entity-name'], (obj.x, obj.y), self.all_sprites, game=self, dialog_bool=False)
                     self.npcs_on_current_screen.append(self.npc)
                 if obj.properties['enemy']:
-                    self.npc_enemy = NPC_Enemy((obj.x, obj.y), self.all_sprites, game=self, dialog_bool=False)
+                    self.npc_enemy = NPC_Enemy(obj.properties['entity-name'], (obj.x, obj.y), self.all_sprites, game=self, dialog_bool=False)
                     self.npcs_on_current_screen.append(self.npc_enemy)
                 if obj.properties['shop'] == True:
-                    self.npc_shop = NPC_Shop((obj.x, obj.y), self.all_sprites, game=self, dialog_bool=False)
+                    self.npc_shop = NPC_Shop(obj.properties['entity-name'], (obj.x, obj.y), self.all_sprites, game=self, dialog_bool=False)
                     self.npcs_on_current_screen.append(self.npc_shop)
 
         # GET ITEMS' POSITION
