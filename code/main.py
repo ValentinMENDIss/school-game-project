@@ -183,8 +183,6 @@ class Game:
     def check_map_transition(self):                                                                                                           # check whether player is colliding with transition points
         sprites = [sprite for sprite in self.transition_sprites if sprite.rect.colliderect(self.player.hitbox)]
         if sprites:
-            # Create a black surface for fading (same size as screen/display_surface)
-            self.fade_surface = pygame.Surface(self.display_surface.get_size())
             self.transition_fade_in()
             self.transition_target = sprites[0].target
             self.setup(self.tmx_maps[self.transition_target[0]], self.transition_target[1])                                                   # import this one specific tileset (mapset/asset)
@@ -193,6 +191,8 @@ class Game:
     def transition_fade_in(self):
         alpha = 0
         while alpha < 255:
+            # Create a black surface for fading (same size as screen/display_surface)
+            self.fade_surface = pygame.Surface(self.display_surface.get_size())
             self.handle_game_events()
             self.fade_surface.set_alpha(alpha)
             self.display_surface.blit(self.fade_surface, (0, 0))
@@ -203,6 +203,8 @@ class Game:
     def transition_fade_out(self):
         alpha = 255
         while alpha > 0:
+            # Create a black surface for fading (same size as screen/display_surface)
+            self.fade_surface = pygame.Surface(self.display_surface.get_size())
             self.handle_game_events()
             self.render_new_game_world()
             self.fade_surface.set_alpha(alpha)
@@ -219,8 +221,8 @@ class Game:
             self.handle_game_events()
             if not self.is_running:
                 break
-            self.update_game_state()
             self.render_game_world()
+            self.update_game_state()
             if self.current_screen == "game":
                 self.process_interactions()
                 self.handle_music_system()
@@ -292,6 +294,7 @@ class Game:
             play_cutscene(self.display_surface, "intro")
             self.show_cutscene = False
             self.current_screen = "game"
+            self.transition_fade_out()
             self.game_time.pause_game_time(self.clock.tick() / 1000)
         elif self.current_screen == "shop":
             self.shop.display_shop(self.display_surface)

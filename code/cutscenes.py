@@ -25,7 +25,7 @@ cutscene_data = {
     "intro": {
         "images": [
             None,
-            None,
+            settings.PICKUP_SOUND,
             None,
             None,
             None,
@@ -49,7 +49,20 @@ cutscene_data = {
             "HELLO!???",
             "it's time to wake up!",
         ],
-        "music": None
+        "music": None,
+        "audio": [
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+        ],
     },
     "intro-tutorial": {
         "images": [
@@ -74,7 +87,20 @@ cutscene_data = {
             "From here on I will not interrupt anymore.",
             "Have fun in this humble game :3",
         ],
-        "music": os.path.join('..', 'data', 'music', 'soft-piano-live-drums-music.mp3')
+        "music": os.path.join('..', 'data', 'music', 'soft-piano-live-drums-music.mp3'),
+        "audio": [
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+        ], 
     },
     "tutorial":{
         "images": [
@@ -91,23 +117,43 @@ cutscene_data = {
             "To move right press",
             "To interact with an NPC press",
             ],
-        "music": os.path.join('..', 'data', 'music', 'soft-piano-live-drums-music.mp3')
-        }
+        "music": os.path.join('..', 'data', 'music', 'soft-piano-live-drums-music.mp3'),
+        "audio": [
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+        ],
+        },
     
 }
+
+WHITE_COLOR = (255, 255, 255)
+BLACK_COLOR = (0, 0, 0)
 
 def play_cutscene(surface, location):
     data = cutscene_data[location]
     images_data = data["images"]
     text_data = data["text"]
     music_data = data["music"]
+    audio_data = data["audio"]
 
     if music_data:
         music_player.play(music_data)
     
     if location == "intro":
         for idx, image in enumerate(images_data):
-            surface.fill((255, 255, 255))
+            print(f"{idx}, {audio_data[idx]}")
+            #if audio_data[idx] != None:
+            #    settings.pygame.mixer.Sound(audio_data[idx])
+            surface.fill(BLACK_COLOR)
             if image:
                 image_rect = image.get_rect()
                 image_width, image_height = image.get_size()
@@ -132,7 +178,7 @@ def play_cutscene(surface, location):
         music_player.stop_music()
         
 def draw_text(surface, idx, text_data):
-    text_surface = settings.SMALLTEXT.render(text_data[idx], True, (0, 0, 0)).convert_alpha()
+    text_surface = settings.SMALLTEXT.render(text_data[idx], True, (WHITE_COLOR)).convert_alpha()
     text_surface_rect = text_surface.get_rect()
     text_surface_rect.center = (settings.WINDOW_WIDTH // 2, 500)
     surface.blit(text_surface, text_surface_rect)
