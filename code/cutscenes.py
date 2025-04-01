@@ -25,7 +25,7 @@ cutscene_data = {
     "intro": {
         "images": [
             None,
-            settings.PICKUP_SOUND,
+            None,
             None,
             None,
             None,
@@ -52,7 +52,7 @@ cutscene_data = {
         "music": None,
         "audio": [
             None,
-            None,
+            settings.PICKUP_SOUND,
             None,
             None,
             None,
@@ -131,8 +131,7 @@ cutscene_data = {
             None,
             None,
         ],
-        },
-    
+    },
 }
 
 WHITE_COLOR = (255, 255, 255)
@@ -151,8 +150,9 @@ def play_cutscene(surface, location):
     if location == "intro":
         for idx, image in enumerate(images_data):
             print(f"{idx}, {audio_data[idx]}")
-            #if audio_data[idx] != None:
-            #    settings.pygame.mixer.Sound(audio_data[idx])
+            if audio_data[idx] != None:
+                audio = settings.pygame.mixer.Sound(audio_data[idx])
+                audio.play()
             surface.fill(BLACK_COLOR)
             if image:
                 image_rect = image.get_rect()
