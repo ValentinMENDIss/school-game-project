@@ -149,7 +149,6 @@ def play_cutscene(surface, location):
     
     if location == "intro":
         for idx, image in enumerate(images_data):
-            print(f"{idx}, {audio_data[idx]}")
             if audio_data[idx] != None:
                 audio = settings.pygame.mixer.Sound(audio_data[idx])
                 audio.play()

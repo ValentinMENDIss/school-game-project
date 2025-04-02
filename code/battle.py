@@ -109,7 +109,7 @@ class Battle_Menu:
 
         damagetext = DAMAGETEXT.render(str(f"-{self.player_damage}"), True, (210,39,48)).convert_alpha()        # render an enemy text
         damagetextrect = damagetext.get_rect()
-        damagetextrect.center = (settings.WINDOW_WIDTH // 2 - 200, settings.WINDOW_HEIGHT // 2 - 150)
+        damagetextrect.center = (settings.WINDOW_WIDTH // 2 + 350, 220)
 
         surface.blit(damagetext, damagetextrect)
 #        if size >= 35:
@@ -121,7 +121,7 @@ class Battle_Menu:
 
         damagetext = DAMAGETEXT.render(str(f"-{self.enemy_damage}"), True, (210,39,48)).convert_alpha()        # render an enemy text
         damagetextrect = damagetext.get_rect()
-        damagetextrect.center = (450, 450)
+        damagetextrect.center = (340, settings.WINDOW_HEIGHT - 250)
 
         surface.blit(damagetext, damagetextrect)
 
@@ -161,7 +161,7 @@ class Battle_Menu:
         stamina = self.player_stamina
         staminatext = STAMINATEXT.render(str(stamina), True, (255,215,0)).convert_alpha()
         staminatextrect = staminatext.get_rect()
-        staminatextrect.center = (settings.WINDOW_WIDTH // 2 - 100, settings.WINDOW_HEIGHT - 220)
+        staminatextrect.center = (440, settings.WINDOW_HEIGHT - 220)
         surface.blit(staminatext, staminatextrect)
 
     def show_player_defence(self, surface):
@@ -170,7 +170,7 @@ class Battle_Menu:
         defence = self.player_defence
         defencetext = DEFENCETEXT.render(str(defence), True, (0,181,226)).convert_alpha()
         defencetextrect = defencetext.get_rect()
-        defencetextrect.center = (settings.WINDOW_WIDTH // 2 - 150, settings.WINDOW_HEIGHT - 220)
+        defencetextrect.center = (390, settings.WINDOW_HEIGHT - 220)
         surface.blit(defencetext, defencetextrect)
 
     def show_player_health(self, surface):
@@ -179,7 +179,7 @@ class Battle_Menu:
         health = self.player_health
         healthtext = HEALTHTEXT.render(str(health), True, (4,106,56)).convert_alpha()
         healthtextrect = healthtext.get_rect()
-        healthtextrect.center = (settings.WINDOW_WIDTH // 2 - 200, settings.WINDOW_HEIGHT - 220)
+        healthtextrect.center = (340, settings.WINDOW_HEIGHT - 220)
         surface.blit(healthtext, healthtextrect)
 
 
@@ -212,11 +212,11 @@ class Battle_Menu:
 
         headingtext = settings.HEADINGTEXT.render(heading_text, True, (0, 0, 0)).convert_alpha()  # render a Small Text
         headingtextrect = headingtext.get_rect()                                                              # get a Rectangle of the small Text ( needed, to be able to place the text precisely )
-        headingtextrect.center = (settings.WINDOW_WIDTH // 2, settings.WINDOW_HEIGHT // 2 - 250)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
+        headingtextrect.center = (settings.WINDOW_WIDTH // 2, 100)                                     # Place a Text in the Center of the screen ( X-Coordinates ) and Bottom of the screen ( Y-Coordinates )
 
         enemytext = settings.SMALLTEXT.render(self.enemytext, True, (0, 0, 0)).convert_alpha()        # render an enemy text
         enemytextrect = enemytext.get_rect()
-        enemytextrect.center = (settings.WINDOW_WIDTH // 2 + 350, settings.WINDOW_HEIGHT // 2 - 100)
+        enemytextrect.center = (settings.WINDOW_WIDTH // 2 + 350, 250)
 
         enemyhealthtext = settings.HEADINGTEXT.render(str(self.enemy_health), True, (4,106,56)).convert_alpha()        # render an enemy text
         enemyhealthtextrect = enemyhealthtext.get_rect()
