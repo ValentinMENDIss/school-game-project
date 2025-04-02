@@ -18,8 +18,10 @@ import settings
 from timer import Timer
 from music import Music
 from entities import *
+
 music_player = Music()
 timer = Timer()
+
 
 cutscene_data = {
     "intro": {
@@ -63,6 +65,7 @@ cutscene_data = {
             None,
             None,
         ],
+        "render-game": False,
     },
     "intro-tutorial": {
         "images": [
@@ -101,6 +104,7 @@ cutscene_data = {
             None,
             None,
         ], 
+        "render-game": False,
     },
     "tutorial":{
         "images": [
@@ -131,18 +135,20 @@ cutscene_data = {
             None,
             None,
         ],
+        "render-game": False,
     },
 }
 
 WHITE_COLOR = (255, 255, 255)
 BLACK_COLOR = (0, 0, 0)
 
-def play_cutscene(surface, location):
+def play_cutscene(game, surface, location):
     data = cutscene_data[location]
     images_data = data["images"]
     text_data = data["text"]
     music_data = data["music"]
     audio_data = data["audio"]
+    render_game_bool = data["render-game"]
 
     if music_data:
         music_player.play(music_data)
@@ -152,7 +158,15 @@ def play_cutscene(surface, location):
             if audio_data[idx] != None:
                 audio = settings.pygame.mixer.Sound(audio_data[idx])
                 audio.play()
-            surface.fill(BLACK_COLOR)
+            if render_game_bool:
+                # Create a black surface for fading (same size as screen/display_surface)
+                fade_surface = settings.pygame.Surface(game.display_surface.get_size())
+                game.handle_game_events()
+                game.render_new_game_world()
+                settings.pygame.display.flip()
+                game.clock.tick(game.fps_lock) 
+            else:
+                surface.fill(BLACK_COLOR)
             if image:
                 image_rect = image.get_rect()
                 image_width, image_height = image.get_size()

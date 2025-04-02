@@ -291,7 +291,7 @@ class Game:
                 self.display_menu()
             self.game_time.pause_game_time(self.clock.tick() / 1000)
         elif self.current_screen == "cutscene":
-            play_cutscene(self.display_surface, "intro")
+            play_cutscene(game=self, surface=self.display_surface, location="intro")
             self.show_cutscene = False
             self.current_screen = "game"
             self.transition_fade_out()
