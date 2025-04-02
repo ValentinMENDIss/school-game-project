@@ -158,9 +158,17 @@ def play_cutscene(game, surface, location):
             if audio_data[idx] != None:
                 audio = settings.pygame.mixer.Sound(audio_data[idx])
                 audio.play()
+            ##############################################################
+            # Testing: Moving NPC in Cutscene(while rendering game)
+            ##############################################################
+            #if idx == 2:
+            #    for npc in game.npcs_on_current_screen:
+            #        if npc.name == "player-mother":
+            #            npc.rect.centerx += 100
+            ##############################################################
             if render_game_bool:
                 game.handle_game_events()
-                game.render_new_game_world()
+                game.render_new_game_world(draw_hud=False)
                 settings.pygame.display.flip()
                 game.clock.tick(game.fps_lock) 
             else:

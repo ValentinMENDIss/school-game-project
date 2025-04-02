@@ -252,7 +252,7 @@ class Game:
         self.check_map_transition() # check for map tps (teleport points/transitions)
         self.all_sprites.update(dt) # update all sprites
 
-    def render_new_game_world(self):
+    def render_new_game_world(self, draw_hud=True):
         self.display_surface.fill((173, 216, 230))
         self.display_surface.blit(
             self.background_layer,
@@ -260,8 +260,9 @@ class Game:
             -(self.player.rect.center[1] - settings.WINDOW_HEIGHT / 2))
         )
         self.all_sprites.draw(self.player.rect.center)
-        self.hud.draw(self.display_surface)
-        self.hud.draw_time(self.display_surface)
+        if draw_hud:
+            self.hud.draw(self.display_surface)
+            self.hud.draw_time(self.display_surface)
 
     def render_game_world(self):
         if self.current_screen == "game":
