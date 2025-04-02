@@ -159,8 +159,6 @@ def play_cutscene(game, surface, location):
                 audio = settings.pygame.mixer.Sound(audio_data[idx])
                 audio.play()
             if render_game_bool:
-                # Create a black surface for fading (same size as screen/display_surface)
-                fade_surface = settings.pygame.Surface(game.display_surface.get_size())
                 game.handle_game_events()
                 game.render_new_game_world()
                 settings.pygame.display.flip()
