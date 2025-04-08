@@ -121,6 +121,7 @@
    <properties>
     <property name="dialog" type="bool" value="false"/>
     <property name="enemy" type="bool" value="false"/>
+    <property name="entity-name" value="interact-npc"/>
     <property name="pos" value="top-right"/>
     <property name="shop" type="bool" value="false"/>
    </properties>

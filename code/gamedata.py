@@ -102,7 +102,7 @@ SIDE_QUESTS = {                                                                 
             "info-text": "Get a random item and you will get a reward.",
             "reward": 0.99,
         },
-        "interact_npc": {
+        "interact-npc": {
             "info-text": "Try to interact with someone and you will get a reward.",
             "reward": 1.25,
         }

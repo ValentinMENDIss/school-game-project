@@ -63,6 +63,7 @@
    <properties>
     <property name="dialog" type="bool" value="false"/>
     <property name="enemy" type="bool" value="true"/>
+    <property name="entity-name" value="enemy2"/>
     <property name="pos" value="mid-left"/>
     <property name="shop" type="bool" value="false"/>
    </properties>
