@@ -32,7 +32,7 @@ from input import *
 from timer import Timer
 from music import Music
 from gametime import GameTime
-from cutscenes import play_cutscene
+from cutscenes import play_cutscene, choose_cutscene
 from shop import *
 
 import cProfile
@@ -84,6 +84,8 @@ class Game:
 
         self.transition_target = 0
         self.dt = 0
+
+        self.cutscene_order = 0
 
         self.import_assets()                                                                                            # import tilesets (assets)
         # DEBUGGING VARIABLEs
@@ -293,7 +295,8 @@ class Game:
                 self.display_menu()
             self.game_time.pause_game_time(self.clock.tick() / 1000)
         elif self.current_screen == "cutscene":
-            play_cutscene(game=self, surface=self.display_surface, location="intro", dt=self.dt)
+            play_cutscene(game=self, surface=self.display_surface, location=choose_cutscene(self.cutscene_order), dt=self.dt)
+            self.cutscene_order += 1
             self.show_cutscene = False
             self.current_screen = "game"
             self.transition_fade_out()

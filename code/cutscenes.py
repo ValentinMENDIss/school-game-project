@@ -25,6 +25,7 @@ timer = Timer()
 
 cutscene_data = {
     "intro": {
+        "id": 0,
         "images": [
             None,
             None,
@@ -68,6 +69,7 @@ cutscene_data = {
         "render-game": False,
     },
     "intro-mother1": {
+        "id": 1,
         "images": [
             None,
             None,
@@ -90,6 +92,7 @@ cutscene_data = {
         "render-game": True,
     },
     "intro-tutorial": {
+        "id": None,
         "images": [
             settings.pygame.image.load(os.path.join('..', 'graphics', 'player', 'idle', 'player_idle.png')),
             settings.pygame.image.load(os.path.join('..', 'graphics', 'player', 'idle', 'player_idle.png')),
@@ -129,6 +132,7 @@ cutscene_data = {
         "render-game": False,
     },
     "tutorial":{
+        "id": None,
         "images": [
             settings.pygame.image.load(os.path.join('..','graphics','tutorial','arrowkey_up.png')),
             settings.pygame.image.load(os.path.join('..','graphics','tutorial','arrowkey_down.png')),
@@ -163,7 +167,15 @@ cutscene_data = {
 
 WHITE_COLOR = (255, 255, 255)
 BLACK_COLOR = (0, 0, 0)
-   
+
+
+def choose_cutscene(cutscene_order):
+    for location in cutscene_data:
+        if cutscene_data[location]["id"] == cutscene_order:
+            return location
+        else:
+            pass
+
 def play_cutscene(game, surface, location, dt):
     data = cutscene_data[location]
     images_data = data["images"]
@@ -180,10 +192,14 @@ def play_cutscene(game, surface, location, dt):
         ##############################################################
         # Testing: Moving NPC in Cutscene(while rendering game)
         ##############################################################
-        #if location = "intro":
+        #if location == "intro":
         #    if idx == 2:
         #    npc_move(game, dt, move_x=10, move_y=0)
         ##############################################################
+        if location == "intro-mother1":
+            if idx == 1:
+                npc_move(game, dt, move_x=10, move_y=0)
+
         if render_game_bool:
             render_game(game)
         else:
