@@ -175,34 +175,30 @@ def play_cutscene(game, surface, location, dt):
     if music_data:
         music_player.play(music_data)
     
-    if location == "intro":
-        for idx, image in enumerate(images_data):
-            check_audio(audio_data, idx)
-            ##############################################################
-            # Testing: Moving NPC in Cutscene(while rendering game)
-            ##############################################################
-            #if idx == 2:
-            #    npc_move(game, dt, move_x=10, move_y=0)
-            ##############################################################
-            if render_game_bool:
-                render_game(game)
-            else:
-                surface.fill(BLACK_COLOR)
-            if image:
-                draw_image(image, scaler)
-            if text_data:
-                draw_text(surface, idx, text_data)
-            settings.pygame.display.update()
-            timer.start(3000, loop=True)                                                       # set timer for 'n' ms
-            while timer.is_finished == False:
-                timer.update()                                                              # update timer's state
-                events()
-        music_player.stop_music()
+    for idx, image in enumerate(images_data):
+        check_audio(audio_data, idx)
+        ##############################################################
+        # Testing: Moving NPC in Cutscene(while rendering game)
+        ##############################################################
+        #if location = "intro":
+        #    if idx == 2:
+        #    npc_move(game, dt, move_x=10, move_y=0)
+        ##############################################################
+        if render_game_bool:
+            render_game(game)
+        else:
+            surface.fill(BLACK_COLOR)
+        if image:
+            draw_image(image, scaler)
+        if text_data:
+            draw_text(surface, idx, text_data)
+        settings.pygame.display.update()
+        timer.start(3000, loop=True)                                                       # set timer for 'n' ms
+        while timer.is_finished == False:
+            timer.update()                                                              # update timer's state
+            events()
+    music_player.stop_music()
 
-    if location == "intro-mother1":
-        for idx, image in enumarate(images_data):
-            check_audio(audio_data, idx)
-        
 
 def events():
     for event in settings.pygame.event.get():
