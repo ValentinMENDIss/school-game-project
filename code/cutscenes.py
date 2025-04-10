@@ -67,6 +67,28 @@ cutscene_data = {
         ],
         "render-game": False,
     },
+    "intro-mother1": {
+        "images": [
+            None,
+            None,
+            None,
+            None
+        ],
+        "text": [
+            "Wake up my dear!",
+            "Did you forget?"
+            "It's your first day in school today",
+            "Come on, we need to go faster, we are already late"
+        ],
+        "music": None,
+        "audio": [
+            None,
+            None,
+            None,
+            None
+        ],
+        "render-game": True,
+    },
     "intro-tutorial": {
         "images": [
             settings.pygame.image.load(os.path.join('..', 'graphics', 'player', 'idle', 'player_idle.png')),
@@ -155,9 +177,7 @@ def play_cutscene(game, surface, location, dt):
     
     if location == "intro":
         for idx, image in enumerate(images_data):
-            if audio_data[idx] != None:
-                audio = settings.pygame.mixer.Sound(audio_data[idx])
-                audio.play()
+            check_audio(audio_data, idx)
             ##############################################################
             # Testing: Moving NPC in Cutscene(while rendering game)
             ##############################################################
@@ -169,33 +189,48 @@ def play_cutscene(game, surface, location, dt):
             else:
                 surface.fill(BLACK_COLOR)
             if image:
-                image_rect = image.get_rect()
-                image_width, image_height = image.get_size()
-                scaler = 4
-                new_width = int(image_width * scaler)
-                new_height = int(image_height * scaler)
-                scaled_image = settings.pygame.transform.scale(image,(new_height,new_width))
-                image_rect.center = (settings.WINDOW_WIDTH // 2.18, settings.WINDOW_HEIGHT // 2.2)
-                surface.blit(scaled_image, image_rect)
+                draw_image(image, scaler)
             if text_data:
                 draw_text(surface, idx, text_data)
             settings.pygame.display.update()
             timer.start(3000, loop=True)                                                       # set timer for 'n' ms
             while timer.is_finished == False:
                 timer.update()                                                              # update timer's state
-                for event in settings.pygame.event.get():
-                    if event.type == settings.pygame.QUIT:
-                        settings.pygame.quit()
-                    if event.type == settings.pygame.KEYDOWN:
-                        if event.key ==  settings.pygame.K_e:
-                            timer.is_finished = True
+                events()
         music_player.stop_music()
+
+    if location == "intro-mother1":
+        for idx, image in enumarate(images_data):
+            check_audio(audio_data, idx)
         
+
+def events():
+    for event in settings.pygame.event.get():
+        if event.type == settings.pygame.QUIT:
+            settings.pygame.quit()
+        if event.type == settings.pygame.KEYDOWN:
+            if event.key ==  settings.pygame.K_e:
+                timer.is_finished = True
+
 def draw_text(surface, idx, text_data):
     text_surface = settings.SMALLTEXT.render(text_data[idx], True, (WHITE_COLOR)).convert_alpha()
     text_surface_rect = text_surface.get_rect()
     text_surface_rect.center = (settings.WINDOW_WIDTH // 2, 500)
     surface.blit(text_surface, text_surface_rect)
+
+def draw_image(image, scaler):
+    image_rect = image.get_rect()
+    image_width, image_height = image.get_size()
+    new_width = int(image_width * scaler)
+    new_height = int(image_height * scaler)
+    scaled_image = settings.pygame.transform.scale(image,(new_height,new_width))
+    image_rect.center = (settings.WINDOW_WIDTH // 2.18, settings.WINDOW_HEIGHT // 2.2)
+    surface.blit(scaled_image, image_rect)
+
+def check_audio(audio_data, idx):
+    if audio_data[idx] != None:
+        audio = settings.pygame.mixer.Sound(audio_data[idx])
+        audio.play()
 
 def render_game(game):
     game.handle_game_events()
