@@ -295,12 +295,13 @@ class Game:
                 self.display_menu()
             self.game_time.pause_game_time(self.clock.tick() / 1000)
         elif self.current_screen == "cutscene":
-            play_cutscene(game=self, surface=self.display_surface, location=choose_cutscene(self.cutscene_order), dt=self.dt)
+            play_cutscene(game=self, surface=self.display_surface, location=choose_cutscene(self.cutscene_order))
             self.cutscene_order += 1
-            self.show_cutscene = False
-            self.current_screen = "game"
-            self.transition_fade_out()
-            self.game_time.pause_game_time(self.clock.tick() / 1000)
+            if self.cutscene_order != 1:
+                self.show_cutscene = False
+                self.current_screen = "game"
+                self.transition_fade_out()
+                self.game_time.pause_game_time(self.clock.tick() / 1000)
         elif self.current_screen == "shop":
             self.shop.display_shop(self.display_surface)
 

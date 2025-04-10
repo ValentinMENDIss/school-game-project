@@ -78,7 +78,7 @@ cutscene_data = {
         ],
         "text": [
             "Wake up my dear!",
-            "Did you forget?"
+            "Did you forget?",
             "It's your first day in school today",
             "Come on, we need to go faster, we are already late"
         ],
@@ -176,7 +176,7 @@ def choose_cutscene(cutscene_order):
         else:
             pass
 
-def play_cutscene(game, surface, location, dt):
+def play_cutscene(game, surface, location):
     data = cutscene_data[location]
     images_data = data["images"]
     text_data = data["text"]
@@ -197,8 +197,9 @@ def play_cutscene(game, surface, location, dt):
         #    npc_move(game, dt, move_x=10, move_y=0)
         ##############################################################
         if location == "intro-mother1":
+            clock = pygame.time.Clock()
             if idx == 1:
-                npc_move(game, dt, move_x=10, move_y=0)
+                npc_move(game, clock, move_x=50, move_y=0)
 
         if render_game_bool:
             render_game(game)
@@ -250,13 +251,13 @@ def render_game(game):
     settings.pygame.display.flip()
     game.clock.tick(game.fps_lock) 
 
-def npc_move(game, dt, move_x=0, move_y=0):
+def npc_move(game, clock, move_x=0, move_y=0):
     for npc in game.npcs_on_current_screen:
         if npc.name == "player-mother":
-            new_pos_x = 10
-            while new_pos_x >= 0:
+            while move_x > 0:
+                dt = clock.tick(game.fps_lock) / 1000
                 npc.move(dt, direction_x=1)
-                new_pos_x -= 1
+                move_x -= 1
                 game.handle_game_events()
                 game.render_new_game_world(draw_hud=False)
                 settings.pygame.display.flip()
