@@ -213,6 +213,11 @@ class NPC(pygame.sprite.Sprite):
         self.dialog = Dialog(self.pos, self.game)
         self.text = None
         self.quest_assignable = False                                                                                   # flag/variable that stores bool type value, and determines whether entity can give quest to the player
+        self.speed = 250
+
+    def move(self, dt, direction_x=0, direction_y=0):
+        self.rect.centerx += direction_x * self.speed * dt                                                                   # multiplying by dt = delta time (difference from last and next frame), so that our movement will be frame speed independent. It means it will not get faster or slower if fps changes.
+        self.rect.centery += direction_y * self.speed * dt
 
     def get_side_quests(self):
         return SIDE_QUESTS.get(self.name, {})                                                                           # Retrieve the side quests from the SIDE_QUESTS dictionary located in gamedata.py based on the NPC's name

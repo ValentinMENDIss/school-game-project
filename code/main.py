@@ -83,6 +83,7 @@ class Game:
         self.transition_sprites = pygame.sprite.Group()
 
         self.transition_target = 0
+        self.dt = 0
 
         self.import_assets()                                                                                            # import tilesets (assets)
         # DEBUGGING VARIABLEs
@@ -246,11 +247,11 @@ class Game:
 
 
     def update_game_state(self):
-        dt = self.clock.tick(self.fps_lock) / 1000
+        self.dt = self.clock.tick(self.fps_lock) / 1000
         self.game_time.update()
         self.input.update()  # check user's input
         self.check_map_transition() # check for map tps (teleport points/transitions)
-        self.all_sprites.update(dt) # update all sprites
+        self.all_sprites.update(self.dt) # update all sprites
 
     def render_new_game_world(self, draw_hud=True):
         self.display_surface.fill((173, 216, 230))
@@ -292,7 +293,7 @@ class Game:
                 self.display_menu()
             self.game_time.pause_game_time(self.clock.tick() / 1000)
         elif self.current_screen == "cutscene":
-            play_cutscene(game=self, surface=self.display_surface, location="intro")
+            play_cutscene(game=self, surface=self.display_surface, location="intro", dt=self.dt)
             self.show_cutscene = False
             self.current_screen = "game"
             self.transition_fade_out()

@@ -141,8 +141,8 @@ cutscene_data = {
 
 WHITE_COLOR = (255, 255, 255)
 BLACK_COLOR = (0, 0, 0)
-
-def play_cutscene(game, surface, location):
+   
+def play_cutscene(game, surface, location, dt):
     data = cutscene_data[location]
     images_data = data["images"]
     text_data = data["text"]
@@ -162,15 +162,10 @@ def play_cutscene(game, surface, location):
             # Testing: Moving NPC in Cutscene(while rendering game)
             ##############################################################
             #if idx == 2:
-            #    for npc in game.npcs_on_current_screen:
-            #        if npc.name == "player-mother":
-            #            npc.rect.centerx += 100
+            #    npc_move(game, dt, move_x=10, move_y=0)
             ##############################################################
             if render_game_bool:
-                game.handle_game_events()
-                game.render_new_game_world(draw_hud=False)
-                settings.pygame.display.flip()
-                game.clock.tick(game.fps_lock) 
+                render_game(game)
             else:
                 surface.fill(BLACK_COLOR)
             if image:
@@ -201,3 +196,22 @@ def draw_text(surface, idx, text_data):
     text_surface_rect = text_surface.get_rect()
     text_surface_rect.center = (settings.WINDOW_WIDTH // 2, 500)
     surface.blit(text_surface, text_surface_rect)
+
+def render_game(game):
+    game.handle_game_events()
+    game.render_new_game_world(draw_hud=False)
+    settings.pygame.display.flip()
+    game.clock.tick(game.fps_lock) 
+
+def npc_move(game, dt, move_x=0, move_y=0):
+    for npc in game.npcs_on_current_screen:
+        if npc.name == "player-mother":
+            new_pos_x = 10
+            while new_pos_x >= 0:
+                npc.move(dt, direction_x=1)
+                new_pos_x -= 1
+                game.handle_game_events()
+                game.render_new_game_world(draw_hud=False)
+                settings.pygame.display.flip()
+                game.clock.tick(game.fps_lock)
+
