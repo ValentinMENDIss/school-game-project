@@ -225,14 +225,16 @@ class Game:
             if not self.is_running:
                 break
             self.render_game_world()
+            for npc in self.npcs_on_current_screen:
+                npc.interactInRange(self.player.rect, self.display_surface)
             self.update_game_state()
+            if self.debug:
+                self.run_debug()
             if self.current_screen == "game":
                 self.process_interactions()
                 self.handle_music_system()
-            if self.debug:
-                self.run_debug()
-            pygame.display.flip()
-                        
+            pygame.display.flip()                        
+
     def run_debug(self):
         print(self.clock.get_fps())
 
@@ -314,7 +316,6 @@ class Game:
         else:
             pass
 
-
     def process_interactions(self):
         # INTERACTION/ACTION HANDLING
         if self.action:                                                                                   # check whether interact condition is true or not (bool check)
@@ -323,10 +324,6 @@ class Game:
                     item.pickup_logic(self.player.rect.center)
             elif self.action == "npc":
                 self.process_npc_interactions()
-
-        for npc in self.npcs_on_current_screen:
-            npc.interactInRange(self.player.rect, self.display_surface)
-
 
     def process_npc_interactions(self):
         if isinstance(self.npc_interact, NPC_Friendly):

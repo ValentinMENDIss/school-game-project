@@ -216,9 +216,9 @@ class NPC(pygame.sprite.Sprite):
         self.speed = 250
 
     def move(self, dt, direction_x=0, direction_y=0):
-        print(dt)
         self.rect.centerx += direction_x * self.speed * dt                                                                   # multiplying by dt = delta time (difference from last and next frame), so that our movement will be frame speed independent. It means it will not get faster or slower if fps changes.
         self.rect.centery += direction_y * self.speed * dt
+        self.pos = (self.rect.centerx, self.rect.centery)
 
     def get_side_quests(self):
         return SIDE_QUESTS.get(self.name, {})                                                                           # Retrieve the side quests from the SIDE_QUESTS dictionary located in gamedata.py based on the NPC's name
