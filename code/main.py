@@ -225,8 +225,7 @@ class Game:
             if not self.is_running:
                 break
             self.render_game_world()
-            for npc in self.npcs_on_current_screen:
-                npc.interactInRange(self.player.rect, self.display_surface)
+            self.show_interact_in_range()
             self.update_game_state()
             if self.debug:
                 self.run_debug()
@@ -306,6 +305,11 @@ class Game:
                 self.game_time.pause_game_time(self.clock.tick() / 1000)
         elif self.current_screen == "shop":
             self.shop.display_shop(self.display_surface)
+
+    def show_interact_in_range(self):
+        for npc in self.npcs_on_current_screen:
+            npc.interactInRange(self.player.rect, self.display_surface)
+
 
     def handle_music_system(self):
         music_status = self.music.check_status()
