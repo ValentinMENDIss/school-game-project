@@ -20,6 +20,7 @@ import pygame
 import random
 
 import settings
+import utils
 from gamedata import NPC_ENEMY_INTERACT_DATA
 from ui import Button
 from timer import Timer
@@ -104,10 +105,10 @@ class Battle_Menu:
 
     # SHOW DEALT DAMAGE ON THE SCREEN
     def show_player_damage(self, surface):
-        self.render_text(surface, text=self.player_damage, pos_x=(settings.WINDOW_WIDTH//2+350), pos_y=220, color=(210,39,48), size=25)
+        utils.render_text(surface, text=self.player_damage, pos_x=(settings.WINDOW_WIDTH//2+350), pos_y=220, color=(210,39,48), size=25)
 
     def show_enemy_damage(self, surface):
-        self.render_text(surface, self.enemy_damage, pos_x=340, pos_y=(settings.WINDOW_HEIGHT-250), color=(210,39,48), size=25)
+        utils.render_text(surface, self.enemy_damage, pos_x=340, pos_y=(settings.WINDOW_HEIGHT-250), color=(210,39,48), size=25)
 
     def attack_player(self):
         index = random.randint(0, len(self.attack_type) - 1)
@@ -140,13 +141,13 @@ class Battle_Menu:
         self.show_enemy_damage_action = True
 
     def show_player_stamina(self, surface):
-        self.render_text(surface, text=self.player_stamina, pos_x=440, pos_y=(settings.WINDOW_HEIGHT-220), color=(255,215,0), size=35)
+        utils.render_text(surface, text=self.player_stamina, pos_x=440, pos_y=(settings.WINDOW_HEIGHT-220), color=(255,215,0), size=35)
 
     def show_player_defence(self, surface):
-        self.render_text(surface, self.player_defence, pos_x=390, pos_y=(settings.WINDOW_HEIGHT-220), color=(0,181,226), size=35)
+        utils.render_text(surface, self.player_defence, pos_x=390, pos_y=(settings.WINDOW_HEIGHT-220), color=(0,181,226), size=35)
 
     def show_player_health(self, surface):
-        self.render_text(surface, self.player_health, pos_x=340, pos_y=(settings.WINDOW_HEIGHT-220), color=(4,106,56), size=35)
+        utils.render_text(surface, self.player_health, pos_x=340, pos_y=(settings.WINDOW_HEIGHT-220), color=(4,106,56), size=35)
 
 
     # DRAWING LOGIC
@@ -163,14 +164,6 @@ class Battle_Menu:
             else:
                 self.items_menu_dict_update = False
 
-    def render_text(self, surface, text, pos_x, pos_y, color=(0,0,0), size=25):
-        TEXT = settings.pygame.font.Font(settings.os.path.join('..', 'font', 'Pixeltype.ttf'), size)
-        
-        text = TEXT.render(str(text), True, color).convert_alpha()        # render an enemy text
-        textrect = text.get_rect()
-        textrect.center = (pos_x, pos_y)
-
-        surface.blit(text, textrect)
 
     def battle_menu(self, surface):
         # INITIALIZING BUTTONS
@@ -190,9 +183,9 @@ class Battle_Menu:
 
         # DRAWING ON THE SURFACE
         surface.blit(BACKGROUND_IMG)
-        self.render_text(surface, text=heading_text, pos_x=(settings.WINDOW_WIDTH//2), pos_y=100, size=65)
-        self.render_text(surface, text=self.enemytext, pos_x=(settings.WINDOW_WIDTH//2+350), pos_y=250, size=25)
-        self.render_text(surface, text=self.enemy_health, pos_x=(settings.WINDOW_WIDTH//2+350), pos_y=150, size=65)
+        utils.render_text(surface, text=heading_text, pos_x=(settings.WINDOW_WIDTH//2), pos_y=100, size=65)
+        utils.render_text(surface, text=self.enemytext, pos_x=(settings.WINDOW_WIDTH//2+350), pos_y=250, size=25)
+        utils.render_text(surface, text=self.enemy_health, pos_x=(settings.WINDOW_WIDTH//2+350), pos_y=150, size=65)
         surface.blit(self.enemy_image, (settings.WINDOW_WIDTH // 2 + 280, settings.WINDOW_HEIGHT // 2 - 70))
 
         ## DRAWING BUTTONS ##
@@ -276,7 +269,7 @@ class Battle_Menu:
 
         # DRAWING ON THE SURFACE
         surface.blit(BACKGROUND_IMG)
-        self.render_text(surface, text=heading_text, pos_x=(settings.WINDOW_WIDTH//2), pos_y=(settings.WINDOW_HEIGHT//2-250), size=65)
+        utils.render_text(surface, text=heading_text, pos_x=(settings.WINDOW_WIDTH//2), pos_y=(settings.WINDOW_HEIGHT//2-250), size=65)
 
         ## DRAWING BUTTONS ##
         self.__draw_items(surface, items_pos_init_x=300, items_pos_init_y=200)
