@@ -188,6 +188,7 @@ def play_cutscene(game, surface, location):
         music_player.play(music_data)
     
     for idx, image in enumerate(images_data):
+        clock = pygame.time.Clock()
         check_audio(audio_data, idx)
         ##############################################################
         # Testing: Moving NPC in Cutscene(while rendering game)
@@ -197,9 +198,10 @@ def play_cutscene(game, surface, location):
         #    npc_move(game, dt, move_x=10, move_y=0)
         ##############################################################
         if location == "intro-mother1":
-            clock = pygame.time.Clock()
             if idx == 1:
                 npc_move(game, clock, move_x=50, move_y=0)
+            if idx == 2:
+                npc_move(game, clock, move_x=-20, move_y=0)
 
         if render_game_bool:
             render_game(game)
@@ -254,12 +256,39 @@ def render_game(game):
 def npc_move(game, clock, move_x=0, move_y=0):
     for npc in game.npcs_on_current_screen:
         if npc.name == "player-mother":
-            while move_x > 0:
-                dt = clock.tick(game.fps_lock) / 1000
-                npc.move(dt, direction_x=1)
-                move_x -= 1
-                game.handle_game_events()
-                game.render_new_game_world(draw_hud=False)
-                settings.pygame.display.flip()
-                game.clock.tick(game.fps_lock)
-
+            if move_x > 0:
+                while move_x > 0:
+                    dt = clock.tick(game.fps_lock) / 1000
+                    npc.move(dt, direction_x=1)
+                    move_x -= 1
+                    npc_move_handle(game)
+            elif move_x < 0:
+                while move_x < 0:
+                    dt = clock.tick(game.fps_lock) / 1000
+                    npc.move(dt, direction_x=-1)
+                    move_x += 1
+                    npc_move_handle(game)
+            elif move_x < 0:
+                while move_x < 0:
+                    dt = clock.tick(game.fps_lock) / 1000
+                    npc.move(dt, direction_x=-1)
+                    move_x += 1
+                    npc_move_handle(game)
+            if move_y > 0:
+                while move_y > 0:
+                    dt = clock.tick(game.fps_lock) / 1000
+                    npc.move(dt, direction_x=-1)
+                    move_x += 1
+                    npc_move_handle(game)
+            elif move_y < 0:
+                    dt = clock.tick(game.fps_lock) / 1000
+                    npc.move(dt, direction_x=-1)
+                    move_x += 1
+                    npc_move_handle(game)
+                                        
+def npc_move_handle(game):
+    game.handle_game_events()
+    game.render_new_game_world(draw_hud=False)
+    settings.pygame.display.flip()
+    game.clock.tick(game.fps_lock)
+   
