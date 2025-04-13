@@ -91,6 +91,23 @@ cutscene_data = {
         ],
         "render-game": True,
     },
+    "intro-path-to-school": {
+        "id": 2,
+        "images": [
+            None,
+            None,
+        ],
+        "text": [
+            "Hello, I see you want to get to school?",
+            "take this path then!",
+        ],
+        "music": None,
+        "audio": [
+            None,
+            None,
+        ],
+        "render-game": True,
+    },
     "intro-tutorial": {
         "id": None,
         "images": [

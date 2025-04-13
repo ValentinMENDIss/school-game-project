@@ -45,3 +45,10 @@ class TransitionSprite(Sprite):
 		surf = pygame.Surface(size)
 		super().__init__(pos, surf, groups)
 		self.target = target
+
+class TransitionCutsceneSprite(Sprite):
+    def __init__(self, pos, size, cutscene_id, groups):
+        surf = pygame.Surface(size)
+        super().__init__(pos, surf, groups)
+        self.cutscene_id = cutscene_id
+        self.played = False

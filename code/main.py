@@ -20,7 +20,7 @@ import settings
 settings.init()
 from pytmx.util_pygame import load_pygame
 from entities import *
-from sprites import Sprite, BorderSprite, CollidableSprite, TransitionSprite
+from sprites import Sprite, BorderSprite, CollidableSprite, TransitionSprite, TransitionCutsceneSprite
 from groups import *
 from dialog import *
 from menu import *
@@ -81,6 +81,7 @@ class Game:
         self.all_sprites = AllSprites()                                                                                 # create a sprite group # assigns to AllSprites() Class
         self.collision_sprites = pygame.sprite.Group()
         self.transition_sprites = pygame.sprite.Group()
+        self.transition_cutscene_sprites = pygame.sprite.Group()
 
         self.transition_target = 0
         self.dt = 0
@@ -152,6 +153,12 @@ class Game:
         # GET COLLISION OBJECTS' POSITION
         for obj in tmx_map.get_layer_by_name('Collisions'):
             BorderSprite((obj.x, obj.y), pygame.Surface((obj.width, obj.height)), self.collision_sprites)
+        try:
+            for obj in tmx_map.get_layer_by_name('CutscenePoints'):
+                TransitionCutsceneSprite((obj.x, obj.y), (obj.width, obj.height), (obj.properties['cutscene-id']), self.transition_cutscene_sprites)
+        except ValueError:
+            print("No CutscenePoints")
+
         # GET TRANSITION OBJECTS' POSITION
         for obj in tmx_map.get_layer_by_name('Transitions'):
             TransitionSprite((obj.x, obj.y), (obj.width, obj.height), (obj.properties['target'], obj.properties['pos']), self.transition_sprites)
@@ -191,6 +198,12 @@ class Game:
             self.setup(self.tmx_maps[self.transition_target[0]], self.transition_target[1])                                                   # import this one specific tileset (mapset/asset)
             self.transition_fade_out()
             
+    def check_cutscene_transition(self):
+        sprite = [sprite for sprite in self.transition_cutscene_sprites if sprite.rect.colliderect(self.player.hitbox) and sprite.played == False]
+        if sprite:
+            play_cutscene(game=self, surface=self.display_surface, location=choose_cutscene(sprite[0].cutscene_id))
+            sprite[0].played = True
+
     def transition_fade_in(self):
         alpha = 0
         while alpha < 255:
@@ -254,6 +267,7 @@ class Game:
         self.game_time.update()
         self.input.update()  # check user's input
         self.check_map_transition() # check for map tps (teleport points/transitions)
+        self.check_cutscene_transition()
         self.all_sprites.update(self.dt) # update all sprites
 
     def render_new_game_world(self, draw_hud=True):
