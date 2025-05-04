@@ -312,7 +312,7 @@ class Game:
         elif self.current_screen == "cutscene":
             play_cutscene(game=self, surface=self.display_surface, location=choose_cutscene(self.cutscene_order))
             self.cutscene_order += 1
-            if self.cutscene_order != 1:
+            if self.cutscene_order != 1 and self.cutscene_order != 2:
                 self.show_cutscene = False
                 self.current_screen = "game"
                 self.transition_fade_out()

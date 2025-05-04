@@ -22,14 +22,15 @@ DEFAULT_PLAYER_DATA = {
     'health': 100,
     'stamina': 50,
     'damage': 10,
-    'defence': 5
+    'defence': 5,
+    'cutsceneOrder': 0
 }
 
 # Path to the save file
 SAVE_FILE = 'savedata.json'
 
 # Function to load saved data from JSON file (if it exists)
-def load_saved_data():
+def load_saved_data(game):
     # Check if the saved data file exists
     if os.path.exists(SAVE_FILE):
         try:

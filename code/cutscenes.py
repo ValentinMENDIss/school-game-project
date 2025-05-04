@@ -24,8 +24,55 @@ timer = Timer()
 
 
 cutscene_data = {
-    "intro": {
+    "intro-tutorial": {
         "id": 0,
+        "images": [
+            None,
+            None,
+            settings.pygame.image.load(os.path.join('..', 'graphics', 'player', 'idle', 'player_idle.png')),
+            settings.pygame.image.load(os.path.join('..', 'graphics', 'player', 'idle', 'player_idle.png')),
+            settings.pygame.image.load(os.path.join('..','graphics','tutorial','arrowkey_up.png')),
+            settings.pygame.image.load(os.path.join('..','graphics','tutorial','arrowkey_down.png')),
+            settings.pygame.image.load(os.path.join('..','graphics','tutorial','arrowkey_left.png')),
+            settings.pygame.image.load(os.path.join('..','graphics','tutorial','arrowkey_right.png')),
+            settings.pygame.image.load(os.path.join('..', 'graphics', 'player', 'idle', 'player_idle.png')),
+            settings.pygame.image.load(os.path.join('..','graphics','tutorial','E.png')),
+            settings.pygame.image.load(os.path.join('..', 'graphics', 'player', 'idle', 'player_idle.png')),
+            settings.pygame.image.load(os.path.join('..', 'graphics', 'player', 'idle', 'player_idle.png')),
+        ],
+        "text": [
+            "Welcome to the game!",
+            "This is not a life, no, don't be so serious! This is a game!",
+            "This is you, do you recognise yourself?",
+            "Enough of talking. Lets learn fundamentals, I see you will need them",
+            "So... To move forward press",
+            "Backwards press",
+            "For left press",
+            "And finally to move right press",
+            "Now to interaction. The thing that these people love to do",
+            "To interact with an NPC press",
+            "From here on I will not interrupt you anymore.",
+            "Have fun in this humble game >:3",
+        ],
+        "music": os.path.join('..', 'data', 'music', 'soft-piano-live-drums-music.mp3'),
+        "audio": [
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+            None,
+        ], 
+        "render-game": False,
+    },
+    "intro": {
+        "id": 1,
         "images": [
             None,
             None,
@@ -69,7 +116,7 @@ cutscene_data = {
         "render-game": False,
     },
     "intro-mother1": {
-        "id": 1,
+        "id": 2,
         "images": [
             None,
             None,
@@ -92,7 +139,7 @@ cutscene_data = {
         "render-game": True,
     },
     "intro-path-to-school": {
-        "id": 2,
+        "id": 3,
         "images": [
             None,
             None,
@@ -107,46 +154,6 @@ cutscene_data = {
             None,
         ],
         "render-game": True,
-    },
-    "intro-tutorial": {
-        "id": None,
-        "images": [
-            settings.pygame.image.load(os.path.join('..', 'graphics', 'player', 'idle', 'player_idle.png')),
-            settings.pygame.image.load(os.path.join('..', 'graphics', 'player', 'idle', 'player_idle.png')),
-            settings.pygame.image.load(os.path.join('..','graphics','tutorial','arrowkey_up.png')),
-            settings.pygame.image.load(os.path.join('..','graphics','tutorial','arrowkey_down.png')),
-            settings.pygame.image.load(os.path.join('..','graphics','tutorial','arrowkey_left.png')),
-            settings.pygame.image.load(os.path.join('..','graphics','tutorial','arrowkey_right.png')),
-            settings.pygame.image.load(os.path.join('..','graphics','tutorial','E.png')),
-            settings.pygame.image.load(os.path.join('..', 'graphics', 'player', 'idle', 'player_idle.png')),
-            settings.pygame.image.load(os.path.join('..', 'graphics', 'player', 'idle', 'player_idle.png')),
-        ],
-        "text": [
-            "Welcome to the game!",
-            "It's an intro ... you clearly have seen that coming.",
-            "To move forward press",
-            "To move backwards press",
-            "To move left press",
-            "To move right press",
-            "To interact with an NPC press",
-            "From here on I will not interrupt anymore.",
-            "Have fun in this humble game :3",
-        ],
-        "music": os.path.join('..', 'data', 'music', 'soft-piano-live-drums-music.mp3'),
-        "audio": [
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-            None,
-        ], 
-        "render-game": False,
     },
     "tutorial":{
         "id": None,
@@ -200,6 +207,7 @@ def play_cutscene(game, surface, location):
     music_data = data["music"]
     audio_data = data["audio"]
     render_game_bool = data["render-game"]
+    scaler = 3
 
     if music_data:
         music_player.play(music_data)
@@ -225,7 +233,7 @@ def play_cutscene(game, surface, location):
         else:
             surface.fill(BLACK_COLOR)
         if image:
-            draw_image(image, scaler)
+            draw_image(surface, image, scaler)
         if text_data:
             draw_text(surface, idx, text_data)
         settings.pygame.display.update()
@@ -250,7 +258,7 @@ def draw_text(surface, idx, text_data):
     text_surface_rect.center = (settings.WINDOW_WIDTH // 2, 500)
     surface.blit(text_surface, text_surface_rect)
 
-def draw_image(image, scaler):
+def draw_image(surface, image, scaler):
     image_rect = image.get_rect()
     image_width, image_height = image.get_size()
     new_width = int(image_width * scaler)
