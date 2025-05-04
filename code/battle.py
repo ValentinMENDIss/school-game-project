@@ -44,7 +44,7 @@ class Battle_Menu:
         self.show_player_damage_action = False                                                                                              # variable that stores Bool value. Checks if action should be called
         self.show_enemy_damage_action = False                                                                                               # variable that stores Bool value. Checks if action should be called
         self.enemy_health = enemy_health                                                                                                    # enemy's health
-        self.player_data = load_saved_data()
+        self.player_data = game.saved_data
         self.player_health = self.player_data['health']                                                                                        # player's health
         self.player_stamina = self.player_data['stamina']
         self.player_damage = self.player_data['damage']

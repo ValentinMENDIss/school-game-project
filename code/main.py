@@ -86,12 +86,16 @@ class Game:
         self.transition_target = 0
         self.dt = 0
 
-        self.cutscene_order = 0
+        self.saved_data = load_saved_data()
+        self.cutscene_order = self.saved_data['cutsceneOrder']
 
         self.import_assets()                                                                                            # import tilesets (assets)
         # DEBUGGING VARIABLEs
         self.debug = False
-        self.show_cutscene = True
+        if self.cutscene_order == 0:
+            self.show_cutscene = True
+        else:
+            self.show_cutscene = False
         
 
     def change_resolution(self, new_window_width, new_window_height):

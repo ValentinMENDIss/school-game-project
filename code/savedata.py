@@ -42,17 +42,22 @@ def load_saved_data():
             return DEFAULT_PLAYER_DATA
     else:
         print("No saved data found. Using default values.")
-        save_data(DEFAULT_PLAYER_DATA)
+        save_player_data(DEFAULT_PLAYER_DATA)
         return DEFAULT_PLAYER_DATA
 
 def default_data():
-    save_data(DEFAULT_PLAYER_DATA)
+    save_player_data(DEFAULT_PLAYER_DATA)
 
 # Function to save player data to the JSON file
-def save_data(player_data):
+def save_player_data(player_data):
     # Save the current player data to the JSON file
     with open(SAVE_FILE, 'w') as file:
         json.dump(player_data, file, indent=4)
+
+def save_data(game):
+    with open(SAVE_FILE, 'w') as file:
+        DEFAULT_PLAYER_DATA['cutsceneOrder'] = game.cutscene_order
+        json.dump(DEFAULT_PLAYER_DATA, file, indent=5)
 
 def change_player_data(health=None, stamina=None, damage=None, defence=None):
     if health:
@@ -63,12 +68,12 @@ def change_player_data(health=None, stamina=None, damage=None, defence=None):
         DEFAULT_PLAYER_DATA['damage'] = damage
     if defence:
         DEFAULT_PLAYER_DATA['defence'] = defence
-    save_data(DEFAULT_PLAYER_DATA)
+    save_player_data(DEFAULT_PLAYER_DATA)
 
 # Function to change an attribute
 def change_attribute(attribute, value, player_data):
     if attribute in player_data:
         player_data[attribute] = value
-        save_data(player_data)  # Persist changes to the file
+        save_player_data(player_data)  # Persist changes to the file
     else:
         print(f"Invalid attribute: {attribute}")

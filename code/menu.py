@@ -64,8 +64,9 @@ class Menu:
     # MAIN MENU
     def main_menu(self, surface):
         ## INITIALIZING BUTTONS ##
-        START_BUTTON = Button(settings.WINDOW_WIDTH // 2, settings.WINDOW_HEIGHT // 2, scale=0.8, image=START_IMG, hovered_image=START_IMG_PRESSED)  # create button instance
-        SETTINGS_BUTTON = Button(settings.WINDOW_WIDTH // 2, settings.WINDOW_HEIGHT // 2 + 125, scale=0.8, image=SETTINGS_IMG, hovered_image=SETTINGS_IMG_PRESSED)
+        START_BUTTON = Button(settings.WINDOW_WIDTH // 2, settings.WINDOW_HEIGHT // 2 - 125, scale=0.8, image=START_IMG, hovered_image=START_IMG_PRESSED)  # create button instance
+        SETTINGS_BUTTON = Button(settings.WINDOW_WIDTH // 2, settings.WINDOW_HEIGHT // 2, scale=0.8, image=SETTINGS_IMG, hovered_image=SETTINGS_IMG_PRESSED)
+        SAVE_BUTTON = Button(settings.WINDOW_WIDTH // 2, settings.WINDOW_HEIGHT // 2 + 125, scale=0.8, image=EXIT_IMG, hovered_image=EXIT_IMG_PRESSED)
         EXIT_BUTTON = Button(settings.WINDOW_WIDTH // 2, settings.WINDOW_HEIGHT // 2 + 250, scale=0.8, image=EXIT_IMG, hovered_image=EXIT_IMG_PRESSED)  # create button instance
         self.game.music.pause()
         running = True
@@ -86,7 +87,7 @@ class Menu:
             surface.blit(headingtext, headingtextrect)
 
             ## DRAWING BUTTONS ##
-            for button in [START_BUTTON, SETTINGS_BUTTON, EXIT_BUTTON]:
+            for button in [START_BUTTON, SETTINGS_BUTTON, SAVE_BUTTON, EXIT_BUTTON]:
                 button.draw(surface)
 
             # INPUT HANDLING
@@ -108,6 +109,8 @@ class Menu:
                     if SETTINGS_BUTTON.checkForInput(MENU_MOUSE_POS):
                         running = False
                         self.settings(surface)
+                    if SAVE_BUTTON.checkForInput(MENU_MOUSE_POS):
+                        save_data(self.game)
                     if EXIT_BUTTON.checkForInput(MENU_MOUSE_POS):
                         self.exit_action = True
 

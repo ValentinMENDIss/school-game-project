@@ -1,7 +1,7 @@
 {
-    "health": 100,
-    "stamina": 50,
-    "damage": 10,
-    "defence": 5,
-    "cutsceneOrder": 0
+     "health": 100,
+     "stamina": 50,
+     "damage": 10,
+     "defence": 5,
+     "cutsceneOrder": 4
 }
