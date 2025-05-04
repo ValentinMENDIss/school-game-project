@@ -30,7 +30,7 @@ DEFAULT_PLAYER_DATA = {
 SAVE_FILE = 'savedata.json'
 
 # Function to load saved data from JSON file (if it exists)
-def load_saved_data(game):
+def load_saved_data():
     # Check if the saved data file exists
     if os.path.exists(SAVE_FILE):
         try:

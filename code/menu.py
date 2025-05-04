@@ -172,7 +172,7 @@ class Menu:
         default_data()
 
     def load_save(self):
-        load_saved_data(self.game)
+        load_saved_data()
 
     # SETTINGS MENU
     def settings(self, surface):
