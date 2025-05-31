@@ -59,6 +59,7 @@ class Game:
         self.pressed_start_time = 0
         self.pressed_duration = 5000
         self.fps_lock = 60
+        self.menu_fps_lock = 15
         self.music_paused = False
         self.current_screen = "menu"
         self.initialized = False

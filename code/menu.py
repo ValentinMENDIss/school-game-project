@@ -45,6 +45,11 @@ class Menu:
         if self.exit_action:                                                                                        # if exit button is pressed, do following:
             self.game.current_screen = "game"
 
+    # UPDATE DISPLAY
+    def update_display(self):
+        pygame.display.update()
+        self.game.clock.tick(self.game.menu_fps_lock)
+
     # GET USER'S INPUT
     def get_input(self):
         self.input = self.game.input
@@ -117,9 +122,9 @@ class Menu:
             if self.exit_action == True:
                 return self.exit_action
 
-            # DISPLAY UPDATE
-            pygame.display.update()                                                                                         # update the screen
-
+            self.update_display()
+            
+            
     def session_manager(self, surface):
         NEW_SAVE_BUTTON = Button(settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2, scale=0.8, image=INPUT_IMG, hovered_image=INPUT_IMG_PRESSED)
         LOAD_SAVE_BUTTON = Button(settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 + 125, scale=0.8, image=INPUT_IMG, hovered_image=INPUT_IMG_PRESSED)
@@ -167,8 +172,7 @@ class Menu:
             # INPUT
             self.get_input()
 
-            # DISPLAY UPDATE
-            pygame.display.update()
+            self.update_display()
 
 
     def new_save(self):
@@ -234,7 +238,7 @@ class Menu:
             self.get_input()
 
             # DISPLAY UPDATE
-            pygame.display.update()
+            self.update_display()
 
 
     def settings_video(self, surface):
@@ -336,8 +340,7 @@ class Menu:
             # INPUT
             self.get_input()
 
-            # DISPLAY UPDATE
-            pygame.display.update()
+            self.update_display()
 
 
     # INPUT SETTINGS MENU
@@ -445,8 +448,7 @@ class Menu:
             if action != None:                                                                                                                                  # if any of the button was pressed, do following:
                 self.get_pressed_keys(action)                                                                                                                   # get user input and bound new key to an action
 
-            # DISPLAY UPDATE
-            pygame.display.update()  # update the screen
+            self.update_display()
 
 
     def settings_sound(self, surface):
@@ -496,5 +498,4 @@ class Menu:
             if self.exit_action == True:
                 return self.exit_action
 
-            # DISPLAY UPDATE
-            pygame.display.update()  # update the screen
+            self.update_display()
