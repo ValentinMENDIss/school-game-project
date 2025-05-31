@@ -143,10 +143,13 @@ class InputBox:
         if self.input_type == int:
             if new_value.isdigit():
                 self.value += new_value
+        elif self.input_type == str:
+            if new_value.isalpha():                                                                 # check whether typed in key is a letter
+                self.value += new_value
         if new_value == "\x08":                                                                     # if BACKSPACE is clicked: remove last digit/character
             self.value = self.value[:-1]
         if len(self.value) > 0:
-            if new_value == "\r":                                                               # if ENTER is clicked: return value
+            if new_value == "\r":                                                                   # if ENTER is clicked: return value
                 if self.input_type == int:
                     return int(self.value)
                 else:

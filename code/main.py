@@ -68,7 +68,7 @@ class Game:
         self.items_on_current_screen = []
 
         # CONFIGURING PYGAME
-        self.SCREEN_FLAGS = pygame.HWSURFACE | pygame.DOUBLEBUF
+        self.SCREEN_FLAGS = pygame.HWSURFACE | pygame.DOUBLEBUF # | pygame.FULLSCREEN
         self.display_surface = pygame.display.set_mode((settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT), self.SCREEN_FLAGS)                                            # create screen with (x,y) (tuple)
         pygame.display.set_caption("School-Game-Project(11. Grade)")                                                    # set/change title (caption) of the window
         self.clock = pygame.time.Clock()                                                                                # create a clock
@@ -99,7 +99,12 @@ class Game:
             self.show_cutscene = False
         
 
-    def change_resolution(self, new_window_width, new_window_height):
+    def change_resolution(self, new_window_width, new_window_height, screen_flag=None, activate_type=None):
+        if screen_flag:
+            if activate_type == "activate":
+                self.SCREEN_FLAGS |= screen_flag
+            elif activate_type == "deactivate":
+                self.SCREEN_FLAGS &= ~screen_flag
         settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT = new_window_width, new_window_height
         self.display_surface = pygame.display.set_mode((settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT), self.SCREEN_FLAGS)
 
