@@ -16,7 +16,7 @@
 
 ######### IMPORT ##############
 import settings
-from ui import Button, Slider, InputBox
+from ui import Button, Slider, InputBox, Switch
 from input import *
 from savedata import save_data, default_data, load_saved_data
 
@@ -246,7 +246,7 @@ class Menu:
         HORIZONTAL_RESOLUTION_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - 100, width=100, height=50, initial_value=settings.WINDOW_WIDTH, centered=True)
         VERTICAL_RESOLUTION_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 + 210,settings.WINDOW_HEIGHT // 2 - 100, width=100, height=50, initial_value=settings.WINDOW_HEIGHT, centered=True)
         FPS_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - 20, width=100, height=50, initial_value=self.game.fps_lock, centered=True)
-        FULLSCREEN_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 + 60, width = 50, height=50, input_type=str, initial_value="NO", centered=True)
+        FULLSCREEN_SWITCH = Switch(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 + 60, width = 50, height=50, initial_value=False, centered=True)
         RETURN_BUTTON = Button(settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 + 250, scale=0.5, image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
         # DEFINING VARIABLES
         running = True
@@ -293,8 +293,10 @@ class Menu:
             ## DRAWING BUTTONS ##
             for button in [RETURN_BUTTON]:
                 button.draw(surface)
-            for input_box in [HORIZONTAL_RESOLUTION_INPUT_BOX, VERTICAL_RESOLUTION_INPUT_BOX, FPS_INPUT_BOX, FULLSCREEN_INPUT_BOX]:
+            for input_box in [HORIZONTAL_RESOLUTION_INPUT_BOX, VERTICAL_RESOLUTION_INPUT_BOX, FPS_INPUT_BOX]:
                 input_box.draw(surface)
+            for switch in [FULLSCREEN_SWITCH]:
+                switch.draw(surface)
 
             # INPUT HANDLING
             if self.menu_exit_action == True:
@@ -308,21 +310,36 @@ class Menu:
                     if RETURN_BUTTON.checkForInput(MENU_MOUSE_POS):
                         running = False
                         self.settings(surface)
+                    if FULLSCREEN_SWITCH.checkForInput(MENU_MOUSE_POS):
+                        if FULLSCREEN_SWITCH.value == False:
+                            self.game.change_resolution(settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT, screen_flag=pygame.FULLSCREEN, activate_type="activate")
+                            HORIZONTAL_RESOLUTION_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - 100, width=100, height=50, initial_value=settings.WINDOW_WIDTH, centered=True)
+                            VERTICAL_RESOLUTION_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 + 210,settings.WINDOW_HEIGHT // 2 - 100, width=100, height=50, initial_value=settings.WINDOW_HEIGHT, centered=True)
+                            FPS_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - 20, width=100, height=50, initial_value=self.game.fps_lock, centered=True)
+                            FULLSCREEN_SWITCH = Switch(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 + 60, width = 50, height=50, initial_value=False, centered=True)
+                            RETURN_BUTTON = Button(settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 + 250, scale=0.5, image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
+                        elif FULLSCREEN_SWITCH.value == True:
+                            self.game.change_resolution(settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT, screen_flag=pygame.FULLSCREEN, activate_type="deactivate")
+                            HORIZONTAL_RESOLUTION_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - 100, width=100, height=50, initial_value=settings.WINDOW_WIDTH, centered=True)
+                            VERTICAL_RESOLUTION_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 + 210,settings.WINDOW_HEIGHT // 2 - 100, width=100, height=50, initial_value=settings.WINDOW_HEIGHT, centered=True)
+                            FPS_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - 20, width=100, height=50, initial_value=self.game.fps_lock, centered=True)
+                            FULLSCREEN_SWITCH = Switch(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 + 60, width = 50, height=50, initial_value=False, centered=True)
+                            RETURN_BUTTON = Button(settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 + 250, scale=0.5, image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
+                        
                     HORIZONTAL_RESOLUTION_INPUT_BOX.checkForInput(MENU_MOUSE_POS)
                     VERTICAL_RESOLUTION_INPUT_BOX.checkForInput(MENU_MOUSE_POS)
                     FPS_INPUT_BOX.checkForInput(MENU_MOUSE_POS)
-                    FULLSCREEN_INPUT_BOX.checkForInput(MENU_MOUSE_POS)
                 if event.type == pygame.KEYDOWN:
                     if HORIZONTAL_RESOLUTION_INPUT_BOX.pressed == True:
                         new_horizontal_resolution = HORIZONTAL_RESOLUTION_INPUT_BOX.update_value(event)
                         if new_horizontal_resolution == None:
-                            new_horizontal_resolution == 1280
+                            new_horizontal_resolution = 1280
                         if new_horizontal_resolution:
                             self.game.change_resolution(new_horizontal_resolution, settings.WINDOW_HEIGHT)
                             HORIZONTAL_RESOLUTION_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - 100, width=100, height=50, initial_value=settings.WINDOW_WIDTH, centered=True)
                             VERTICAL_RESOLUTION_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 + 210,settings.WINDOW_HEIGHT // 2 - 100, width=100, height=50, initial_value=settings.WINDOW_HEIGHT, centered=True)
                             FPS_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - 20, width=100, height=50, initial_value=self.game.fps_lock, centered=True)
-                            FULLSCREEN_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 + 60, width = 50, height=50, input_type=str, initial_value="NO", centered=True)
+                            FULLSCREEN_SWITCH = Switch(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 + 60, width = 50, height=50, initial_value=False, centered=True)
                             RETURN_BUTTON = Button(settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 + 250, scale=0.5, image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
 
                     if VERTICAL_RESOLUTION_INPUT_BOX.pressed == True:
@@ -334,7 +351,7 @@ class Menu:
                             HORIZONTAL_RESOLUTION_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - 100, width=100, height=50, initial_value=settings.WINDOW_WIDTH, centered=True)
                             VERTICAL_RESOLUTION_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 + 210,settings.WINDOW_HEIGHT // 2 - 100, width=100, height=50, initial_value=settings.WINDOW_HEIGHT, centered=True)
                             FPS_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - 20, width=100, height=50, initial_value=self.game.fps_lock, centered=True)
-                            FULLSCREEN_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 + 60, width = 50, height=50, input_type=str, initial_value="NO", centered=True)
+                            FULLSCREEN_SWITCH = Switch(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 + 60, width = 50, height=50, initial_value=False, centered=True)
                             RETURN_BUTTON = Button(settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 + 250, scale=0.5, image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
 
                     if FPS_INPUT_BOX.pressed == True:
@@ -342,31 +359,15 @@ class Menu:
                         if new_fps_lock == None:
                             new_fps_lock = 60
                         self.game.fps_lock = new_fps_lock
-                    
-                    if FULLSCREEN_INPUT_BOX.pressed == True:
-                        new_fullscreen_bool = FULLSCREEN_INPUT_BOX.update_value(event)
-                        if new_fullscreen_bool == "YES":
-                            self.game.change_resolution(settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT, screen_flag=pygame.FULLSCREEN, activate_type="activate")
-                            HORIZONTAL_RESOLUTION_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - 100, width=100, height=50, initial_value=settings.WINDOW_WIDTH, centered=True)
-                            VERTICAL_RESOLUTION_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 + 210,settings.WINDOW_HEIGHT // 2 - 100, width=100, height=50, initial_value=settings.WINDOW_HEIGHT, centered=True)
-                            FPS_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - 20, width=100, height=50, initial_value=self.game.fps_lock, centered=True)
-                            FULLSCREEN_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 + 60, width = 50, height=50, input_type=str, initial_value="NO", centered=True)
-                            RETURN_BUTTON = Button(settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 + 250, scale=0.5, image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
-                        if new_fullscreen_bool == "NO":
-                            self.game.change_resolution(settings.WINDOW_WIDTH, settings.WINDOW_HEIGHT, screen_flag=pygame.FULLSCREEN, activate_type="deactivate")
-                            HORIZONTAL_RESOLUTION_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - 100, width=100, height=50, initial_value=settings.WINDOW_WIDTH, centered=True)
-                            VERTICAL_RESOLUTION_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 + 210,settings.WINDOW_HEIGHT // 2 - 100, width=100, height=50, initial_value=settings.WINDOW_HEIGHT, centered=True)
-                            FPS_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - 20, width=100, height=50, initial_value=self.game.fps_lock, centered=True)
-                            FULLSCREEN_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 + 60, width = 50, height=50, input_type=str, initial_value="NO", centered=True)
-                            RETURN_BUTTON = Button(settings.WINDOW_WIDTH // 2,settings.WINDOW_HEIGHT // 2 + 250, scale=0.5, image=RETURN_IMG, hovered_image=RETURN_IMG_PRESSED)
+
                             
             if self.exit_action == True:
                 return self.exit_action
-
             # INPUT
             self.get_input()
-
             self.update_display()
+            
+            print(FULLSCREEN_SWITCH.value)
 
 
     # INPUT SETTINGS MENU
