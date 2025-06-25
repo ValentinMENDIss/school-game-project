@@ -332,8 +332,6 @@ class Menu:
                 if event.type == pygame.KEYDOWN:
                     if HORIZONTAL_RESOLUTION_INPUT_BOX.pressed == True:
                         new_horizontal_resolution = HORIZONTAL_RESOLUTION_INPUT_BOX.update_value(event)
-                        if new_horizontal_resolution == None:
-                            new_horizontal_resolution = 1280
                         if new_horizontal_resolution:
                             self.game.change_resolution(new_horizontal_resolution, settings.WINDOW_HEIGHT)
                             HORIZONTAL_RESOLUTION_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - 100, width=100, height=50, initial_value=settings.WINDOW_WIDTH, centered=True)
@@ -344,8 +342,6 @@ class Menu:
 
                     if VERTICAL_RESOLUTION_INPUT_BOX.pressed == True:
                         new_vertical_resolution = VERTICAL_RESOLUTION_INPUT_BOX.update_value(event)
-                        if new_vertical_resolution == None:
-                            new_vertical_resolution == 720
                         if new_vertical_resolution:
                             self.game.change_resolution(settings.WINDOW_WIDTH, new_vertical_resolution)
                             HORIZONTAL_RESOLUTION_INPUT_BOX = InputBox(settings.WINDOW_WIDTH // 2 - 100,settings.WINDOW_HEIGHT // 2 - 100, width=100, height=50, initial_value=settings.WINDOW_WIDTH, centered=True)
@@ -360,15 +356,13 @@ class Menu:
                             new_fps_lock = 60
                         self.game.fps_lock = new_fps_lock
 
-                            
             if self.exit_action == True:
                 return self.exit_action
             # INPUT
             self.get_input()
+
             self.update_display()
             
-            print(FULLSCREEN_SWITCH.value)
-
 
     # INPUT SETTINGS MENU
     def settings_input(self, surface):

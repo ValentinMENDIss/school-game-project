@@ -176,9 +176,10 @@ class Switch:
         self.height = height
         self.value = initial_value
         self.rect = settings.pygame.Rect(self.x, self.y, self.width, self.height)                            # create rectangle
-        self.rect_inside = settings.pygame.Rect(self.width // 3 + self.x, self.y // 1.5, self.width // 2, self. height // 2)
+        self.rect_inside = settings.pygame.Rect(self.x, self.y, self.width // 2, self. height // 2)
         if centered:
             self.rect.center = (self.x, self.y)
+            self.rect_inside.center = (self.x, self.y)
         self.pressed = False
         self.action = False
 
@@ -207,6 +208,6 @@ class Switch:
 
         if self.value == True:
             settings.pygame.draw.rect(surface, (255, 255, 255), self.rect)
-            settings.pygame.draw.rect(surface, (250, 250, 250), self.rect_inside)
+            settings.pygame.draw.rect(surface, (230, 230, 230), self.rect_inside)
         else:
             settings.pygame.draw.rect(surface, (255, 255, 255), self.rect)
