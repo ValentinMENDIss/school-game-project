@@ -180,11 +180,14 @@ class Switch:
         if centered:
             self.rect.center = (self.x, self.y)
             self.rect_inside.center = (self.x, self.y)
-        self.pressed = False
-        self.action = False
 
     def checkForInput(self, position):
         if position[0] in range(self.rect.left, self.rect.right) and position[1] in range(self.rect.top, self.rect.bottom):
+            self.hovered()
+            if self.value == True:
+                self.value = False
+            elif self.value == False:
+                self.value = True
             return True
         return False
             
@@ -192,20 +195,6 @@ class Switch:
         pass
     
     def draw(self, surface):
-        self.action = False
-
-        pos = settings.pygame.mouse.get_pos()
-        if self.rect.collidepoint(pos):
-            self.hovered()
-            if settings.pygame.mouse.get_just_pressed()[0] == 1 and self.pressed == False:
-                self.pressed = True
-                self.action = True
-
-                if self.value == True:
-                    self.value = False
-                else:
-                    self.value = True
-
         if self.value == True:
             settings.pygame.draw.rect(surface, (255, 255, 255), self.rect)
             settings.pygame.draw.rect(surface, (230, 230, 230), self.rect_inside)
