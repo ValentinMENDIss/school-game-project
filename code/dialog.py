@@ -28,7 +28,7 @@ class Dialog:
         self.game = game
 
     def interact(self, text, player_center, screen):
-        font = settings.pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'),20)                               # set Font and Size for the Small Text
+        font = settings.pygame.font.Font(settings.PIXELTYPE_FONT_PATH, 20)                               # set Font and Size for the Small Text
         smalltext = font.render(text, True,(0, 0, 0)).convert_alpha()                                 # render a Small Text
         smalltextrect = smalltext.get_rect()                                                                            # get a Rectangle of the small Text ( needed, to be able to place the Text precisely )
 
@@ -40,7 +40,7 @@ class Dialog:
         screen.blit(smalltext, smalltextrect)
 
     def interactInRange(self, text, player_center, screen):
-        font = settings.pygame.font.Font(os.path.join('..', 'font', 'DepartureMonoNerdFont-Regular.otf'), 18)                     # set Font and Size for the Small Text
+        font = settings.pygame.font.Font(DEPARTUREMONONERDFONT_REGULAR_FONT_PATH, 18)                     # set Font and Size for the Small Text
         smalltext = font.render(text, True,(0, 0, 0)).convert_alpha()                                                   # render a Small Text
         smalltextrect = smalltext.get_rect()                                                                            # get a Rectangle of the small Text ( needed, to be able to place the Text precisely )
 
@@ -57,7 +57,7 @@ class Dialog:
         while x < len(text_data):
             text = text_data[x]
             x += 1
-            font = settings.pygame.font.Font(os.path.join('..', 'font', 'DepartureMonoNerdFont-Regular.otf'), 18)
+            font = settings.pygame.font.Font(DEPARTUREMONONERDFONT_REGULAR_FONT_PATH, 18)
             smalltext = font.render(text, True,(0, 0, 0)).convert_alpha()                                                   # render a Small Text
             smalltextrect = smalltext.get_rect()                                                                            # get a Rectangle of the small Text ( needed, to be able to place the Text precisely )
         

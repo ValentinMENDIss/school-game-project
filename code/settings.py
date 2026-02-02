@@ -42,9 +42,13 @@ WORLD_LAYERS = {																										# Dictionary that store Sprite Layers
 	'top': 5
 }
 
+######### FONT PATH ##############
+PIXELTYPE_FONT_PATH = os.path.join('..', 'data', 'font', 'Pixeltype.ttf')
+DEPARTUREMONONERDFONT_REGULAR_FONT_PATH = os.path.join('..', 'data', 'font', 'DepartureMonoNerdFont-Regular.otf')
+
 ######### TEXT ##############
-SMALLTEXT = pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'), 25)                                           # set Font and Size for the Small Text
-HEADINGTEXT = pygame.font.Font(os.path.join('..', 'font', 'Pixeltype.ttf'), 65)                                         # set Font and Size for the Small Text
+SMALLTEXT = pygame.font.Font(PIXELTYPE_FONT_PATH, 25)                                           # set Font and Size for the Small Text
+HEADINGTEXT = pygame.font.Font(PIXELTYPE_FONT_PATH, 65)                                         # set Font and Size for the Small Text
 
 ######### SFX ##############
 YIPPEE_SOUND = pygame.mixer.Sound(os.path.join('..', 'data', 'sound', 'yippee-tbh.mp3'))
